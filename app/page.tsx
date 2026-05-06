@@ -3,7 +3,7 @@
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { GradientTracing } from "@/components/ui/gradient-tracing"
-import { ArrowUpRight, Star, ExternalLink } from "lucide-react"
+import { ArrowUpRight, Star, ExternalLink, GitBranch } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 
@@ -206,12 +206,12 @@ export default function Page() {
 
           <div className="animate-fade-up delay-300 mt-10 flex items-center gap-5">
             <a
-              href="https://github.com/drewsepeczi"
+              href="https://github.com/drewsephski"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex items-center gap-2 text-xs text-muted-foreground transition-colors hover:text-foreground"
             >
-              <Star className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-px" />
+              <GitBranch className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-px" />
               <span className="tracking-wide">GitHub</span>
             </a>
             <div className="h-3.5 w-px bg-border" />
