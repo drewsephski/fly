@@ -1,0 +1,331 @@
+[
+  {
+    "App Links": "https://ez-ai.netlify.app/",
+    "Description": "A platform offering AI-driven tools for product teams to streamline content creation and enhance collaboration."
+  },
+  {
+    "App Links": "https://hyper-ai.netlify.app/",
+    "Description": "HyperShift AI is an end-to-end AI automation platform that enables users to build, deploy, and manage AI applications and workflows quickly—without needing to write code."
+  },
+  {
+    "App Links": "https://ez-ui.netlify.app/",
+    "Description": "Easy UI provides a collection of over 100 customizable blocks and templates to help users build their landing pages quickly and easily without requiring coding skills."
+  },
+  {
+    "App Links": "https://drew-shadcn.netlify.app/",
+    "Description": "Drew Sepeczi is a dedicated web developer focused on crafting engaging and scalable web applications using various technologies."
+  },
+  {
+    "App Links": "https://ufc-predict.netlify.app/",
+    "Description": "Fight Oracle provides AI-powered fight analysis and predictions for UFC and MMA events."
+  },
+  {
+    "App Links": "https://dev-botkit.netlify.app/",
+    "Description": "DevChat AI is an intelligent coding assistant that helps developers build, debug, and optimize web applications faster."
+  },
+  {
+    "App Links": "https://physicianai.netlify.app/",
+    "Description": "A template for authentication and project management that streamlines client delivery."
+  },
+  {
+    "App Links": "https://blog-hazel-iota.vercel.app/",
+    "Description": "Acme is an installable, self-hosted team chat system."
+  },
+  {
+    "App Links": "https://pixel-mint-sigma.vercel.app/",
+    "Description": "PixelMint is an AI creative studio that generates images and videos, providing tools for creators to make viral content."
+  },
+  {
+    "App Links": "https://lynxy.netlify.app/",
+    "Description": "Next generation AI app builder that enables users to turn their ideas into applications rapidly using precision AI."
+  },
+  {
+    "App Links": "https://selfquest.netlify.app/",
+    "Description": "A platform offering a free personality test to help individuals discover their MBTI type and enhance self-understanding."
+  },
+  {
+    "App Links": "https://shadv0.netlify.app/",
+    "Description": "A platform offering assistance in creating web applications using modern technologies like React and Tailwind."
+  },
+  {
+    "App Links": "https://drewsepsi.netlify.app/",
+    "Description": "A client-side application error occurred."
+  },
+  {
+    "App Links": "https://bentobox-roan.vercel.app/",
+    "Description": "An application error indicating a client-side exception has occurred."
+  },
+  {
+    "App Links": "https://aisdk.shop/",
+    "Description": "Build voice agents that convert with a customizable white-label AI Voice Agent experience."
+  },
+  {
+    "App Links": "https://betterauth.netlify.app/",
+    "Description": "Better Auth is a production-ready authentication starter kit with Next.js, Better Auth, PostgreSQL, and Drizzle ORM."
+  },
+  {
+    "App Links": "https://codecypher.lol/",
+    "Description": "An error message indicating a client-side exception has occurred in an application."
+  },
+  {
+    "App Links": "https://ai-chat-sdk.netlify.app/",
+    "Description": "Assistant UI offers an interactive platform for AI-powered assistance including features like weather updates, programming help, SQL queries, and meal planning."
+  },
+  {
+    "App Links": "https://getcracked.lol/",
+    "Description": "Get Cracked offers an AI-powered SaaS platform to accelerate the development and launch of applications, saving time and costs."
+  },
+  {
+    "App Links": "https://imagen-ivory.vercel.app/",
+    "Description": "A platform that allows users to instantly create stunning Twitter banners using DALL·E."
+  },
+  {
+    "App Links": "https://drewchats.vercel.app/",
+    "Description": "Drew's personal AI twin that can answer questions and provide information about Drew and his projects."
+  },
+  {
+    "App Links": "https://dream2-iota.vercel.app/",
+    "Description": "A personal AI assistant available 24/7 for quick answers, guidance, and support."
+  },
+  {
+    "App Links": "https://home-owner-ai.vercel.app/",
+    "Description": "Relay is a platform that provides AI-powered solutions for homeowners."
+  },
+  {
+    "App Links": "https://roastmyui.me/",
+    "Description": "Get your UI roasted by a savage Gen Z AI"
+  },
+  {
+    "App Links": "https://astra-ai-black.vercel.app/",
+    "Description": "A starter kit for launching SaaS applications, offering simple features like payment processing and Clerk authentication."
+  },
+  {
+    "App Links": "https://better-auth-stripe-starter.vercel.app/",
+    "Description": "The ultimate enterprise-grade SaaS boilerplate with authentication, billing, team management, and more."
+  },
+  {
+    "App Links": "https://voxflow.netlify.app/",
+    "Description": "VoxFlow provides an AI Voice Agent Template designed for SaaS startups, enabling quick development and deployment of voice agents."
+  },
+  {
+    "App Links": "https://clerkbilling.netlify.app/",
+    "Description": "An all-in-one Next.js starter kit designed for rapid SaaS deployment, featuring pre-configured authentication, billing, and a dashboard."
+  },
+  {
+    "App Links": "https://phoenixnotebook.netlify.app/",
+    "Description": "Phoenix Notebook is an AI-powered research assistant that streamlines research workflows by aggregating sources, generating summaries, and creating presentations."
+  },
+  {
+    "App Links": "https://phoenix-scraper.vercel.app/",
+    "Description": "Get AI-powered insights into UX issues, conversion blockers, and performance problems that drive users away from your site."
+  },
+  {
+    "App Links": "https://phoenixdev.agency/",
+    "Description": "ShipSpree is a production-ready Next.js SaaS boilerplate that accelerates development with built-in authentication, payment integrations, and a range of production-ready features."
+  },
+  {
+    "App Links": "https://drewsportfolio.vercel.app/",
+    "Description": "Systems Architect & Full-Stack Engineer specializing in scalable multi-tenant architectures and rapid MVP production."
+  },
+  {
+    "App Links": "https://novacv.dev/",
+    "Description": "Professional Portfolio Generator that creates a personalized website based on your LinkedIn profile or PDF upload, using AI for intelligent extraction and design."
+  },
+  {
+    "App Links": "https://the-ripper-omega.vercel.app/",
+    "Description": "A tool for detecting hallucinations in large language models by verifying content with real web data."
+  },
+  {
+    "App Links": "https://gemini-ai-chatbot-drab-five.vercel.app/",
+    "Description": "Next.js Gemini Chatbot offers a platform for users to sign in using their email and password."
+  },
+  {
+    "App Links": "https://promptmarket.sh/",
+    "Description": "A public collection of system prompts engineered for precision."
+  },
+  {
+    "App Links": "https://novahub.dev/",
+    "Description": "Provides AI-powered analysis and intelligent insights for project management and presentation."
+  },
+  {
+    "App Links": "https://inngest-bot.vercel.app/",
+    "Description": "Nova creates real, live websites tailored to various business types, all without the need for coding or developers."
+  },
+  {
+    "App Links": "https://portfoliosys.vercel.app/",
+    "Description": "Full-stack developer building digital products."
+  },
+  {
+    "App Links": "https://fight.dog/",
+    "Description": "Real-time UFC odds, fighter analytics, and predictive insights."
+  },
+  {
+    "App Links": "https://squidcoder.vercel.app/",
+    "Description": "AI-powered code generation platform that helps users turn ideas into applications by generating code based on their descriptions."
+  },
+  {
+    "App Links": "https://llamacoder-black.vercel.app/",
+    "Description": "A platform to assist in turning ideas into applications."
+  },
+  {
+    "App Links": "https://supastripestarter.vercel.app/",
+    "Description": "NextJS Boilerplate with everything required to build your next SAAS Product."
+  },
+  {
+    "App Links": "https://recruit-box.vercel.app/",
+    "Description": "RecruitBox is a platform for managing the hiring process."
+  },
+  {
+    "App Links": "https://ripper-web.vercel.app/",
+    "Description": "NovaFlow is a platform that combines intelligent scraping, AI code generation, and live sandboxes to facilitate the rapid creation and deployment of web applications."
+  },
+  {
+    "App Links": "https://vibe-coding-platform-flax-one.vercel.app/",
+    "Description": "NovaFlow allows users to turn their ideas into real apps simply by describing them."
+  },
+  {
+    "App Links": "https://nodebase-hazel.vercel.app/",
+    "Description": "Build, run, and share AI workflows in an open-source visual studio."
+  },
+  {
+    "App Links": "https://reeldiff.vercel.app/",
+    "Description": "Diff to Reel transforms code changes into visual stories by generating shareable videos from GitHub PR or repo links."
+  },
+  {
+    "App Links": "https://monetize-two.vercel.app/",
+    "Description": "A complete billing system for Next.js that simplifies subscription management with a TypeScript SDK and pre-built components."
+  },
+  {
+    "App Links": "https://squidv1.vercel.app/",
+    "Description": "Squid offers AI-powered conversational tools for users."
+  },
+  {
+    "App Links": "https://squid-sable.vercel.app/",
+    "Description": "Squid provides AI agents with structured access to over 250 integrations through a unified protocol."
+  },
+  {
+    "App Links": "https://squidvault.vercel.app/",
+    "Description": "SquidVault is a secure video platform designed for therapists to share session recordings with supervisors while ensuring compliance and privacy through zero-knowledge encryption."
+  },
+  {
+    "App Links": "https://titan-agent-three.vercel.app/",
+    "Description": "Titan is a modern Next.js 15 stack used for fast and secure web app development."
+  },
+  {
+    "App Links": "https://nodebasev2.vercel.app/",
+    "Description": "NodeBase is an open-source visual studio for building, running, and sharing AI workflows."
+  },
+  {
+    "App Links": "https://shoo-seven.vercel.app/",
+    "Description": "Shoo provides hosted authentication with session management and team features, offering a simple OAuth solution."
+  },
+  {
+    "App Links": "https://drewsautomations.world/",
+    "Description": "Andrew's Automations is an AI app marketplace offering ready-to-use templates for deploying AI-powered applications with built-in user management and monetization."
+  },
+  {
+    "App Links": "https://linkfolio-cyan.vercel.app/",
+    "Description": "An AI-powered tool that creates clean and shareable portfolios from LinkedIn profiles instantly."
+  },
+  {
+    "App Links": "https://contex-five.vercel.app/",
+    "Description": "A platform that provides assistance with libraries, frameworks, APIs, or patterns by accessing live documentation."
+  },
+  {
+    "App Links": "https://drew-seven.vercel.app/",
+    "Description": "This indicates that the requested deployment cannot be found."
+  },
+  {
+    "App Links": "https://stehnova.vercel.app/",
+    "Description": "Stehnova Holdings LLC is focused on strategic investments and property redevelopment to unlock value in real assets."
+  },
+  {
+    "App Links": "https://open-love-gamma.vercel.app/",
+    "Description": "Open Love is a website builder that allows users to clone or re-imagine any website quickly."
+  },
+  {
+    "App Links": "https://drewsepeczi.xyz/",
+    "Description": "A client-side exception occurred, indicating an application error."
+  },
+  {
+    "App Links": "https://welcome-to-hell.vercel.app/",
+    "Description": "Welcome To Hell is a D2 Intramural Basketball team built on intensity, discipline, and a relentless drive to compete."
+  },
+  {
+    "App Links": "https://v0-hoodie-store-ten-jade.vercel.app/",
+    "Description": "PremiumStreetwear offers an exclusive collection of premium hoodies."
+  },
+  {
+    "App Links": "https://astra.motorcycles/",
+    "Description": "A starter kit for launching SaaS applications quickly with payment processing and authentication features."
+  },
+  {
+    "App Links": "https://red-sun-tau.vercel.app/",
+    "Description": "Red Sun Design System is a modern editorial design system that combines bold coral accents with deep ink tones to create premium, crafted experiences quickly."
+  },
+  {
+    "App Links": "https://supergreen-phi.vercel.app/",
+    "Description": "Crafted from the finest organic ingredients, our products bring nature's essence to your everyday routine."
+  },
+  {
+    "App Links": "https://synapse-five-rosy.vercel.app/",
+    "Description": "Synapse connects your applications with next-generation AI infrastructure, enabling smarter building, faster shipping, and infinite scaling."
+  },
+  {
+    "App Links": "https://neon-genz.vercel.app/",
+    "Description": "A vibrant design system that encourages creativity and boldness with a focus on brutalist aesthetics."
+  },
+  {
+    "App Links": "https://saas-template-eta-sable.vercel.app/",
+    "Description": "A Next.js starter template for building production-ready applications quickly without boilerplate or configuration issues."
+  },
+  {
+    "App Links": "https://clean-fluid.vercel.app/",
+    "Description": "Organic Intelligence is an editorial-tech hybrid design agency specializing in design and technology integration."
+  },
+  {
+    "App Links": "https://red-noir.vercel.app/",
+    "Description": "Phoenix Design Labs combines advanced generative algorithms with human creativity to create world-class products rapidly."
+  },
+  {
+    "App Links": "https://phoenix-webnotes.vercel.app/",
+    "Description": "Phoenix Notes is an AI-powered learning platform that transforms any website into structured knowledge by providing AI summaries, flashcards, and organized tags."
+  },
+  {
+    "App Links": "https://linkfree-beta.vercel.app/",
+    "Description": "Drew Sepeczi is a full stack engineer with a portfolio showcasing various projects."
+  },
+  {
+    "App Links": "https://voxora.lol/",
+    "Description": "A sign-in page allowing users to log into their accounts using email or Google."
+  },
+  {
+    "App Links": "https://adopt-a-grover.vercel.app/",
+    "Description": "A platform that helps coordinate holiday donations with real-time availability and privacy for families."
+  },
+  {
+    "App Links": "https://voice-ebon-two.vercel.app/",
+    "Description": "Provides enterprise-grade voice workflows with real-time voice agents designed for control, using visual workflows and secure integrations."
+  },
+  {
+    "App Links": "https://goal-planner-two.vercel.app/",
+    "Description": "AI-powered goal planning with social accountability, allowing users to create plans, track progress, and celebrate wins."
+  },
+  {
+    "App Links": "https://drews-doodle-den.vercel.app/",
+    "Description": "Drew's Doodle Den offers professional grooming services in a stress-free, cage-free environment for dogs."
+  },
+  {
+    "App Links": "https://phoenix-kit.vercel.app/",
+    "Description": "Phoenix Agent Kit enables the creation and deployment of production-ready voice agents quickly and efficiently."
+  },
+  {
+    "App Links": "https://pulse-lac-gamma.vercel.app/",
+    "Description": "The Pulse platform offers hyper-realistic AI voice agents tailored to specific business needs."
+  },
+  {
+    "App Links": "https://voice-agentic.vercel.app/",
+    "Description": "A platform for building customizable voice agents that integrate with Vapi APIs."
+  }
+]
+
