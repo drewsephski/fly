@@ -248,6 +248,10 @@
     "Description": "A client-side exception occurred, indicating an application error."
   },
   {
+    "App Links": "https://portfoliosys.vercel.app/",
+    "Description": "Full-stack developer building digital products."
+  },
+  {
     "App Links": "https://welcome-to-hell.vercel.app/",
     "Description": "Welcome To Hell is a D2 Intramural Basketball team built on intensity, discipline, and a relentless drive to compete."
   },

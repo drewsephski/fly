@@ -5,15 +5,21 @@ import { Separator } from "@/components/ui/separator"
 import { GradientTracing } from "@/components/ui/gradient-tracing"
 import { ArrowUpRight, GitBranch, ExternalLink } from "lucide-react"
 import Link from "next/link"
-import { cn } from "@/lib/utils"
 
-const PROJECTS = [
+const FEATURED_PROJECTS = [
   {
     title: "Fight Intel",
     url: "https://fight.dog/",
     description: "Real-time UFC odds, fighter analytics, and AI-powered predictive insights for MMA events.",
     tags: ["AI", "Sports", "Analytics"],
     index: "01",
+    featured: true,
+    depth: {
+      problem: "MMA betting lacked accessible data and predictive analytics",
+      solution: "Built real-time odds aggregation with ML prediction engine",
+      tech: ["Next.js", "Python", "PostgreSQL", "Redis", "WebSocket"],
+      challenge: "Processing live odds from multiple bookmakers with low latency"
+    }
   },
   {
     title: "NodeBase",
@@ -21,27 +27,46 @@ const PROJECTS = [
     description: "Open-source visual studio for building, running, and sharing AI workflows with a node graph editor.",
     tags: ["Open Source", "AI", "Visual"],
     index: "02",
-  },
-  {
-    title: "NovaHub",
-    url: "https://novahub.dev/",
-    description: "AI-powered analysis and intelligent insights platform for project management.",
-    tags: ["AI", "PM", "Insights"],
-    index: "03",
-  },
-  {
-    title: "PromptMarket",
-    url: "https://promptmarket.sh/",
-    description: "A public collection of precision-engineered system prompts for LLMs.",
-    tags: ["AI", "Prompts", "Tools"],
-    index: "04",
+    featured: true,
+    depth: {
+      problem: "AI workflow tools were either too simple or required coding expertise",
+      solution: "Visual node-based editor with drag-and-drop AI pipeline building",
+      tech: ["React Flow", "TypeScript", "Supabase", "Edge Functions"],
+      challenge: "Real-time collaboration and state synchronization across complex graphs"
+    }
   },
   {
     title: "ReelDiff",
     url: "https://reeldiff.vercel.app/",
     description: "Transforms code changes into visual stories by generating shareable videos from GitHub PRs.",
     tags: ["Dev Tools", "Video", "GitHub"],
+    index: "03",
+    featured: true,
+    depth: {
+      problem: "Code changes were hard to share with non-technical stakeholders",
+      solution: "Automated video generation from git diffs using AI narration",
+      tech: ["GitHub API", "FFmpeg", "OpenAI", "Next.js"],
+      challenge: "Synthesizing natural language descriptions from code changes"
+    }
+  }
+]
+
+const ARCHIVE_PROJECTS = [
+  {
+    title: "NovaHub",
+    url: "https://novahub.dev/",
+    description: "AI-powered analysis and intelligent insights platform for project management.",
+    tags: ["AI", "PM", "Insights"],
+    index: "04",
+    featured: false
+  },
+  {
+    title: "PromptMarket",
+    url: "https://promptmarket.sh/",
+    description: "A public collection of precision-engineered system prompts for LLMs.",
+    tags: ["AI", "Prompts", "Tools"],
     index: "05",
+    featured: false
   },
   {
     title: "PixelMint",
@@ -49,6 +74,7 @@ const PROJECTS = [
     description: "AI creative studio for generating images and videos — built for creators making viral content.",
     tags: ["AI", "Creative", "Generative"],
     index: "06",
+    featured: false
   },
   {
     title: "Roast My UI",
@@ -56,6 +82,7 @@ const PROJECTS = [
     description: "Get your UI savagely critiqued by a brutally honest Gen Z AI.",
     tags: ["AI", "Design", "Fun"],
     index: "07",
+    featured: false
   },
   {
     title: "Phoenix Notebook",
@@ -63,6 +90,7 @@ const PROJECTS = [
     description: "AI research assistant that aggregates sources, generates summaries, and creates presentations.",
     tags: ["AI", "Research", "Productivity"],
     index: "08",
+    featured: false
   },
   {
     title: "Drew's AI Twin",
@@ -70,6 +98,7 @@ const PROJECTS = [
     description: "Personal AI twin that answers questions and shares information about Drew and his work.",
     tags: ["AI", "Personal"],
     index: "09",
+    featured: false
   },
   {
     title: "Get Cracked",
@@ -77,14 +106,10 @@ const PROJECTS = [
     description: "AI-powered SaaS template with pre-built features for rapid development.",
     tags: ["AI", "SaaS", "Template"],
     index: "10",
-  },
+    featured: false
+  }
 ]
 
-const SKILLS = [
-  "Next.js", "React", "TypeScript", "Tailwind CSS",
-  "AI Integration", "Supabase", "Postgres", "Stripe",
-  "Clerk Auth", "Node.js", "API Design", "Vercel",
-]
 
 export default function Page() {
   return (
@@ -126,9 +151,7 @@ export default function Page() {
               About
             </a>
             <a
-              href="https://instagram.com/drew.sepeczi"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="mailto:drew@example.com"
               className="ml-2 inline-flex items-center gap-1.5 rounded-sm border border-border bg-foreground px-3 py-1.5 text-xs font-medium text-background transition-all hover:opacity-80"
             >
               Contact
@@ -165,8 +188,8 @@ export default function Page() {
 
           <div className="animate-fade-up delay-200">
             <p className="mt-8 max-w-md text-base leading-relaxed text-muted-foreground">
-              Systems architect and full-stack engineer. I build AI-powered products,
-              SaaS platforms, and developer tools.
+              I build AI-native products and developer tools with production-ready architecture.
+              <span className="text-foreground"> Fast shipping, scalable systems, real impact.</span>
             </p>
           </div>
 
@@ -182,7 +205,7 @@ export default function Page() {
             </a>
             <div className="h-3.5 w-px bg-border" />
             <a
-              href="https://drewsportfolio.vercel.app/"
+              href="https://portfoliosys.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex items-center gap-2 text-xs text-muted-foreground transition-colors hover:text-foreground"
@@ -214,56 +237,134 @@ export default function Page() {
               className="text-xs font-medium uppercase tracking-[0.25em] text-muted-foreground"
               style={{ fontFamily: "var(--font-mono, monospace)" }}
             >
-              Selected Work
+              Featured Work
             </h2>
           </div>
 
           <div className="divide-y divide-border/50">
-            {PROJECTS.map((project, i) => (
-              <Link
-                key={project.url}
-                href={project.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={cn(
-                  "group relative flex flex-col gap-4 py-7 transition-colors hover:bg-muted/30 sm:flex-row sm:items-center sm:justify-between animate-fade-up",
-                  "-mx-4 px-4 rounded-sm"
-                )}
-                style={{ animationDelay: `${i * 35 + 80}ms` }}
-              >
-                {/* Index */}
-                <span
-                  className="absolute left-4 top-7 text-[10px] text-muted-foreground/30 transition-colors group-hover:text-muted-foreground/60 sm:relative sm:left-auto sm:top-auto sm:w-8 sm:shrink-0"
-                  style={{ fontFamily: "var(--font-mono, monospace)" }}
-                >
-                  {project.index}
-                </span>
+            {FEATURED_PROJECTS.map((project, i) => (
+              <div key={project.url} className="group relative py-8 animate-fade-up" style={{ animationDelay: `${i * 35 + 80}ms` }}>
+                <div className="grid gap-8 md:grid-cols-[1fr_200px]">
+                  {/* Main content */}
+                  <div className="space-y-4">
+                    <div className="flex items-start justify-between">
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-3">
+                          <span
+                            className="text-[10px] text-muted-foreground/40 font-mono"
+                          >
+                            {project.index}
+                          </span>
+                          <h3 className="text-lg font-semibold text-foreground">
+                            {project.title}
+                          </h3>
+                        </div>
+                        <p className="text-sm leading-relaxed text-muted-foreground max-w-lg">
+                          {project.description}
+                        </p>
+                      </div>
+                    </div>
 
-                <div className="flex-1 sm:pl-0">
-                  <div className="flex items-center gap-2">
-                    <h3 className="text-sm font-medium text-foreground">
-                      {project.title}
-                    </h3>
-                    <ArrowUpRight className="h-3.5 w-3.5 text-muted-foreground opacity-0 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100" />
-                  </div>
-                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                    {project.description}
-                  </p>
-                </div>
+                    {/* Depth section */}
+                    <div className="space-y-3 pl-6">
+                      <div className="text-xs space-y-1">
+                        <p className="text-muted-foreground/60">
+                          <span className="font-medium text-foreground">Problem:</span> {project.depth.problem}
+                        </p>
+                        <p className="text-muted-foreground/60">
+                          <span className="font-medium text-foreground">Solution:</span> {project.depth.solution}
+                        </p>
+                        <p className="text-muted-foreground/60">
+                          <span className="font-medium text-foreground">Challenge:</span> {project.depth.challenge}
+                        </p>
+                      </div>
+                      <div className="flex flex-wrap gap-1">
+                        {project.depth.tech.map((tech) => (
+                          <Badge key={tech} variant="outline" className="text-[10px] border-border/40">
+                            {tech}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
 
-                <div className="flex shrink-0 flex-wrap gap-1.5 sm:ml-12 sm:justify-end">
-                  {project.tags.map((tag) => (
-                    <Badge
-                      key={tag}
-                      variant="outline"
-                      className="border-border/60 text-[10px] font-normal text-muted-foreground tracking-wide"
+                    <Link
+                      href={project.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-xs text-muted-foreground transition-colors hover:text-foreground"
                     >
-                      {tag}
-                    </Badge>
-                  ))}
+                      View project
+                      <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-px" />
+                    </Link>
+                  </div>
+
+                  {/* Tech stack sidebar */}
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground/40 font-mono">
+                        Technology
+                      </p>
+                      <div className="flex flex-wrap gap-1">
+                        {project.depth.tech.map((tech) => (
+                          <Badge key={tech} variant="outline" className="text-[10px] border-border/40">
+                            {tech}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap gap-1">
+                      {project.tags.map((tag) => (
+                        <Badge
+                          key={tag}
+                          variant="secondary"
+                          className="border border-border/40 text-[10px] font-normal text-muted-foreground"
+                        >
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              </Link>
+              </div>
             ))}
+          </div>
+
+          {/* Archive section */}
+          <div className="mt-20">
+            <div className="animate-fade-up mb-8">
+              <h3
+                className="text-xs font-medium uppercase tracking-[0.25em] text-muted-foreground/60"
+                style={{ fontFamily: "var(--font-mono, monospace)" }}
+              >
+                Archive
+              </h3>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-2">
+              {ARCHIVE_PROJECTS.map((project, i) => (
+                <Link
+                  key={project.url}
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center justify-between rounded-sm border border-border/30 px-4 py-3 transition-all hover:border-border/60 hover:bg-muted/20 animate-fade-up"
+                  style={{ animationDelay: `${i * 20 + 300}ms` }}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-[10px] text-muted-foreground/30 font-mono">
+                      {project.index}
+                    </span>
+                    <div>
+                      <h4 className="text-sm font-medium text-foreground">{project.title}</h4>
+                      <p className="text-xs text-muted-foreground/60 mt-0.5 line-clamp-1">
+                        {project.description}
+                      </p>
+                    </div>
+                  </div>
+                  <ArrowUpRight className="h-3.5 w-3.5 text-muted-foreground/40 opacity-0 transition-all group-hover:opacity-100" />
+                </Link>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -285,13 +386,12 @@ export default function Page() {
             <div className="animate-fade-up delay-100 space-y-6">
               <p className="text-base leading-relaxed text-muted-foreground">
                 I&apos;m Drew — a full-stack engineer who ships fast. I specialize in
-                scalable multi-tenant architectures, rapid MVP production, and
-                AI-powered applications.
+                AI-native products with production-ready architecture, not just demos.
               </p>
               <p className="text-base leading-relaxed text-muted-foreground">
-                My work spans SaaS boilerplates, AI tooling, developer platforms, and
-                creative experiments. I care deeply about clean interfaces,
-                well-structured systems, and products that actually get used.
+                My approach: <span className="text-foreground">rapid MVP production</span> without sacrificing quality,
+                <span className="text-foreground"> scalable multi-tenant systems</span> that handle real users,
+                and <span className="text-foreground"> AI integration</span> that goes beyond API wrapping.
               </p>
               <p className="text-base leading-relaxed text-muted-foreground">
                 When I&apos;m not building, I&apos;m watching UFC and probably building
@@ -303,17 +403,21 @@ export default function Page() {
                   className="mb-4 text-[10px] font-medium uppercase tracking-[0.25em] text-muted-foreground/60"
                   style={{ fontFamily: "var(--font-mono, monospace)" }}
                 >
-                  Stack
+                  Core Competencies
                 </p>
-                <div className="flex flex-wrap gap-2">
-                  {SKILLS.map((skill) => (
-                    <Badge
-                      key={skill}
-                      variant="secondary"
-                      className="border border-border/40 bg-muted/50 text-xs font-normal text-muted-foreground hover:bg-muted transition-colors"
-                    >
-                      {skill}
-                    </Badge>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {[
+                    "AI System Design",
+                    "Full-Stack Architecture", 
+                    "Rapid Prototyping",
+                    "Performance Optimization",
+                    "API Development",
+                    "Database Design"
+                  ].map((skill) => (
+                    <div key={skill} className="flex items-center gap-2">
+                      <div className="h-1.5 w-1.5 rounded-full bg-foreground/60" />
+                      <span className="text-sm text-muted-foreground">{skill}</span>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -348,14 +452,27 @@ export default function Page() {
               Have a project in mind? I&apos;m always open to interesting collaborations.
             </p>
             <a
-              href="https://instagram.com/drew.sepeczi"
+              href="mailto:drew@example.com"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-8 inline-flex items-center gap-2 rounded-sm border border-foreground bg-foreground px-7 py-3 text-sm font-medium text-background transition-all hover:bg-background hover:text-foreground"
             >
-              Say hello
+              Send an email
               <ArrowUpRight className="h-4 w-4" />
             </a>
+            <div className="mt-4 flex items-center justify-center gap-4 text-xs text-muted-foreground">
+              <a href="https://github.com/drewsepeczi" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
+                GitHub
+              </a>
+              <span>•</span>
+              <a href="https://linkedin.com/in/drewsepeczi" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
+                LinkedIn
+              </a>
+              <span>•</span>
+              <a href="https://instagram.com/drew.sepeczi" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
+                Instagram
+              </a>
+            </div>
           </div>
         </section>
 
@@ -371,13 +488,13 @@ export default function Page() {
             © 2026 Drew Sepeczi
           </span>
           <a
-            href="https://drewsepeczi.xyz/"
+            href="https://portfoliosys.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 text-[11px] text-muted-foreground/50 transition-colors hover:text-foreground"
             style={{ fontFamily: "var(--font-mono, monospace)" }}
           >
-            drewsepeczi.xyz
+            portfolio
             <ExternalLink className="h-3 w-3" />
           </a>
         </div>
