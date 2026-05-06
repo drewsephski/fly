@@ -1,8 +1,25 @@
 {
-  "name": "fly",
-  "version": "0.0.1",
+  "name": "fly-portfolio",
+  "version": "1.0.0",
+  "description": "A minimal colored web development portfolio showcasing modern frontend projects and skills",
   "type": "module",
   "private": true,
+  "homepage": "https://drewsepeczi.xyz",
+  "author": {
+    "name": "Drew Sepeczi",
+    "email": "drew@example.com",
+    "url": "https://drewsepeczi.xyz"
+  },
+  "keywords": [
+    "portfolio",
+    "web-development",
+    "frontend",
+    "nextjs",
+    "react",
+    "typescript",
+    "minimal",
+    "modern"
+  ],
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
