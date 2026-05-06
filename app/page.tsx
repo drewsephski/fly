@@ -3,63 +3,74 @@
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { GradientTracing } from "@/components/ui/gradient-tracing"
-import { ArrowUpRight, GitBranch, ExternalLink } from "lucide-react"
+import { ArrowUpRight, Star, ExternalLink } from "lucide-react"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
 
 const FEATURED_PROJECTS = [
-  {
-    title: "Fight Intel",
-    url: "https://fight.dog/",
-    description: "Real-time UFC odds, fighter analytics, and AI-powered predictive insights for MMA events.",
-    tags: ["AI", "Sports", "Analytics"],
-    index: "01",
-    featured: true,
-    depth: {
-      problem: "MMA betting lacked accessible data and predictive analytics",
-      solution: "Built real-time odds aggregation with ML prediction engine",
-      tech: ["Next.js", "Python", "PostgreSQL", "Redis", "WebSocket"],
-      challenge: "Processing live odds from multiple bookmakers with low latency"
-    }
-  },
   {
     title: "NodeBase",
     url: "https://nodebasev2.vercel.app/",
     description: "Open-source visual studio for building, running, and sharing AI workflows with a node graph editor.",
     tags: ["Open Source", "AI", "Visual"],
+    index: "01",
+    featured: true,
+    centerpiece: true,
+    depth: {
+      problem: "AI workflow tools were either too simple (no-coding) or required deep expertise (full programming)",
+      solution: "Visual node-based editor with drag-and-drop AI pipeline building + real-time collaboration",
+      tech: ["React Flow", "TypeScript", "Supabase", "Edge Functions"],
+      challenge: "Implemented operational transformation for real-time collaboration across complex node graphs",
+      architecture: "Client-side node editor + Supabase real-time + Edge Functions for AI execution",
+      dataflow: "User creates nodes → Graph state syncs → AI executes at edge → Results stream back"
+    }
+  },
+    {
+    title: "NovaHub",
+    url: "https://novahub.dev/",
+    description: "Make Your Projects Look 10x More Credible. AI-powered analysis, intelligent insights, and seamless data management for your projects.",
+    tags: ["AI", "PM", "Insights"],
+    index: "03",
+    featured: true,
+    depth: {
+      problem: "Developers struggled to showcase their projects effectively to recruiters and stakeholders",
+      solution: "Built AI-powered platform that transforms projects into recruiter-ready portfolios with actionable insights",
+      tech: ["React", "Node.js", "OpenAI API", "PostgreSQL", "Vercel"],
+      challenge: "Developed custom AI scoring system that evaluates projects and generates compelling summaries hiring managers want to read"
+    }
+  },
+  {
+    title: "Fight Intel",
+    url: "https://fight.dog/",
+    description: "Real-time UFC odds, fighter analytics, and AI-powered predictive insights for MMA events.",
+    tags: ["AI", "Sports", "Analytics"],
     index: "02",
     featured: true,
     depth: {
-      problem: "AI workflow tools were either too simple or required coding expertise",
-      solution: "Visual node-based editor with drag-and-drop AI pipeline building",
-      tech: ["React Flow", "TypeScript", "Supabase", "Edge Functions"],
-      challenge: "Real-time collaboration and state synchronization across complex graphs"
+      problem: "MMA betting data was fragmented across bookmakers with no unified analytics",
+      solution: "Built real-time odds aggregation with ML prediction engine",
+      tech: ["Next.js", "Python", "PostgreSQL", "Redis", "WebSocket"],
+      challenge: "Kept odds sync under 200ms across 3 sources using WebSockets + Redis caching"
     }
   },
+
   {
     title: "ReelDiff",
     url: "https://reeldiff.vercel.app/",
     description: "Transforms code changes into visual stories by generating shareable videos from GitHub PRs.",
     tags: ["Dev Tools", "Video", "GitHub"],
-    index: "03",
+    index: "04",
     featured: true,
     depth: {
-      problem: "Code changes were hard to share with non-technical stakeholders",
+      problem: "Code changes were impossible to share with non-technical stakeholders",
       solution: "Automated video generation from git diffs using AI narration",
       tech: ["GitHub API", "FFmpeg", "OpenAI", "Next.js"],
-      challenge: "Synthesizing natural language descriptions from code changes"
+      challenge: "Built git parser that extracts semantic changes and generates natural language descriptions"
     }
   }
 ]
 
 const ARCHIVE_PROJECTS = [
-  {
-    title: "NovaHub",
-    url: "https://novahub.dev/",
-    description: "AI-powered analysis and intelligent insights platform for project management.",
-    tags: ["AI", "PM", "Insights"],
-    index: "04",
-    featured: false
-  },
   {
     title: "PromptMarket",
     url: "https://promptmarket.sh/",
@@ -189,7 +200,7 @@ export default function Page() {
           <div className="animate-fade-up delay-200">
             <p className="mt-8 max-w-md text-base leading-relaxed text-muted-foreground">
               I build AI-native products and developer tools with production-ready architecture.
-              <span className="text-foreground"> Fast shipping, scalable systems, real impact.</span>
+              <span className="text-foreground"> <br/>Fast shipping, scalable systems, real impact.</span>
             </p>
           </div>
 
@@ -200,7 +211,7 @@ export default function Page() {
               rel="noopener noreferrer"
               className="group flex items-center gap-2 text-xs text-muted-foreground transition-colors hover:text-foreground"
             >
-              <GitBranch className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-px" />
+              <Star className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-px" />
               <span className="tracking-wide">GitHub</span>
             </a>
             <div className="h-3.5 w-px bg-border" />
@@ -243,21 +254,42 @@ export default function Page() {
 
           <div className="divide-y divide-border/50">
             {FEATURED_PROJECTS.map((project, i) => (
-              <div key={project.url} className="group relative py-8 animate-fade-up" style={{ animationDelay: `${i * 35 + 80}ms` }}>
-                <div className="grid gap-8 md:grid-cols-[1fr_200px]">
+              <div 
+                key={project.url} 
+                className={cn(
+                  "group relative py-8 animate-fade-up",
+                  project.centerpiece && "border-l-2 border-foreground/20 pl-8 bg-muted/10 -mx-8 px-8"
+                )} 
+                style={{ animationDelay: `${i * 35 + 80}ms` }}
+              >
+                <div className={cn(
+                  "grid gap-8",
+                  project.centerpiece ? "md:grid-cols-[1.2fr_200px]" : "md:grid-cols-[1fr_200px]"
+                )}>
                   {/* Main content */}
                   <div className="space-y-4">
                     <div className="flex items-start justify-between">
                       <div className="space-y-2">
                         <div className="flex items-center gap-3">
                           <span
-                            className="text-[10px] text-muted-foreground/40 font-mono"
+                            className={cn(
+                              "text-[10px] font-mono",
+                              project.centerpiece ? "text-foreground/60 font-semibold" : "text-muted-foreground/40"
+                            )}
                           >
                             {project.index}
                           </span>
-                          <h3 className="text-lg font-semibold text-foreground">
+                          <h3 className={cn(
+                            "font-semibold text-foreground",
+                            project.centerpiece ? "text-xl" : "text-lg"
+                          )}>
                             {project.title}
                           </h3>
+                          {project.centerpiece && (
+                            <Badge className="text-[10px] bg-foreground/10 border-foreground/30 text-foreground">
+                              Featured
+                            </Badge>
+                          )}
                         </div>
                         <p className="text-sm leading-relaxed text-muted-foreground max-w-lg">
                           {project.description}
@@ -277,6 +309,16 @@ export default function Page() {
                         <p className="text-muted-foreground/60">
                           <span className="font-medium text-foreground">Challenge:</span> {project.depth.challenge}
                         </p>
+                        {project.depth.architecture && (
+                          <>
+                            <p className="text-muted-foreground/60">
+                              <span className="font-medium text-foreground">Architecture:</span> {project.depth.architecture}
+                            </p>
+                            <p className="text-muted-foreground/60">
+                              <span className="font-medium text-foreground">Data Flow:</span> {project.depth.dataflow}
+                            </p>
+                          </>
+                        )}
                       </div>
                       <div className="flex flex-wrap gap-1">
                         {project.depth.tech.map((tech) => (
@@ -287,41 +329,48 @@ export default function Page() {
                       </div>
                     </div>
 
-                    <Link
-                      href={project.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-xs text-muted-foreground transition-colors hover:text-foreground"
-                    >
-                      View project
-                      <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-px" />
-                    </Link>
+                    <div className="flex items-center gap-4">
+                      <Link
+                        href={project.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-xs text-muted-foreground transition-colors hover:text-foreground"
+                      >
+                        View project
+                        <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-px" />
+                      </Link>
+                      {project.centerpiece && (
+                        <Link
+                          href="https://github.com/drewsephski/nodebase"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
+                        >
+                          <Star className="h-3.5 w-3.5" />
+                          <span>22 stars</span>
+                          <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-px" />
+                        </Link>
+                      )}
+                    </div>
                   </div>
 
-                  {/* Tech stack sidebar */}
+                  {/* Tags sidebar */}
                   <div className="space-y-4">
                     <div className="space-y-2">
                       <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground/40 font-mono">
-                        Technology
+                        Focus
                       </p>
                       <div className="flex flex-wrap gap-1">
-                        {project.depth.tech.map((tech) => (
-                          <Badge key={tech} variant="outline" className="text-[10px] border-border/40">
-                            {tech}
+                        {project.tags.map((tag) => (
+                          <Badge
+                            key={tag}
+                            variant="secondary"
+                            className="border border-border/40 text-[10px] font-normal text-muted-foreground"
+                          >
+                            {tag}
                           </Badge>
                         ))}
                       </div>
-                    </div>
-                    <div className="flex flex-wrap gap-1">
-                      {project.tags.map((tag) => (
-                        <Badge
-                          key={tag}
-                          variant="secondary"
-                          className="border border-border/40 text-[10px] font-normal text-muted-foreground"
-                        >
-                          {tag}
-                        </Badge>
-                      ))}
                     </div>
                   </div>
                 </div>
