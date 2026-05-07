@@ -184,9 +184,9 @@ const GalleryPage = () => {
   const [viewMode, setViewMode] = useState<'scroll' | 'grid'>('scroll')
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="relative z-10 min-h-screen">
       {/* ── Header / Navbar ── */}
-      <header className="sticky top-0 z-40 border-b border-border/50 bg-background/80 backdrop-blur-md">
+      <header className="sticky top-0 z-40 border-b border-border/50 bg-background/70 backdrop-blur-md">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
           <Link
             href="/"

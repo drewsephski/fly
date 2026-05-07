@@ -12,8 +12,16 @@ interface ChatMessage {
   content: string;
 }
 
-export function TalkToDrew() {
-  const [open, setOpen] = useState(false);
+interface TalkToDrewProps {
+  open?: boolean;
+  setOpen?: (open: boolean) => void;
+  autoSend?: string;
+}
+
+export function TalkToDrew({ open: controlledOpen, setOpen: controlledSetOpen, autoSend }: TalkToDrewProps) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const open = controlledOpen ?? internalOpen;
+  const setOpen = controlledSetOpen ?? setInternalOpen;
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: "welcome",
@@ -27,6 +35,7 @@ export function TalkToDrew() {
   const [error, setError] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const lastAutoSendRef = useRef<string | undefined>(undefined);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -34,15 +43,14 @@ export function TalkToDrew() {
     }
   }, [messages, isLoading]);
 
-  const handleSubmit = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault();
-      if (!input.trim() || isLoading) return;
+  const sendMessage = useCallback(
+    async (text: string) => {
+      if (!text.trim() || isLoading) return;
 
       const userMessage: ChatMessage = {
         id: `user-${Date.now()}`,
         role: "user",
-        content: input.trim(),
+        content: text.trim(),
       };
 
       const assistantId = `assistant-${Date.now()}`;
@@ -130,7 +138,25 @@ export function TalkToDrew() {
         abortRef.current = null;
       }
     },
-    [input, isLoading, messages]
+    [isLoading, messages]
+  );
+
+  useEffect(() => {
+    if (open && autoSend && autoSend !== lastAutoSendRef.current) {
+      lastAutoSendRef.current = autoSend;
+      sendMessage(autoSend);
+    }
+    if (!open) {
+      lastAutoSendRef.current = undefined;
+    }
+  }, [open, autoSend, sendMessage]);
+
+  const handleSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      sendMessage(input);
+    },
+    [input, sendMessage]
   );
 
   const clearChat = () => {
@@ -203,7 +229,11 @@ export function TalkToDrew() {
         {/* Messages */}
         <div
           ref={scrollRef}
-          className="flex-1 overflow-y-auto px-4 py-4 space-y-4"
+          className="flex-1 overflow-y-auto px-4 py-4 space-y-4 scrollbar-thin custom-scrollbar"
+          style={{
+            scrollbarWidth: "thin",
+            scrollbarColor: "var(--border) transparent",
+          }}
         >
           {messages.map((msg: ChatMessage) => (
             <div
@@ -229,7 +259,7 @@ export function TalkToDrew() {
               </div>
               <div
                 className={cn(
-                  "max-w-[80%] rounded-lg border px-3 py-2 text-sm leading-relaxed",
+                  "max-w-[80%] rounded-lg border px-3 py-2 text-xs leading-relaxed",
                   msg.role === "user"
                     ? "border-border/40 bg-muted/40 text-foreground"
                     : "border-border/30 bg-transparent text-muted-foreground"
@@ -270,13 +300,13 @@ export function TalkToDrew() {
         </div>
 
         {/* Prompt pills */}
-        <div className="border-t border-border/40 px-4 pt-3 pb-1.5">
+        <div className="border-t border-border/40 px-2 pt-3 pb-1.5">
           <div className="flex flex-wrap gap-2">
             {[
               "what's your favorite stack?",
               "what are you building now?",
               "tell me about NodeBase",
-              "should founders learn to code?",
+              "should founders learn code?",
             ].map((pill) => (
               <button
                 key={pill}
