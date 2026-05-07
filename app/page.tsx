@@ -6,6 +6,10 @@ import { GradientTracing } from "@/components/ui/gradient-tracing"
 import { ArrowUpRight, Star, ExternalLink, GitBranch } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
+import { BlogPostList } from "@/components/blog-post"
+import TimelineContent from "@/components/shadcn-studio/blocks/timeline-component-05/timeline-component-05"
+import CareerPresentContent from "@/components/shadcn-studio/blocks/timeline-component-05/content/career-present"
+import CareerConsultantContent from "@/components/shadcn-studio/blocks/timeline-component-05/content/career-consultant"
 
 const FEATURED_PROJECTS = [
   {
@@ -25,7 +29,7 @@ const FEATURED_PROJECTS = [
       dataflow: "User creates nodes → Graph state syncs → AI executes at edge → Results stream back"
     }
   },
-    {
+  {
     title: "NovaHub",
     url: "https://novahub.dev/",
     description: "Make Your Projects Look 10x More Credible. AI-powered analysis, intelligent insights, and seamless data management for your projects.",
@@ -67,6 +71,39 @@ const FEATURED_PROJECTS = [
       tech: ["GitHub API", "FFmpeg", "OpenAI", "Next.js"],
       challenge: "Built git parser that extracts semantic changes and generates natural language descriptions"
     }
+  }
+]
+
+const postsArray = [
+  {
+    title: "Agentic AI in Production: Patterns That Actually Work",
+    description: "After two years of real-world deployments, the patterns for reliable agentic systems have crystallized. Bounded autonomy, multi-agent governance, and hierarchical memory are the new standard.",
+    author: "Drew Sepeczi",
+    date: "May 7, 2026",
+    readTime: "7 min read",
+    tags: ["AI Agents", "Architecture", "Production"],
+    content: "",
+    slug: "agentic-ai-production-patterns-2026"
+  },
+  {
+    title: "Building AI-First Frontend Architectures in 2026",
+    description: "The React Compiler is out, AI agents scaffold entire features autonomously, and Edge AI personalizes bundle delivery. Here's what the modern frontend stack actually looks like.",
+    author: "Drew Sepeczi",
+    date: "May 5, 2026",
+    readTime: "6 min read",
+    tags: ["React", "AI", "Architecture"],
+    content: "",
+    slug: "building-ai-first-frontend-architectures"
+  },
+  {
+    title: "The Internet of Agents: MCP, A2A, and What Comes Next",
+    description: "Open protocols are turning isolated AI automations into a global network. MCP, A2A, and ACP are the early infrastructure of a world where agents discover, transact, and coordinate across boundaries.",
+    author: "Drew Sepeczi",
+    date: "May 3, 2026",
+    readTime: "8 min read",
+    tags: ["MCP", "AI Agents", "Protocols"],
+    content: "",
+    slug: "internet-of-agents-mcp-a2a-protocols"
   }
 ]
 
@@ -121,7 +158,6 @@ const ARCHIVE_PROJECTS = [
   }
 ]
 
-
 export default function Page() {
   return (
     <main
@@ -156,11 +192,23 @@ export default function Page() {
               Work
             </a>
             <a
+              href="#journey"
+              className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
+            >
+              Journey
+            </a>
+            <a
               href="#about"
               className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
             >
               About
             </a>
+            <Link
+              href="/gallery"
+              className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
+            >
+              Gallery
+            </Link>
             <a
               href="mailto:drew@example.com"
               className="ml-2 inline-flex items-center gap-1.5 rounded-sm border border-border bg-foreground px-3 py-1.5 text-xs font-medium text-background transition-all hover:opacity-80"
@@ -176,7 +224,7 @@ export default function Page() {
         {/* ── Hero ── */}
         <section className="relative pb-24 pt-28">
           {/* Decorative rule */}
-          <div className="absolute left-0 top-28 h-px w-12 bg-border" />
+          <div className="absolute left-0 top-20 h-px w-12 bg-border" />
 
           <div className="animate-fade-up">
             <p
@@ -200,7 +248,7 @@ export default function Page() {
           <div className="animate-fade-up delay-200">
             <p className="mt-8 max-w-md text-base leading-relaxed text-muted-foreground">
               I build AI-native products and developer tools with production-ready architecture.
-              <span className="text-foreground"> <br/>Fast shipping, scalable systems, real impact.</span>
+              <span className="text-foreground"> <br />Fast shipping, scalable systems, real impact.</span>
             </p>
           </div>
 
@@ -243,136 +291,189 @@ export default function Page() {
 
         {/* ── Work ── */}
         <section id="work" className="pb-28">
-          <div className="animate-fade-up mb-14">
-            <h2
-              className="text-xs font-medium uppercase tracking-[0.25em] text-muted-foreground"
+          <div className="animate-fade-up mb-14 flex items-end justify-between">
+            <div>
+              <p
+                className="mb-2 text-[10px] font-medium uppercase tracking-[0.3em] text-muted-foreground/50"
+                style={{ fontFamily: "var(--font-mono, monospace)" }}
+              >
+                Selected Projects
+              </p>
+              <h2
+                className="text-xs font-medium uppercase tracking-[0.25em] text-muted-foreground"
+                style={{ fontFamily: "var(--font-mono, monospace)" }}
+              >
+                Featured Work
+              </h2>
+            </div>
+            <span
+              className="text-[10px] text-muted-foreground/30 font-mono"
               style={{ fontFamily: "var(--font-mono, monospace)" }}
             >
-              Featured Work
-            </h2>
+              {FEATURED_PROJECTS.length} projects
+            </span>
           </div>
 
-          <div className="divide-y divide-border/50">
+          <div className="space-y-6">
             {FEATURED_PROJECTS.map((project, i) => (
-              <div 
-                key={project.url} 
+              <div
+                key={project.url}
                 className={cn(
-                  "group relative py-8 animate-fade-up",
-                  project.centerpiece && "border-l-2 border-foreground/20 pl-8 bg-muted/10 -mx-8 px-8"
-                )} 
+                  "group relative rounded-xl border animate-fade-up transition-colors",
+                  project.centerpiece
+                    ? "border-foreground/20 bg-muted/20"
+                    : "border-border/40 bg-transparent hover:bg-muted/10"
+                )}
                 style={{ animationDelay: `${i * 35 + 80}ms` }}
               >
-                <div className={cn(
-                  "grid gap-8",
-                  project.centerpiece ? "md:grid-cols-[1.2fr_200px]" : "md:grid-cols-[1fr_200px]"
-                )}>
-                  {/* Main content */}
-                  <div className="space-y-4">
-                    <div className="flex items-start justify-between">
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-3">
-                          <span
-                            className={cn(
-                              "text-[10px] font-mono",
-                              project.centerpiece ? "text-foreground/60 font-semibold" : "text-muted-foreground/40"
-                            )}
-                          >
-                            {project.index}
-                          </span>
+                {/* Centerpiece accent line */}
+                {project.centerpiece && (
+                  <div className="absolute left-0 top-0 h-full w-[3px] rounded-l-xl bg-gradient-to-b from-foreground/40 via-foreground/20 to-transparent" />
+                )}
+
+                <div className="p-6 md:p-8">
+                  {/* Header row */}
+                  <div className="mb-5 flex items-start justify-between gap-4">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <span
+                        className="shrink-0 text-[10px] font-mono text-muted-foreground/30 tabular-nums"
+                        style={{ fontFamily: "var(--font-mono, monospace)" }}
+                      >
+                        {project.index}
+                      </span>
+                      <div className="min-w-0">
+                        <div className="flex flex-wrap items-center gap-2 mb-1.5">
                           <h3 className={cn(
-                            "font-semibold text-foreground",
+                            "font-semibold text-foreground leading-tight",
                             project.centerpiece ? "text-xl" : "text-lg"
                           )}>
                             {project.title}
                           </h3>
                           {project.centerpiece && (
-                            <Badge className="text-[10px] bg-foreground/10 border-foreground/30 text-foreground">
+                            <Badge className="text-[10px] bg-foreground/10 border-foreground/20 text-foreground/80 shrink-0">
                               Featured
                             </Badge>
                           )}
+                          <div className="flex flex-wrap gap-1 ml-1">
+                            {project.tags.map((tag) => (
+                              <Badge
+                                key={tag}
+                                variant="secondary"
+                                className="border border-border/30 text-[10px] font-normal text-muted-foreground/70"
+                              >
+                                {tag}
+                              </Badge>
+                            ))}
+                          </div>
                         </div>
-                        <p className="text-sm leading-relaxed text-muted-foreground max-w-lg">
+                        <p className="text-sm leading-relaxed text-muted-foreground max-w-2xl">
                           {project.description}
                         </p>
                       </div>
                     </div>
 
-                    {/* Depth section */}
-                    <div className="space-y-3 pl-6">
-                      <div className="text-xs space-y-1">
-                        <p className="text-muted-foreground/60">
-                          <span className="font-medium text-foreground">Problem:</span> {project.depth.problem}
+                    <Link
+                      href={project.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="shrink-0 inline-flex items-center gap-1.5 rounded-md border border-border/40 px-3 py-1.5 text-xs text-muted-foreground transition-all hover:border-border/80 hover:bg-muted/30 hover:text-foreground"
+                    >
+                      View
+                      <ArrowUpRight className="h-3 w-3" />
+                    </Link>
+                  </div>
+
+                  {/* Depth spec sheet */}
+                  <div className={cn(
+                    "rounded-lg border border-border/30 bg-background/50 p-4",
+                    project.centerpiece && "border-border/50 bg-muted/10"
+                  )}>
+                    <div className="grid gap-y-2.5 gap-x-6 sm:grid-cols-2 mb-4">
+                      <div className="space-y-0.5">
+                        <p
+                          className="text-[9px] font-medium uppercase tracking-[0.25em] text-muted-foreground/40"
+                          style={{ fontFamily: "var(--font-mono, monospace)" }}
+                        >
+                          Problem
                         </p>
-                        <p className="text-muted-foreground/60">
-                          <span className="font-medium text-foreground">Solution:</span> {project.depth.solution}
+                        <p className="text-xs leading-relaxed text-muted-foreground/70">
+                          {project.depth.problem}
                         </p>
-                        <p className="text-muted-foreground/60">
-                          <span className="font-medium text-foreground">Challenge:</span> {project.depth.challenge}
-                        </p>
-                        {project.depth.architecture && (
-                          <>
-                            <p className="text-muted-foreground/60">
-                              <span className="font-medium text-foreground">Architecture:</span> {project.depth.architecture}
-                            </p>
-                            <p className="text-muted-foreground/60">
-                              <span className="font-medium text-foreground">Data Flow:</span> {project.depth.dataflow}
-                            </p>
-                          </>
-                        )}
                       </div>
-                      <div className="flex flex-wrap gap-1">
-                        {project.depth.tech.map((tech) => (
-                          <Badge key={tech} variant="outline" className="text-[10px] border-border/40">
-                            {tech}
-                          </Badge>
-                        ))}
+                      <div className="space-y-0.5">
+                        <p
+                          className="text-[9px] font-medium uppercase tracking-[0.25em] text-muted-foreground/40"
+                          style={{ fontFamily: "var(--font-mono, monospace)" }}
+                        >
+                          Solution
+                        </p>
+                        <p className="text-xs leading-relaxed text-muted-foreground/70">
+                          {project.depth.solution}
+                        </p>
                       </div>
+                      <div className="space-y-0.5">
+                        <p
+                          className="text-[9px] font-medium uppercase tracking-[0.25em] text-muted-foreground/40"
+                          style={{ fontFamily: "var(--font-mono, monospace)" }}
+                        >
+                          Challenge
+                        </p>
+                        <p className="text-xs leading-relaxed text-muted-foreground/70">
+                          {project.depth.challenge}
+                        </p>
+                      </div>
+                      {project.depth.architecture && (
+                        <div className="space-y-0.5">
+                          <p
+                            className="text-[9px] font-medium uppercase tracking-[0.25em] text-muted-foreground/40"
+                            style={{ fontFamily: "var(--font-mono, monospace)" }}
+                          >
+                            Architecture
+                          </p>
+                          <p className="text-xs leading-relaxed text-muted-foreground/70">
+                            {project.depth.architecture}
+                          </p>
+                        </div>
+                      )}
                     </div>
 
-                    <div className="flex items-center gap-4">
-                      <Link
-                        href={project.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-xs text-muted-foreground transition-colors hover:text-foreground"
-                      >
-                        View project
-                        <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-px" />
-                      </Link>
-                      {project.centerpiece && (
-                        <Link
-                          href="https://github.com/drewsephski/nodebase"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
-                        >
-                          <Star className="h-3.5 w-3.5" />
-                          <span>22 stars</span>
-                          <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-px" />
-                        </Link>
+
+                    {/* Footer: tech + optional data flow */}
+                    <div className="border-t border-border/30 pt-3 flex flex-wrap items-center justify-between gap-3">
+                      <div className="flex flex-wrap gap-1.5">
+                        {project.depth.tech.map((tech) => (
+                          <span
+                            key={tech}
+                            className="inline-flex items-center rounded border border-border/40 bg-background px-2 py-0.5 text-[10px] text-muted-foreground/70 font-mono"
+                            style={{ fontFamily: "var(--font-mono, monospace)" }}
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                      {project.depth.dataflow && (
+                        <p className="text-[10px] text-muted-foreground/40 font-mono hidden lg:block" style={{ fontFamily: "var(--font-mono, monospace)" }}>
+                          {project.depth.dataflow}
+                        </p>
                       )}
                     </div>
                   </div>
 
-                  {/* Tags sidebar */}
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground/40 font-mono">
-                        Focus
-                      </p>
-                      <div className="flex flex-wrap gap-1">
-                        {project.tags.map((tag) => (
-                          <Badge
-                            key={tag}
-                            variant="secondary"
-                            className="border border-border/40 text-[10px] font-normal text-muted-foreground"
-                          >
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
+                  {/* Centerpiece extra CTA */}
+                  {project.centerpiece && (
+                    <div className="mt-4 flex items-center gap-4">
+                      <Link
+                        href="https://github.com/drewsephski/nodebase"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
+                      >
+                        <Star className="h-3.5 w-3.5" />
+                        <span>22 stars on GitHub</span>
+                        <ArrowUpRight className="h-3.5 w-3.5" />
+                      </Link>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
             ))}
@@ -380,37 +481,54 @@ export default function Page() {
 
           {/* Archive section */}
           <div className="mt-20">
-            <div className="animate-fade-up mb-8">
+            <div className="animate-fade-up mb-8 flex items-end justify-between">
               <h3
                 className="text-xs font-medium uppercase tracking-[0.25em] text-muted-foreground/60"
                 style={{ fontFamily: "var(--font-mono, monospace)" }}
               >
                 Archive
               </h3>
+              <span
+                className="text-[10px] text-muted-foreground/30 font-mono"
+                style={{ fontFamily: "var(--font-mono, monospace)" }}
+              >
+                {ARCHIVE_PROJECTS.length} more
+              </span>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
               {ARCHIVE_PROJECTS.map((project, i) => (
                 <Link
                   key={project.url}
                   href={project.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center justify-between rounded-sm border border-border/30 px-4 py-3 transition-all hover:border-border/60 hover:bg-muted/20 animate-fade-up"
+                  className="group flex flex-col gap-2.5 rounded-lg border border-border/30 px-4 py-3.5 transition-all hover:border-border/60 hover:bg-muted/20 animate-fade-up"
                   style={{ animationDelay: `${i * 20 + 300}ms` }}
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="text-[10px] text-muted-foreground/30 font-mono">
-                      {project.index}
-                    </span>
-                    <div>
-                      <h4 className="text-sm font-medium text-foreground">{project.title}</h4>
-                      <p className="text-xs text-muted-foreground/60 mt-0.5 line-clamp-1">
-                        {project.description}
-                      </p>
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <span className="shrink-0 text-[10px] text-muted-foreground/30 font-mono tabular-nums" style={{ fontFamily: "var(--font-mono, monospace)" }}>
+                        {project.index}
+                      </span>
+                      <h4 className="text-sm font-medium text-foreground truncate">{project.title}</h4>
                     </div>
+                    <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground/30 transition-all group-hover:text-muted-foreground group-hover:-translate-y-px" />
                   </div>
-                  <ArrowUpRight className="h-3.5 w-3.5 text-muted-foreground/40 opacity-0 transition-all group-hover:opacity-100" />
+                  <p className="text-xs text-muted-foreground/60 leading-relaxed line-clamp-2 pl-[1.625rem]">
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-1 pl-[1.625rem]">
+                    {project.tags.map((tag) => (
+                      <Badge
+                        key={tag}
+                        variant="secondary"
+                        className="border border-border/30 text-[10px] font-normal text-muted-foreground/50"
+                      >
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
                 </Link>
               ))}
             </div>
@@ -457,7 +575,7 @@ export default function Page() {
                 <div className="grid gap-3 sm:grid-cols-2">
                   {[
                     "AI System Design",
-                    "Full-Stack Architecture", 
+                    "Full-Stack Architecture",
                     "Rapid Prototyping",
                     "Performance Optimization",
                     "API Development",
@@ -473,8 +591,40 @@ export default function Page() {
             </div>
           </div>
         </section>
+        <Separator className="mb-28 opacity-50" />
+
+        {/* ── Timeline / Journey ── */}
+        <section id="journey" className="pb-28">
+          <div className="animate-fade-up mb-14">
+            <h2
+              className="text-xs font-medium uppercase tracking-[0.25em] text-muted-foreground"
+              style={{ fontFamily: "var(--font-mono, monospace)" }}
+            >
+              Journey
+            </h2>
+          </div>
+
+          <div className="animate-fade-up delay-100">
+            <TimelineContent
+              entries={[
+                {
+                  company: 'Phoenix Agency',
+                  period: 'June 2025 – Present',
+                  content: <CareerPresentContent />
+                },
+                {
+                  company: 'Independent Consultant',
+                  period: 'Oct 2025 – Feb 2026',
+                  content: <CareerConsultantContent />
+                }
+              ]}
+            />
+          </div>
+        </section>
 
         <Separator className="mb-28 opacity-50" />
+
+        <BlogPostList posts={postsArray} />
 
         {/* ── CTA ── */}
         <section className="animate-fade-up pb-36">
