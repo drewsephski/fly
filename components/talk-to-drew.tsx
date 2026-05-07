@@ -269,6 +269,29 @@ export function TalkToDrew() {
           )}
         </div>
 
+        {/* Prompt pills */}
+        <div className="border-t border-border/40 px-4 pt-3 pb-1.5">
+          <div className="flex flex-wrap gap-2">
+            {[
+              "what's your favorite stack?",
+              "what are you building now?",
+              "tell me about NodeBase",
+              "should founders learn to code?",
+            ].map((pill) => (
+              <button
+                key={pill}
+                onClick={() => {
+                  setInput(pill);
+                }}
+                disabled={isLoading}
+                className="rounded-full border border-border/40 bg-muted/30 px-3 py-1 text-xs text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground disabled:opacity-40"
+              >
+                {pill}
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* Input */}
         <form
           onSubmit={handleSubmit}
