@@ -10,6 +10,7 @@ import { BlogPostList } from "@/components/blog-post"
 import TimelineContent from "@/components/shadcn-studio/blocks/timeline-component-05/timeline-component-05"
 import CareerPresentContent from "@/components/shadcn-studio/blocks/timeline-component-05/content/career-present"
 import CareerConsultantContent from "@/components/shadcn-studio/blocks/timeline-component-05/content/career-consultant"
+import { TalkToDrew } from "@/components/talk-to-drew"
 
 const FEATURED_PROJECTS = [
   {
@@ -698,6 +699,8 @@ export default function Page() {
           </a>
         </div>
       </footer>
+
+      <TalkToDrew />
 
     </main>
   )
