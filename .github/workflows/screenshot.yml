@@ -68,15 +68,21 @@ jobs:
           npm run dev &
           npx -y wait-on@latest ${{ env.TARGET_URL }} --timeout 30000
 
+      - name: Install opencode CLI
+        run: curl -fsSL https://opencode.ai/install | bash
+
+      - name: Add opencode to PATH
+        run: echo "$HOME/.opencode/bin" >> $GITHUB_PATH
+
       - name: Run opencode
-        uses: anomalyco/opencode/github@latest
+        shell: bash
+        run: opencode github run
         env:
+          MODEL: opencode/big-pickle
           OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TARGET_URL: ${{ env.TARGET_URL }}
-        with:
-          model: opencode/big-pickle
-          prompt: |
+          PROMPT: |
             Navigate to ${{ env.TARGET_URL }} using agent-browser:
               1. Run `agent-browser open ${{ env.TARGET_URL }}` and wait for the page to load completely
               2. Wait for page to settle: `agent-browser wait 5000`

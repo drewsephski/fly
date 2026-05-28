@@ -25,9 +25,15 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Install opencode CLI
+        run: curl -fsSL https://opencode.ai/install | bash
+
+      - name: Add opencode to PATH
+        run: echo "$HOME/.opencode/bin" >> $GITHUB_PATH
+
       - name: Run opencode
-        uses: anomalyco/opencode/github@latest
+        shell: bash
+        run: opencode github run
         env:
+          MODEL: opencode/big-pickle
           OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
-        with:
-          model: opencode/big-pickle
