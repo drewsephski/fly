@@ -313,7 +313,7 @@ export default function Page() {
             </div>
 
             <div className="animate-fade-up delay-300 mt-12 rotate-6">
-              <SpinButton onClick={() => setChatOpen(true)} onClose={() => setChatOpen(false)} isOpen={chatOpen} />
+              <SpinButton onClick={() => document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })} />
             </div>
           </div>
 
@@ -406,7 +406,15 @@ export default function Page() {
                             "font-semibold text-foreground leading-tight",
                             project.centerpiece ? "text-xl" : "text-lg"
                           )}>
-                            {project.title}
+                            <Link
+                              href={project.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="transition-opacity hover:opacity-80"
+                              aria-label={`${project.title} — visit project`}
+                            >
+                              {project.title}
+                            </Link>
                           </h3>
                           {project.centerpiece && (
                             <Badge className="text-[10px] bg-foreground/10 border-foreground/20 text-foreground/80 shrink-0">
@@ -439,7 +447,7 @@ export default function Page() {
                         }}
                       >
                         <MessageCircle className="h-3 w-3" />
-                        Ask about it
+                        Ask AI
                       </GoldenButton>
                       {'image' in project && project.image && (
                         <button
@@ -450,15 +458,6 @@ export default function Page() {
                           Quick look
                         </button>
                       )}
-                      <Link
-                        href={project.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 rounded-md border border-border/40 px-3 py-1.5 text-xs text-muted-foreground transition-all hover:border-border/80 hover:bg-muted/30 hover:text-foreground"
-                      >
-                        View
-                        <ArrowUpRight className="h-3 w-3" />
-                      </Link>
                     </div>
                   </div>
 
@@ -655,7 +654,7 @@ export default function Page() {
                       className="h-[2.5em] text-[10px] px-2"
                     >
                       <MessageCircle className="h-2.5 w-2.5" />
-                      Ask about it
+                      Ask AI
                     </GoldenButton>
                   </div>
                 </Link>
@@ -821,6 +820,7 @@ export default function Page() {
               href="https://github.com/drewsephski"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="GitHub profile"
               className="text-muted-foreground/60 transition-colors duration-200 hover:text-muted-foreground/80"
             >
               <svg

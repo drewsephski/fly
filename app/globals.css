@@ -203,6 +203,11 @@
   .dark ::selection {
     background: oklch(0.70 0.13 70 / 0.25);
     }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
 }
 
 /* ─────────────────────────────────────────────────────
