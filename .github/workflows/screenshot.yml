@@ -11,6 +11,10 @@ on:
         description: Port the local instance runs on
         required: false
         default: '3000'
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   screenshot:
