@@ -12,6 +12,10 @@ on:
         required: false
         default: '3000'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   screenshot:
     runs-on: ubuntu-latest
@@ -19,50 +23,111 @@ jobs:
       id-token: write
       contents: read
       issues: write
+    timeout-minutes: 15
+    
+    env:
+      NODE_ENV: production
+      CI: true
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
+          fetch-depth: 1
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
 
       - name: Resolve target URL
         id: target-url
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if [ -n "${{ github.event.inputs.url }}" ] && [ "${{ github.event.inputs.url }}" != "http://localhost:3000" ]; then
-            echo "TARGET_URL=${{ github.event.inputs.url }}" >> $GITHUB_ENV
-          else
-            HOMEPAGE=$(gh repo view --json homepageUrl -q .homepageUrl)
-            if [ -n "$HOMEPAGE" ] && [ "$HOMEPAGE" != "null" ]; then
-              echo "TARGET_URL=$HOMEPAGE" >> $GITHUB_ENV
+          set -euo pipefail
+          
+          # Validate URL format
+          validate_url() {
+            if [[ $1 =~ ^https?:// ]]; then
+              echo "$1"
             else
-              echo "TARGET_URL=${{ github.event.inputs.url }}" >> $GITHUB_ENV
+              echo "http://$1"
+            fi
+          }
+          
+          TARGET_URL="${{ github.event.inputs.url }}"
+          
+          if [[ -n "$TARGET_URL" ]] && [[ "$TARGET_URL" != "http://localhost:3000" ]]; then
+            TARGET_URL=$(validate_url "$TARGET_URL")
+            echo "::notice::Using custom URL: $TARGET_URL"
+          else
+            HOMEPAGE=$(gh repo view --json homepageUrl -q .homepageUrl 2>/dev/null || echo "")
+            if [[ -n "$HOMEPAGE" ]] && [[ "$HOMEPAGE" != "null" ]]; then
+              TARGET_URL=$(validate_url "$HOMEPAGE")
+              echo "::notice::Using repository homepage: $TARGET_URL"
+            else
+              TARGET_URL=$(validate_url "localhost:${{ github.event.inputs.port }}")
+              echo "::warning::No custom URL or homepage found, using localhost"
             fi
           fi
+          
+          echo "url=$TARGET_URL" >> "$GITHUB_OUTPUT"
+          echo "TARGET_URL=$TARGET_URL" >> "$GITHUB_ENV"
 
-      - name: Install agent-browser
+      - name: Validate dependencies exist
         run: |
-          npm install -g agent-browser
-          agent-browser install
+          if [ ! -f package.json ]; then
+            echo "::error::package.json not found"
+            exit 1
+          fi
+          if [ ! -f package-lock.json ]; then
+            echo "::warning::package-lock.json not found, using package.json for cache key"
+          fi
 
-      - name: Install project dependencies
-        if: hashFiles('package.json') != ''
-        run: npm ci
+      - name: Install dependencies
+        run: npm ci --only=production
+
+      - name: Install global tools
+        run: npm install -g agent-browser
+        timeout-minutes: 5
+
+      - name: Setup browser agent
+        run: agent-browser install
+        timeout-minutes: 10
+        continue-on-error: true
 
       - name: Start local dev server
-        if: hashFiles('package.json') != ''
+        if: success()
         run: |
-          npm run dev &
-          npx -y wait-on@latest ${{ env.TARGET_URL }} --timeout 30000
+          set -euo pipefail
+          
+          if npm run | grep -q "dev"; then
+            echo "::notice::Starting development server..."
+            npm run dev > /tmp/dev-server.log 2>&1 &
+            DEV_PID=$!
+            echo "DEV_SERVER_PID=$DEV_PID" >> "$GITHUB_ENV"
+            
+            # Wait for server with exponential backoff
+            npx --yes wait-on@latest "${{ env.TARGET_URL }}" \
+              --timeout 30000 \
+              --interval 1000 \
+              --verbose || {
+              echo "::error::Dev server failed to start"
+              kill $DEV_PID 2>/dev/null || true
+              cat /tmp/dev-server.log
+              exit 1
+            }
+          else
+            echo "::warning::No dev script found, assuming external URL"
+          fi
 
-      - name: Run opencode
+      - name: Run opencode analysis
         uses: anomalyco/opencode/github@latest
+        timeout-minutes: 10
         env:
           OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -70,22 +135,68 @@ jobs:
         with:
           model: opencode/big-pickle
           prompt: |
-            Navigate to ${{ env.TARGET_URL }} using agent-browser:
-              1. Run `agent-browser open ${{ env.TARGET_URL }}` and wait for the page to load completely
-              2. Wait for page to settle: `agent-browser wait 5000`
-              3. Run `agent-browser snapshot -i --json` to inspect interactive elements
-              4. Wait for layout to stabilize: `agent-browser wait 3000`
-              5. Take a full-page screenshot: `agent-browser screenshot --full landing-page.png`
+            Perform comprehensive UI/UX audit of ${{ env.TARGET_URL }} using agent-browser:
+            
+            STEP 1: Navigation & Page Load
+              1. Run: `agent-browser open "${{ env.TARGET_URL }}"` and wait for complete load
+              2. Wait for rendering: `agent-browser wait 5000`
+              3. Inspect interactive elements: `agent-browser snapshot -i --json > snapshot.json`
+            
+            STEP 2: Screenshot Capture
+              1. Wait for layout stabilization: `agent-browser wait 3000`
+              2. Capture full-page screenshot: `agent-browser screenshot --full landing-page.png`
+              3. Verify file exists: `ls -lh landing-page.png`
+            
+            STEP 3: UI/UX Analysis
+              Evaluate using best practices:
+              - Visual Hierarchy: Layout structure, emphasis, focal points
+              - Typography: Font choices, sizing, readability, line-height
+              - Color & Contrast: Color scheme, WCAG AA compliance, visual balance
+              - Spacing & Alignment: Padding, margins, grid consistency
+              - Interactive Elements: Button states, hover effects, accessibility
+              - Responsive Design: Mobile-first approach, breakpoint handling
+              - Accessibility: ARIA labels, semantic HTML, keyboard navigation
+              - Performance: Load times, image optimization, rendering
+              - Brand Consistency: Style guide adherence, visual continuity
+            
+            STEP 4: Reporting
+              Create detailed GitHub issue with:
+              - Overall UI/UX Rating: 1-10 scale
+              - Strengths: List 3-5 key positives
+              - Weaknesses: List 3-5 areas for improvement
+              - Recommendations: Specific, actionable next steps
+              - Screenshot: Include file path `landing-page.png`
+              
+              Command: `gh issue create --title "UI/UX Audit: ${{ env.TARGET_URL }}" --body "$(cat analysis.md)" --label "rating-$(echo $RATING | tr -d -c 0-9)"`
 
-            Then analyze the page using UI/UX best practices and the design-consultation skill:
-              - Evaluate layout, typography, color hierarchy, spacing, consistency, accessibility, and responsiveness
-              - Assign a rating from 1 (worst) to 10 (best)
-              - List specific strengths and weaknesses with actionable recommendations
+      - name: Cleanup dev server
+        if: always() && env.DEV_SERVER_PID != ''
+        run: |
+          kill ${{ env.DEV_SERVER_PID }} 2>/dev/null || true
+          sleep 1
 
-            Finally, create a GitHub Issue using `gh issue create` (GITHUB_TOKEN is available in env) with the title "UI/UX Audit: ${{ env.TARGET_URL }}" and the full analysis as the body. Include the rating as a label (e.g. "rating-6") and attach the screenshot path.
-
-      - name: Upload screenshot
+      - name: Upload screenshot artifact
+        if: always() && hashFiles('landing-page.png') != ''
         uses: actions/upload-artifact@v4
         with:
-          name: landing-page
+          name: landing-page-${{ github.run_id }}
           path: landing-page.png
+          retention-days: 30
+          compression-level: 9
+
+      - name: Upload analysis logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-logs-${{ github.run_id }}
+          path: |
+            /tmp/dev-server.log
+            snapshot.json
+          retention-days: 7
+
+      - name: Report failure details
+        if: failure()
+        run: |
+          echo "::error::Workflow failed"
+          echo "Target URL: ${{ env.TARGET_URL }}"
+          [ -f /tmp/dev-server.log ] && echo "Dev server logs:" && tail -20 /tmp/dev-server.log
