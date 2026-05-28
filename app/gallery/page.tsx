@@ -221,7 +221,7 @@ const GalleryPage = () => {
               Gallery
             </Link>
             <a
-              href="mailto:drew@example.com"
+              href="mailto:drew@drewsepeczi.xyz"
               className="ml-2 inline-flex items-center gap-1.5 rounded-sm border border-border bg-foreground px-3 py-1.5 text-xs font-medium text-background transition-all hover:opacity-80"
             >
               Contact
@@ -235,7 +235,7 @@ const GalleryPage = () => {
         <div className="flex items-end justify-between">
           <div>
             <p
-              className="mb-3 text-[10px] font-medium uppercase tracking-[0.3em] text-muted-foreground/50"
+              className="mb-3 text-[10px] font-medium uppercase tracking-[0.3em] text-muted-foreground/70"
               style={{ fontFamily: 'var(--font-mono, monospace)' }}
             >
               Visual archive

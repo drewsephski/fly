@@ -110,13 +110,13 @@ export function StaticGallery({
         {/* Stats bar */}
         <div className="mt-12 flex items-center justify-between border-t border-border/40 pt-6">
           <p
-            className="text-[10px] tracking-[0.2em] text-muted-foreground/50"
+            className="text-[10px] tracking-[0.2em] text-muted-foreground/70"
             style={{ fontFamily: 'var(--font-mono, monospace)', textTransform: 'uppercase' }}
           >
             {images.length} projects archived
           </p>
           <p
-            className="text-[10px] tracking-[0.2em] text-muted-foreground/50"
+            className="text-[10px] tracking-[0.2em] text-muted-foreground/70"
             style={{ fontFamily: 'var(--font-mono, monospace)', textTransform: 'uppercase' }}
           >
             Static view
@@ -181,7 +181,7 @@ export function StaticGallery({
               <div className="flex w-full max-w-[88vw] items-start justify-between gap-6 px-1">
                 <div className="min-w-0 flex-1">
                   <p
-                    className="mb-1 text-xs tracking-[0.2em] text-muted-foreground/40"
+                    className="mb-1 text-xs tracking-[0.2em] text-muted-foreground/60"
                     style={{
                       fontFamily: 'var(--font-mono, monospace)',
                       textTransform: 'uppercase',
@@ -190,7 +190,7 @@ export function StaticGallery({
                     {selected.alt}
                   </p>
                   {selected.description && (
-                    <p className="text-sm leading-relaxed text-muted-foreground/70">
+                    <p className="text-sm leading-relaxed text-muted-foreground/90">
                       {selected.description}
                     </p>
                   )}

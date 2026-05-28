@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     siteName: "Fly Portfolio",
     images: [
       {
-        url: "/og-image.png",
+        url: "https://drewsepeczi.xyz/og-image.png",
         width: 1200,
         height: 630,
         alt: "Fly Portfolio - Web Development Portfolio"
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Fly Portfolio - Web Developer",
     description: "A minimal colored web development portfolio showcasing modern frontend projects and skills.",
-    images: ["/og-image.png"],
+    images: ["https://drewsepeczi.xyz/og-image.png"],
     creator: "@drewsepeczi"
   },
   robots: {
@@ -91,9 +91,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
-        <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body>

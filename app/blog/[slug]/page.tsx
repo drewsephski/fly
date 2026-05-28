@@ -341,7 +341,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               Writing
             </Link>
             <a
-              href="mailto:drew@example.com"
+              href="mailto:drew@drewsepeczi.xyz"
               className="ml-2 inline-flex items-center gap-1.5 rounded-sm border border-border bg-foreground px-3 py-1.5 text-xs font-medium text-background transition-all hover:opacity-80"
             >
               Contact

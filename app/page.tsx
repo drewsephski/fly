@@ -11,6 +11,7 @@ import { BlogPostList } from "@/components/blog-post"
 import TimelineContent from "@/components/shadcn-studio/blocks/timeline-component-05/timeline-component-05"
 import CareerPresentContent from "@/components/shadcn-studio/blocks/timeline-component-05/content/career-present"
 import CareerConsultantContent from "@/components/shadcn-studio/blocks/timeline-component-05/content/career-consultant"
+import CareerPortfoliosContent from "@/components/shadcn-studio/blocks/timeline-component-05/content/career-portfolios"
 import { TalkToDrew } from "@/components/talk-to-drew"
 import { HeroChat } from "@/components/hero-chat"
 import { AuroraText } from "@/components/ui/aurora-text"
@@ -132,7 +133,7 @@ const ARCHIVE_PROJECTS = [
     title: "PixelMint",
     url: "https://pixel-mint-sigma.vercel.app/",
     description: "AI creative studio for generating images and videos — built for creators making viral content.",
-    tags: ["AI", "Creative", "Generative"],
+    tags: ["Image/Video", "Creative", "Generative"],
     index: "06",
     featured: false
   },
@@ -157,7 +158,7 @@ const ARCHIVE_PROJECTS = [
     title: "Drew's AI Twin",
     url: "https://drewchats.vercel.app/",
     description: "Personal AI twin that answers questions and shares information about Drew and his work.",
-    tags: ["AI", "Personal"],
+    tags: ["AI", "Personal", "Chatbot"],
     index: "09",
     featured: false
   },
@@ -185,7 +186,7 @@ export default function Page() {
 
       {/* ── Grain overlay (subtle, complements dot-matrix) ── */}
       <div
-        className="pointer-events-none fixed inset-0 z-50 opacity-[0.015]"
+        className="pointer-events-none fixed inset-0 z-50 opacity-[0.007]"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
           backgroundRepeat: "repeat",
@@ -228,7 +229,7 @@ export default function Page() {
               Gallery
             </Link>
             <a
-              href="mailto:drew@example.com"
+              href="mailto:drew@drewsepeczi.xyz"
               className="ml-2 inline-flex items-center gap-1.5 rounded-sm border border-border bg-foreground px-3 py-1.5 text-xs font-medium text-background transition-all hover:opacity-80"
             >
               Contact
@@ -240,14 +241,14 @@ export default function Page() {
       <div className="mx-auto max-w-5xl px-6">
 
         {/* ── Hero ── */}
-        <section className="relative pb-24 pt-28 lg:grid lg:grid-cols-[1fr_380px] lg:gap-12">
+        <section className="relative pb-24 pt-28 max-sm:pb-16 max-sm:pt-20 lg:grid lg:grid-cols-[1fr_380px] lg:gap-12">
           {/* Left column — hero content */}
           <div className="relative">
             {/* Decorative rule */}
             <div className="absolute left-0 top-20 h-px w-12 bg-border" />
 
             {/* Gradient tracing — responsive on all sizes */}
-            <div className="absolute right-4 top-4 flex flex-col items-center gap-6 md:right-20 md:top-48 lg:right-8 lg:top-12 opacity-70 md:opacity-100">
+            <div className="absolute right-4 top-4 flex flex-col items-center gap-6 md:right-20 md:top-48 lg:right-8 lg:top-12 opacity-40 md:opacity-100">
               <div className="md:hidden">
                 <GradientTracing
                   width={120}
@@ -284,7 +285,7 @@ export default function Page() {
                 className="mb-5 text-[10px] font-medium uppercase tracking-[0.3em] text-muted-foreground"
                 style={{ fontFamily: "var(--font-mono, monospace)" }}
               >
-                Full-Stack Engineer · Builder
+                AI-Native · Full-Stack
               </p>
             </div>
 
@@ -306,12 +307,12 @@ export default function Page() {
 
             <div className="animate-fade-up delay-200">
               <p className="mt-8 max-w-md text-base leading-relaxed text-muted-foreground">
-                I build AI-native products and developer tools with production-ready architecture.
+                I turn AI into infrastructure and products that scale.
                 <span className="text-foreground"> <br />Fast shipping, scalable systems, real impact.</span>
               </p>
             </div>
 
-            <div className="animate-fade-up delay-300 mt-10">
+            <div className="animate-fade-up delay-300 mt-12 rotate-6">
               <SpinButton onClick={() => setChatOpen(true)} onClose={() => setChatOpen(false)} isOpen={chatOpen} />
             </div>
           </div>
@@ -345,20 +346,20 @@ export default function Page() {
           </div>
         </section>
 
-        <Separator className="mb-24 opacity-50" />
+        <Separator className="mb-24 max-sm:mb-16 opacity-50" />
 
         {/* ── Work ── */}
-        <section id="work" className="pb-28">
-          <div className="animate-fade-up mb-14 flex items-end justify-between">
+        <section id="work" className="pb-28 max-sm:pb-16">
+          <div className="animate-fade-up mb-14 max-sm:mb-8 flex items-end justify-between">
             <div>
               <p
-                className="mb-2 text-[10px] font-medium uppercase tracking-[0.3em] text-muted-foreground/50"
+                className="mb-2 text-[10px] font-medium uppercase tracking-[0.3em] text-foreground/50"
                 style={{ fontFamily: "var(--font-mono, monospace)" }}
               >
                 Selected Projects
               </p>
               <h2
-                className="text-xs font-medium uppercase tracking-[0.25em] text-muted-foreground"
+                className="text-sm font-bold uppercase tracking-[0.3em] text-foreground/70"
                 style={{ fontFamily: "var(--font-mono, monospace)" }}
               >
                 Featured Work
@@ -379,8 +380,8 @@ export default function Page() {
                 className={cn(
                   "group relative rounded-xl border animate-fade-up transition-colors",
                   project.centerpiece
-                    ? "border-foreground/20 bg-card/85"
-                    : "border-border/40 bg-card/50 hover:bg-muted/30"
+                    ? "border-foreground/25 bg-card/90"
+                    : "border-border/50 bg-card/60 hover:bg-card/80"
                 )}
                 style={{ animationDelay: `${i * 35 + 80}ms` }}
               >
@@ -417,7 +418,7 @@ export default function Page() {
                               <Badge
                                 key={tag}
                                 variant="secondary"
-                                className="border border-border/30 text-[10px] font-normal text-muted-foreground/70"
+                                className="border border-border/30 text-[10px] font-normal text-muted-foreground/90"
                               >
                                 {tag}
                               </Badge>
@@ -469,46 +470,46 @@ export default function Page() {
                     <div className="grid gap-y-2.5 gap-x-6 sm:grid-cols-2 mb-4">
                       <div className="space-y-0.5">
                         <p
-                          className="text-[9px] font-medium uppercase tracking-[0.25em] text-muted-foreground/40"
+                          className="text-[9px] font-medium uppercase tracking-[0.25em] text-muted-foreground/60"
                           style={{ fontFamily: "var(--font-mono, monospace)" }}
                         >
                           Problem
                         </p>
-                        <p className="text-xs leading-relaxed text-muted-foreground/70">
+                        <p className="text-xs leading-relaxed text-muted-foreground/90">
                           {project.depth.problem}
                         </p>
                       </div>
                       <div className="space-y-0.5">
                         <p
-                          className="text-[9px] font-medium uppercase tracking-[0.25em] text-muted-foreground/40"
+                          className="text-[9px] font-medium uppercase tracking-[0.25em] text-muted-foreground/60"
                           style={{ fontFamily: "var(--font-mono, monospace)" }}
                         >
                           Solution
                         </p>
-                        <p className="text-xs leading-relaxed text-muted-foreground/70">
+                        <p className="text-xs leading-relaxed text-muted-foreground/90">
                           {project.depth.solution}
                         </p>
                       </div>
                       <div className="space-y-0.5">
                         <p
-                          className="text-[9px] font-medium uppercase tracking-[0.25em] text-muted-foreground/40"
+                          className="text-[9px] font-medium uppercase tracking-[0.25em] text-muted-foreground/60"
                           style={{ fontFamily: "var(--font-mono, monospace)" }}
                         >
                           Challenge
                         </p>
-                        <p className="text-xs leading-relaxed text-muted-foreground/70">
+                        <p className="text-xs leading-relaxed text-muted-foreground/90">
                           {project.depth.challenge}
                         </p>
                       </div>
                       {project.depth.architecture && (
                         <div className="space-y-0.5">
                           <p
-                            className="text-[9px] font-medium uppercase tracking-[0.25em] text-muted-foreground/40"
+                            className="text-[9px] font-medium uppercase tracking-[0.25em] text-muted-foreground/60"
                             style={{ fontFamily: "var(--font-mono, monospace)" }}
                           >
                             Architecture
                           </p>
-                          <p className="text-xs leading-relaxed text-muted-foreground/70">
+                          <p className="text-xs leading-relaxed text-muted-foreground/90">
                             {project.depth.architecture}
                           </p>
                         </div>
@@ -522,7 +523,7 @@ export default function Page() {
                         {project.depth.tech.map((tech) => (
                           <span
                             key={tech}
-                            className="inline-flex items-center rounded border border-border/40 bg-background px-2 py-0.5 text-[10px] text-muted-foreground/70 font-mono"
+                            className="inline-flex items-center rounded border border-border/40 bg-background px-2 py-0.5 text-[10px] text-muted-foreground/90 font-mono"
                             style={{ fontFamily: "var(--font-mono, monospace)" }}
                           >
                             {tech}
@@ -530,7 +531,7 @@ export default function Page() {
                         ))}
                       </div>
                       {project.depth.dataflow && (
-                        <p className="text-[10px] text-muted-foreground/40 font-mono hidden lg:block" style={{ fontFamily: "var(--font-mono, monospace)" }}>
+                        <p className="text-[10px] text-muted-foreground/60 font-mono hidden lg:block" style={{ fontFamily: "var(--font-mono, monospace)" }}>
                           {project.depth.dataflow}
                         </p>
                       )}
@@ -583,7 +584,7 @@ export default function Page() {
           </div>
 
           {/* Archive section */}
-          <div className="mt-20">
+          <div className="mt-20 max-sm:mt-12">
             <div className="animate-fade-up mb-8 flex items-end justify-between">
               <h3
                 className="text-xs font-medium uppercase tracking-[0.25em] text-muted-foreground/60"
@@ -606,7 +607,7 @@ export default function Page() {
                   href={project.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex flex-col gap-2.5 rounded-lg border border-border/30 px-4 py-3.5 transition-all hover:border-border/60 hover:bg-muted/20 animate-fade-up"
+                  className="group flex flex-col gap-2.5 rounded-lg border border-border/40 bg-card/55 px-4 py-3.5 transition-all hover:border-border/70 hover:bg-card/80 animate-fade-up"
                   style={{ animationDelay: `${i * 20 + 300}ms` }}
                 >
                   <div className="flex items-start justify-between gap-2">
@@ -618,7 +619,7 @@ export default function Page() {
                     </div>
                     <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground/30 transition-all group-hover:text-muted-foreground group-hover:-translate-y-px" />
                   </div>
-                  <p className="text-xs text-muted-foreground/60 leading-relaxed line-clamp-2 pl-[1.625rem]">
+                  <p className="text-xs text-muted-foreground/90 leading-relaxed line-clamp-2 pl-[1.625rem]">
                     {project.description}
                   </p>
                   <div className="flex flex-wrap items-center gap-2 pl-[1.625rem]">
@@ -626,7 +627,7 @@ export default function Page() {
                       <Badge
                         key={tag}
                         variant="secondary"
-                        className="border border-border/30 text-[10px] font-normal text-muted-foreground/50"
+                        className="border border-border/40 text-[10px] font-normal text-muted-foreground/90"
                       >
                         {tag}
                       </Badge>
@@ -638,7 +639,7 @@ export default function Page() {
                           e.stopPropagation();
                           setQuickLook({ src: project.image as string, alt: project.title });
                         }}
-                        className="ml-auto inline-flex items-center gap-1 rounded-md border border-border/40 px-2 py-0.5 text-[10px] text-muted-foreground transition-all hover:border-border/80 hover:bg-muted/30 hover:text-foreground"
+                        className="ml-auto inline-flex items-center gap-1 rounded-md border border-border/50 px-2 py-0.5 text-[10px] text-muted-foreground/90 transition-all hover:border-border/80 hover:bg-card/80 hover:text-foreground"
                       >
                         <Eye className="h-2.5 w-2.5" />
                         Quick look
@@ -663,15 +664,15 @@ export default function Page() {
           </div>
         </section>
 
-        <Separator className="mb-28 opacity-50" />
+        <Separator className="mb-28 max-sm:mb-16 opacity-50" />
 
         {/* ── About ── */}
-        <section id="about" className="pb-28">
+        <section id="about" className="pb-28 max-sm:pb-16">
           <div className="grid gap-20 md:grid-cols-[200px_1fr]">
 
             <div className="animate-fade-up">
               <h2
-                className="text-xs font-medium uppercase tracking-[0.25em] text-muted-foreground"
+                className="text-sm font-bold uppercase tracking-[0.3em] text-foreground/70"
                 style={{ fontFamily: "var(--font-mono, monospace)" }}
               >
                 About
@@ -680,17 +681,10 @@ export default function Page() {
 
             <div className="animate-fade-up delay-100 space-y-6">
               <p className="text-base leading-relaxed text-muted-foreground">
-                I&apos;m Drew, a full-stack engineer who ships fast. I specialize in
-                AI-native products with production-ready architecture, not just demos.
+                I build AI systems that handle real traffic — multi-tenant, production-ready, infrastructure-first. From NodeBase to Fight Intel, everything I ship is built to scale.
               </p>
               <p className="text-base leading-relaxed text-muted-foreground">
-                My approach: <span className="text-foreground">rapid MVP production</span> without sacrificing quality,
-                <span className="text-foreground"> scalable multi-tenant systems</span> that handle real users,
-                and <span className="text-foreground"> AI integration</span> that goes beyond API wrapping.
-              </p>
-              <p className="text-base leading-relaxed text-muted-foreground">
-                When I&apos;m not building, I&apos;m watching UFC and probably building
-                something UFC-related.
+                When I&apos;m not building, I&apos;m watching UFC (and probably building something UFC-related).
               </p>
 
               <div className="pt-6 border-t border-border/50">
@@ -719,16 +713,16 @@ export default function Page() {
             </div>
           </div>
         </section>
-        <Separator className="mb-28 opacity-50" />
+        <Separator className="mb-28 max-sm:mb-16 opacity-50" />
 
         {/* ── Timeline / Journey ── */}
-        <section id="journey" className="pb-28">
-          <div className="animate-fade-up mb-14">
-            <h2
-              className="text-xs font-medium uppercase tracking-[0.25em] text-muted-foreground"
-              style={{ fontFamily: "var(--font-mono, monospace)" }}
-            >
-              Journey
+        <section id="journey" className="pb-28 max-sm:pb-16">
+          <div className="animate-fade-up mb-14 max-sm:mb-8">
+              <h2
+                className="text-sm font-bold uppercase tracking-[0.3em] text-foreground/70"
+                style={{ fontFamily: "var(--font-mono, monospace)" }}
+              >
+                Journey
             </h2>
           </div>
 
@@ -736,14 +730,19 @@ export default function Page() {
             <TimelineContent
               entries={[
                 {
-                  company: 'Phoenix Agency',
-                  period: 'June 2025 – Present',
-                  content: <CareerPresentContent />
+                  company: 'Portfolios.chat',
+                  period: 'Feb 2026 – Present',
+                  content: <CareerPortfoliosContent />
                 },
                 {
                   company: 'Independent Consultant',
-                  period: 'Oct 2025 – Feb 2026',
+                  period: 'Sep 2024 – Jan 2026',
                   content: <CareerConsultantContent />
+                },
+                {
+                  company: 'Phoenix Agency',
+                  period: 'Jul 2023 – Aug 2024',
+                  content: <CareerPresentContent />
                 }
               ]}
             />
@@ -757,14 +756,17 @@ export default function Page() {
         {/* ── CTA ── */}
         <section className="animate-fade-up pb-36">
           <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-card/70 px-10 py-16 text-center">
-            {/* Corner marks */}
-            <span className="absolute left-4 top-4 h-3 w-3 border-l border-t border-border/60" />
-            <span className="absolute right-4 top-4 h-3 w-3 border-r border-t border-border/60" />
-            <span className="absolute bottom-4 left-4 h-3 w-3 border-b border-l border-border/60" />
-            <span className="absolute bottom-4 right-4 h-3 w-3 border-b border-r border-border/60" />
+            {/* Gold accent bar */}
+            <div className="absolute left-8 right-8 top-0 h-px bg-gradient-to-r from-transparent via-[var(--spin-accent-warm)]/50 to-transparent" />
+
+            {/* Gold-toned corner marks */}
+            <span className="absolute left-4 top-4 h-3 w-3 border-l border-t" style={{ borderColor: "var(--spin-accent-warm)" }} />
+            <span className="absolute right-4 top-4 h-3 w-3 border-r border-t" style={{ borderColor: "var(--spin-accent-warm)" }} />
+            <span className="absolute bottom-4 left-4 h-3 w-3 border-b border-l" style={{ borderColor: "var(--spin-accent-warm)" }} />
+            <span className="absolute bottom-4 right-4 h-3 w-3 border-b border-r" style={{ borderColor: "var(--spin-accent-warm)" }} />
 
             <p
-              className="mb-3 text-[10px] font-medium uppercase tracking-[0.3em] text-muted-foreground/50"
+              className="mb-3 text-[10px] font-medium uppercase tracking-[0.3em] text-muted-foreground/70"
               style={{ fontFamily: "var(--font-mono, monospace)" }}
             >
               Get in touch
@@ -779,15 +781,15 @@ export default function Page() {
               Have a project in mind? I&apos;m always open to interesting collaborations.
             </p>
             <a
-              href="mailto:drew@example.com"
+              href="mailto:drew@drewsepeczi.xyz"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-8 inline-flex items-center gap-2 rounded-sm border border-foreground bg-foreground px-7 py-3 text-sm font-medium text-background transition-all hover:bg-background hover:text-foreground"
+              className="mt-8 inline-flex items-center gap-2 rounded-sm border bg-background px-7 py-3 text-sm font-medium text-foreground transition-all duration-300 border-amber-700/30 hover:border-amber-500/60 hover:shadow-[0_0_24px_-6px_#d97706]"
             >
               Send an email
               <ArrowUpRight className="h-4 w-4" />
             </a>
-            <div className="mt-4 flex items-center justify-center gap-4 text-xs text-muted-foreground">
+            <div className="mt-4 flex items-center justify-center gap-4 text-xs text-muted-foreground/80">
               <a href="https://github.com/drewsephski" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">
                 GitHub
               </a>
@@ -819,7 +821,7 @@ export default function Page() {
               href="https://github.com/drewsephski"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground/40 transition-colors duration-200 hover:text-muted-foreground/80"
+              className="text-muted-foreground/60 transition-colors duration-200 hover:text-muted-foreground/80"
             >
               <svg
                 stroke-linejoin="round"
