@@ -21,13 +21,15 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
-      contents: read
+      contents: write
       issues: write
+      pull-requests: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
         with:
-          persist-credentials: false
+          persist-credentials: true
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Validate dependencies exist
         run: |
@@ -89,19 +91,224 @@ jobs:
             4. Wait for layout to stabilize: \`agent-browser wait 3000\`
             5. Take a full-page screenshot: \`agent-browser screenshot --full landing-page.png\`
 
-          Then analyze the page using UI/UX best practices and the design-consultation skill:
-            - Evaluate layout, typography, color hierarchy, spacing, consistency, accessibility, and responsiveness
-            - Assign a rating from 1 (worst) to 10 (best)
-            - List specific strengths and weaknesses with actionable recommendations
+          Then analyze the page using UI/UX best practices and the design-consultation skill with an ENHANCED rating system:
 
-          Finally, create a GitHub Issue using \`gh issue create\` (GITHUB_TOKEN is available in env) with the title "UI/UX Audit: $TARGET_URL" and the full analysis as the body. Include the rating as a label (e.g. "rating-6") and attach the screenshot path.
+          ## Enhanced Rating Scale (0-100 total)
+          Evaluate each category on a 0-10 scale and provide the total score:
+
+          **Visual Hierarchy (0-10)**
+          - Clear focal points and information architecture
+          - Proper use of size, color, and positioning to guide attention
+          - Logical flow from primary to secondary content
+
+          **Typography (0-10)**
+          - Font selection appropriateness for brand and content
+          - Readability across all screen sizes
+          - Proper hierarchy (headings, subheadings, body text)
+          - Line height, letter spacing, and font weight balance
+
+          **Color Theory & Contrast (0-10)**
+          - Harmonious color palette aligned with brand
+          - Sufficient contrast ratios for accessibility (WCAG AA minimum)
+          - Strategic use of accent colors for CTAs and highlights
+          - Dark mode compatibility (if applicable)
+
+          **Spacing & Layout (0-10)**
+          - Consistent whitespace usage throughout
+          - Proper padding and margins between elements
+          - Grid alignment and visual rhythm
+          - No overcrowding or excessive empty space
+
+          **Accessibility (0-10)**
+          - Keyboard navigation support
+          - Screen reader compatibility (ARIA labels, alt text)
+          - Focus indicators visible
+          - Color independence (information not conveyed by color alone)
+
+          **Responsiveness (0-10)**
+          - Fluid layouts that adapt to all viewport sizes
+          - Mobile-first design approach
+          - Touch-friendly target sizes (min 44x44px)
+          - Proper image scaling and optimization
+
+          **Performance (0-10)**
+          - Fast load times and perceived performance
+          - Optimized assets (images, fonts, scripts)
+          - Smooth animations and transitions
+          - No layout shifts (CLS)
+
+          **Content Clarity (0-10)**
+          - Clear, concise messaging
+          - Appropriate tone for target audience
+          - Scannable content with proper headings
+          - Action-oriented copy for CTAs
+
+          **Brand Consistency (0-10)**
+          - Cohesive visual identity throughout
+          - Consistent use of brand elements (logo, colors, typography)
+          - Professional polish and attention to detail
+          - Alignment with brand guidelines
+
+          **User Experience (0-10)**
+          - Intuitive navigation and user flows
+          - Clear feedback for user actions
+          - Error prevention and graceful error handling
+          - Delightful micro-interactions
+
+          ## Output Format
+          Provide the analysis in this exact structure:
+
+          ### Overall Score: X/100
+          [Brief summary of the overall assessment]
+
+          ### Category Breakdown
+          - Visual Hierarchy: X/10 - [brief comment]
+          - Typography: X/10 - [brief comment]
+          - Color Theory & Contrast: X/10 - [brief comment]
+          - Spacing & Layout: X/10 - [brief comment]
+          - Accessibility: X/10 - [brief comment]
+          - Responsiveness: X/10 - [brief comment]
+          - Performance: X/10 - [brief comment]
+          - Content Clarity: X/10 - [brief comment]
+          - Brand Consistency: X/10 - [brief comment]
+          - User Experience: X/10 - [brief comment]
+
+          ### Strengths
+          [List specific strengths with examples]
+
+          ### Weaknesses
+          [List specific weaknesses with examples]
+
+          ### Actionable Recommendations
+          [List specific, prioritized recommendations with implementation details]
+
+          ### Proposed Code Changes
+          For each actionable recommendation, provide the exact code changes needed:
+          - File path to modify
+          - Specific code to replace (with context)
+          - New code to implement
+          - Reasoning for the change
+
+          Format code changes as:
+          \`\`\`
+          File: path/to/file.tsx
+          Replace:
+          [old code block]
+          With:
+          [new code block]
+          \`\`\`
+
+          Finally, create a GitHub Issue using \`gh issue create\` (GITHUB_TOKEN is available in env) with the title "UI/UX Audit: $TARGET_URL - Score: X/100" and the full analysis as the body. Include the overall score as a label (e.g. "score-75") and attach the screenshot path.
+
+          After creating the issue, create a new branch named "ui-ux-improvements-\${{ github.run_number }}" and implement all the proposed code changes. Then create a pull request targeting main with:
+          - Title: "UI/UX Improvements - Audit #ISSUE_NUMBER"
+          - Body linking to the issue and summarizing the changes
+          - Label: "ui-ux-improvements"
           EOF
 
       - name: Run opencode analysis
         shell: bash
-        run: opencode run --model opencode/big-pickle "$(cat /tmp/prompt.txt)"
+        run: |
+          opencode run --model opencode/big-pickle "$(cat /tmp/prompt.txt)" > /tmp/opencode_output.txt 2>&1
+          cat /tmp/opencode_output.txt
         env:
           OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract issue number
+        id: extract-issue
+        run: |
+          ISSUE_NUMBER=$(cat /tmp/opencode_output.txt | grep -oE 'Issue created: #[0-9]+' | grep -oE '[0-9]+' | head -1)
+          if [ -z "$ISSUE_NUMBER" ]; then
+            # Try alternative pattern
+            ISSUE_NUMBER=$(cat /tmp/opencode_output.txt | grep -oE '#[0-9]+' | grep -oE '[0-9]+' | head -1)
+          fi
+          if [ -z "$ISSUE_NUMBER" ]; then
+            echo "No issue number found, using latest issue"
+            ISSUE_NUMBER=$(gh issue list --limit 1 --json number --jq '.[0].number')
+          fi
+          echo "issue_number=$ISSUE_NUMBER" >> $GITHUB_OUTPUT
+          echo "Extracted issue number: $ISSUE_NUMBER"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create improvement branch
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b ui-ux-improvements-${{ github.run_number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Apply code changes from analysis
+        run: |
+          # Parse the opencode output for code changes
+          # This step looks for code change patterns and applies them
+          python3 << 'PYEOF'
+          import re
+          import os
+          
+          with open('/tmp/opencode_output.txt', 'r') as f:
+              content = f.read()
+          
+          # Look for code change blocks
+          # Pattern: File: path/to/file.tsx\nReplace:\n[code]\nWith:\n[code]
+          pattern = r'File:\s*(.+?)\nReplace:\n```[\w]*\n(.*?)```\nWith:\n```[\w]*\n(.*?)```'
+          matches = re.findall(pattern, content, re.DOTALL)
+          
+          changes_applied = 0
+          for file_path, old_code, new_code in matches:
+              file_path = file_path.strip()
+              if os.path.exists(file_path):
+                  with open(file_path, 'r') as f:
+                      file_content = f.read()
+                  
+                  if old_code.strip() in file_content:
+                      updated_content = file_content.replace(old_code.strip(), new_code.strip())
+                      with open(file_path, 'w') as f:
+                          f.write(updated_content)
+                      print(f"Applied changes to {file_path}")
+                      changes_applied += 1
+                  else:
+                      print(f"Could not find exact match in {file_path}")
+              else:
+                  print(f"File not found: {file_path}")
+          
+          print(f"Total changes applied: {changes_applied}")
+          PYEOF
+        continue-on-error: true
+
+      - name: Commit changes
+        run: |
+          git add -A
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "UI/UX improvements from audit #${{ steps.extract-issue.outputs.issue_number }}"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push branch
+        run: |
+          git push -u origin ui-ux-improvements-${{ github.run_number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create pull request
+        run: |
+          if git rev-parse --verify origin/ui-ux-improvements-${{ github.run_number }} >/dev/null 2>&1; then
+            gh pr create \
+              --base main \
+              --head ui-ux-improvements-${{ github.run_number }} \
+              --title "UI/UX Improvements - Audit #${{ steps.extract-issue.outputs.issue_number }}" \
+              --body "This PR implements UI/UX improvements identified in audit #${{ steps.extract-issue.outputs.issue_number }}. See the linked issue for detailed analysis and recommendations." \
+              --label "ui-ux-improvements,automated" \
+              --draft
+          else
+            echo "Branch was not pushed, skipping PR creation"
+          fi
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload screenshot

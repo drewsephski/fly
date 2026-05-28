@@ -1,72 +1,75 @@
-"use client";
+"use client"
 
-import { useState, useRef, useEffect, useCallback } from "react";
-import { cn } from "@/lib/utils";
-import { MessageCircle, X, Send, Loader2, Bot, User } from "lucide-react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import { useState, useRef, useEffect, useCallback } from "react"
+import { cn } from "@/lib/utils"
+import { MessageCircle, X, Send, Loader2, Bot, User } from "lucide-react"
+import ReactMarkdown from "react-markdown"
+import remarkGfm from "remark-gfm"
 
 interface ChatMessage {
-  id: string;
-  role: "user" | "assistant";
-  content: string;
+  id: string
+  role: "user" | "assistant"
+  content: string
 }
 
 interface TalkToDrewProps {
-  open?: boolean;
-  setOpen?: (open: boolean) => void;
-  autoSend?: string;
+  open?: boolean
+  setOpen?: (open: boolean) => void
+  autoSend?: string
 }
 
-export function TalkToDrew({ open: controlledOpen, setOpen: controlledSetOpen, autoSend }: TalkToDrewProps) {
-  const [internalOpen, setInternalOpen] = useState(false);
-  const open = controlledOpen ?? internalOpen;
-  const setOpen = controlledSetOpen ?? setInternalOpen;
+export function TalkToDrew({
+  open: controlledOpen,
+  setOpen: controlledSetOpen,
+  autoSend,
+}: TalkToDrewProps) {
+  const [internalOpen, setInternalOpen] = useState(false)
+  const open = controlledOpen ?? internalOpen
+  const setOpen = controlledSetOpen ?? setInternalOpen
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: "welcome",
       role: "assistant",
-      content:
-        "hi!",
+      content: "hi!",
     },
-  ]);
-  const [input, setInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const abortRef = useRef<AbortController | null>(null);
-  const lastAutoSendRef = useRef<string | undefined>(undefined);
+  ])
+  const [input, setInput] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const abortRef = useRef<AbortController | null>(null)
+  const lastAutoSendRef = useRef<string | undefined>(undefined)
 
   useEffect(() => {
     if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight
     }
-  }, [messages, isLoading]);
+  }, [messages, isLoading])
 
   const sendMessage = useCallback(
     async (text: string) => {
-      if (!text.trim() || isLoading) return;
+      if (!text.trim() || isLoading) return
 
       const userMessage: ChatMessage = {
         id: `user-${Date.now()}`,
         role: "user",
         content: text.trim(),
-      };
+      }
 
-      const assistantId = `assistant-${Date.now()}`;
+      const assistantId = `assistant-${Date.now()}`
       const assistantMessage: ChatMessage = {
         id: assistantId,
         role: "assistant",
         content: "",
-      };
+      }
 
-      setMessages((prev) => [...prev, userMessage, assistantMessage]);
-      setInput("");
-      setIsLoading(true);
-      setError(null);
+      setMessages((prev) => [...prev, userMessage, assistantMessage])
+      setInput("")
+      setIsLoading(true)
+      setError(null)
 
-      const controller = new AbortController();
-      abortRef.current = controller;
+      const controller = new AbortController()
+      abortRef.current = controller
 
       try {
         const response = await fetch("/api/chat", {
@@ -81,39 +84,39 @@ export function TalkToDrew({ open: controlledOpen, setOpen: controlledSetOpen, a
             })),
           }),
           signal: controller.signal,
-        });
+        })
 
         if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`);
+          throw new Error(`HTTP ${response.status}`)
         }
 
-        const reader = response.body?.getReader();
-        if (!reader) throw new Error("No response body");
+        const reader = response.body?.getReader()
+        if (!reader) throw new Error("No response body")
 
-        const decoder = new TextDecoder();
-        let buffer = "";
+        const decoder = new TextDecoder()
+        let buffer = ""
 
         while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
+          const { done, value } = await reader.read()
+          if (done) break
 
-          buffer += decoder.decode(value, { stream: true });
+          buffer += decoder.decode(value, { stream: true })
 
           // SSE messages are separated by double newlines
-          const chunks = buffer.split("\n\n");
-          buffer = chunks.pop() ?? "";
+          const chunks = buffer.split("\n\n")
+          buffer = chunks.pop() ?? ""
 
           for (const chunkStr of chunks) {
             const dataLine = chunkStr
               .split("\n")
-              .find((l) => l.startsWith("data:"));
-            if (!dataLine) continue;
+              .find((l) => l.startsWith("data:"))
+            if (!dataLine) continue
 
-            const data = dataLine.slice(5).trim();
-            if (data === "[DONE]") continue;
+            const data = dataLine.slice(5).trim()
+            if (data === "[DONE]") continue
 
             try {
-              const parsed = JSON.parse(data);
+              const parsed = JSON.parse(data)
               if (parsed.type === "text-delta" && parsed.delta) {
                 setMessages((prev) =>
                   prev.map((m) =>
@@ -121,7 +124,7 @@ export function TalkToDrew({ open: controlledOpen, setOpen: controlledSetOpen, a
                       ? { ...m, content: m.content + parsed.delta }
                       : m
                   )
-                );
+                )
               }
             } catch {
               // ignore malformed chunks
@@ -130,48 +133,47 @@ export function TalkToDrew({ open: controlledOpen, setOpen: controlledSetOpen, a
         }
       } catch (err) {
         if ((err as Error).name !== "AbortError") {
-          setError("Something went wrong. Try again in a moment.");
-          setMessages((prev) => prev.filter((m) => m.id !== assistantId));
+          setError("Something went wrong. Try again in a moment.")
+          setMessages((prev) => prev.filter((m) => m.id !== assistantId))
         }
       } finally {
-        setIsLoading(false);
-        abortRef.current = null;
+        setIsLoading(false)
+        abortRef.current = null
       }
     },
     [isLoading, messages]
-  );
+  )
 
   useEffect(() => {
     if (open && autoSend && autoSend !== lastAutoSendRef.current) {
-      lastAutoSendRef.current = autoSend;
-      sendMessage(autoSend);
+      lastAutoSendRef.current = autoSend
+      sendMessage(autoSend)
     }
     if (!open) {
-      lastAutoSendRef.current = undefined;
+      lastAutoSendRef.current = undefined
     }
-  }, [open, autoSend, sendMessage]);
+  }, [open, autoSend, sendMessage])
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
-      e.preventDefault();
-      sendMessage(input);
+      e.preventDefault()
+      sendMessage(input)
     },
     [input, sendMessage]
-  );
+  )
 
   const clearChat = () => {
-    abortRef.current?.abort();
+    abortRef.current?.abort()
     setMessages([
       {
         id: "welcome",
         role: "assistant",
-        content:
-          "hi!",
+        content: "hi!",
       },
-    ]);
-    setError(null);
-    setIsLoading(false);
-  };
+    ])
+    setError(null)
+    setIsLoading(false)
+  }
 
   return (
     <>
@@ -179,11 +181,15 @@ export function TalkToDrew({ open: controlledOpen, setOpen: controlledSetOpen, a
       <button
         onClick={() => setOpen(!open)}
         className={cn(
-          "fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full border transition-all duration-300 shadow-lg hover:scale-105",
+          "fixed right-6 bottom-6 z-50 flex h-12 w-12 items-center justify-center rounded-full border shadow-lg transition-all duration-300 hover:scale-105",
           open
             ? "border-border bg-muted text-foreground"
             : "border-foreground/20 bg-foreground text-background hover:bg-foreground/90"
         )}
+        style={{
+          bottom: "calc(1.5rem + var(--safe-bottom, 0px))",
+          right: "calc(1.5rem + var(--safe-right, 0px))",
+        }}
         aria-label={open ? "Close chat" : "Talk to Drew"}
       >
         {open ? (
@@ -196,12 +202,17 @@ export function TalkToDrew({ open: controlledOpen, setOpen: controlledSetOpen, a
       {/* Chat panel */}
       <div
         className={cn(
-          "fixed bottom-20 right-6 z-50 flex w-[380px] max-w-[calc(100vw-3rem)] flex-col rounded-xl border border-border/60 bg-background shadow-2xl transition-all duration-300 origin-bottom-right",
+          "fixed right-6 bottom-20 z-50 flex w-[380px] max-w-[calc(100vw-3rem)] origin-bottom-right flex-col rounded-xl border border-border/60 bg-background shadow-2xl transition-all duration-300",
           open
-            ? "scale-100 opacity-100 translate-y-0"
-            : "scale-95 opacity-0 translate-y-4 pointer-events-none"
+            ? "translate-y-0 scale-100 opacity-100"
+            : "pointer-events-none translate-y-4 scale-95 opacity-0"
         )}
-        style={{ height: "520px", maxHeight: "calc(100vh - 7rem)" }}
+        style={{
+          bottom: "calc(5rem + var(--safe-bottom, 0px))",
+          right: "calc(1.5rem + var(--safe-right, 0px))",
+          height: "520px",
+          maxHeight: "calc(100vh - 7rem - var(--safe-bottom, 0px))",
+        }}
       >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-border/40 px-4 py-3">
@@ -210,8 +221,10 @@ export function TalkToDrew({ open: controlledOpen, setOpen: controlledSetOpen, a
               <Bot className="h-3.5 w-3.5 text-muted-foreground" />
             </div>
             <div>
-              <p className="text-sm font-medium text-foreground">Talk to Drew</p>
-              <p className="text-[10px] text-muted-foreground/60 font-mono">
+              <p className="text-sm font-medium text-foreground">
+                Talk to Drew
+              </p>
+              <p className="font-mono text-[10px] text-muted-foreground/60">
                 AI-powered assistant
               </p>
             </div>
@@ -229,7 +242,7 @@ export function TalkToDrew({ open: controlledOpen, setOpen: controlledSetOpen, a
         {/* Messages */}
         <div
           ref={scrollRef}
-          className="flex-1 overflow-y-auto px-4 py-4 space-y-4 scrollbar-thin custom-scrollbar"
+          className="scrollbar-thin custom-scrollbar flex-1 space-y-4 overflow-y-auto px-4 py-4"
           style={{
             scrollbarWidth: "thin",
             scrollbarColor: "var(--border) transparent",
@@ -266,7 +279,7 @@ export function TalkToDrew({ open: controlledOpen, setOpen: controlledSetOpen, a
                 )}
               >
                 {msg.role === "assistant" ? (
-                  <div className="prose prose-sm prose-neutral max-w-none dark:prose-invert prose-p:my-1 prose-ul:my-1 prose-li:my-0.5 prose-headings:my-1.5 prose-headings:text-sm prose-headings:font-semibold prose-a:text-foreground prose-a:underline prose-a:underline-offset-2">
+                  <div className="prose prose-sm prose-neutral dark:prose-invert prose-p:my-1 prose-ul:my-1 prose-li:my-0.5 prose-headings:my-1.5 prose-headings:text-sm prose-headings:font-semibold prose-a:text-foreground prose-a:underline prose-a:underline-offset-2 max-w-none">
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
                       {msg.content || "\u00A0"}
                     </ReactMarkdown>
@@ -285,7 +298,7 @@ export function TalkToDrew({ open: controlledOpen, setOpen: controlledSetOpen, a
               </div>
               <div className="flex items-center gap-1.5 rounded-lg border border-border/30 px-3 py-2">
                 <Loader2 className="h-3.5 w-3.5 animate-spin text-muted-foreground" />
-                <span className="text-xs text-muted-foreground/60 font-mono">
+                <span className="font-mono text-xs text-muted-foreground/60">
                   Thinking...
                 </span>
               </div>
@@ -311,7 +324,7 @@ export function TalkToDrew({ open: controlledOpen, setOpen: controlledSetOpen, a
               <button
                 key={pill}
                 onClick={() => {
-                  setInput(pill);
+                  setInput(pill)
                 }}
                 disabled={isLoading}
                 className="rounded-full border border-border/40 bg-muted/30 px-3 py-1 text-xs text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground disabled:opacity-40"
@@ -327,12 +340,12 @@ export function TalkToDrew({ open: controlledOpen, setOpen: controlledSetOpen, a
           onSubmit={handleSubmit}
           className="border-t border-border/40 px-4 py-3"
         >
-          <div className="flex items-center gap-2 rounded-lg border border-border/40 bg-muted/30 px-3 py-2 focus-within:border-border/80 focus-within:bg-muted/50 transition-colors">
+          <div className="flex items-center gap-2 rounded-lg border border-border/40 bg-muted/30 px-3 py-2 transition-colors focus-within:border-border/80 focus-within:bg-muted/50">
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask about Drew's projects..."
-              className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground/40 outline-none"
+              className="flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground/40"
               disabled={isLoading}
             />
             <button
@@ -346,5 +359,5 @@ export function TalkToDrew({ open: controlledOpen, setOpen: controlledSetOpen, a
         </form>
       </div>
     </>
-  );
+  )
 }

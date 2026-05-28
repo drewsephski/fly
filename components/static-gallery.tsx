@@ -1,14 +1,14 @@
-'use client'
+"use client"
 
-import { useState, useCallback, useEffect } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
-import { X, ArrowUpRight } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { useState, useCallback, useEffect } from "react"
+import { motion, AnimatePresence } from "motion/react"
+import { X, ArrowUpRight } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 interface GalleryImage {
   src: string
   alt: string
-  depth?: 'background' | 'mid' | 'foreground' | 'special'
+  depth?: "background" | "mid" | "foreground" | "special"
   url?: string
   description?: string
 }
@@ -16,14 +16,14 @@ interface GalleryImage {
 interface StaticGalleryProps {
   images: GalleryImage[]
   className?: string
-  popupBackdrop?: 'blurred-image' | 'blurred-color'
+  popupBackdrop?: "blurred-image" | "blurred-color"
   popupBackgroundColor?: string
 }
 
 export function StaticGallery({
   images,
   className,
-  popupBackdrop = 'blurred-color',
+  popupBackdrop = "blurred-color",
   popupBackgroundColor,
 }: StaticGalleryProps) {
   const [selected, setSelected] = useState<GalleryImage | null>(null)
@@ -36,18 +36,18 @@ export function StaticGallery({
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closeModal()
+      if (e.key === "Escape") closeModal()
     }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
   }, [closeModal])
 
   return (
     <>
-      <div className={cn('mx-auto max-w-6xl px-4 pb-20 md:px-8', className)}>
+      <div className={cn("mx-auto max-w-6xl px-4 pb-20 md:px-8", className)}>
         <div
           className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4"
-          style={{ gridAutoRows: '200px' }}
+          style={{ gridAutoRows: "200px" }}
         >
           {images.map((image, idx) => (
             <motion.div
@@ -60,11 +60,11 @@ export function StaticGallery({
                 ease: [0.16, 1, 0.3, 1],
               }}
               className={cn(
-                'group relative cursor-pointer overflow-hidden col-span-1 row-span-1'
+                "group relative col-span-1 row-span-1 cursor-pointer overflow-hidden"
               )}
               style={{
-                borderRadius: '3px',
-                border: '1px solid oklch(0.88 0.014 72 / 0.6)',
+                borderRadius: "3px",
+                border: "1px solid oklch(0.88 0.014 72 / 0.6)",
               }}
               onClick={() => openImage(image)}
             >
@@ -82,8 +82,8 @@ export function StaticGallery({
                   <span
                     className="text-[10px] tracking-[0.18em] text-white/70"
                     style={{
-                      fontFamily: 'var(--font-mono, monospace)',
-                      textTransform: 'uppercase',
+                      fontFamily: "var(--font-mono, monospace)",
+                      textTransform: "uppercase",
                     }}
                   >
                     {image.alt}
@@ -97,10 +97,10 @@ export function StaticGallery({
 
                 {/* Always-visible top-right index */}
                 <div
-                  className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-[2px] border border-white/20 bg-black/30 text-[9px] text-white/60 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-0"
-                  style={{ fontFamily: 'var(--font-mono, monospace)' }}
+                  className="absolute top-2 right-2 flex h-6 w-6 items-center justify-center rounded-[2px] border border-white/20 bg-black/30 text-[9px] text-white/60 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-0"
+                  style={{ fontFamily: "var(--font-mono, monospace)" }}
                 >
-                  {String(idx + 1).padStart(2, '0')}
+                  {String(idx + 1).padStart(2, "0")}
                 </div>
               </div>
             </motion.div>
@@ -111,13 +111,19 @@ export function StaticGallery({
         <div className="mt-12 flex items-center justify-between border-t border-border/40 pt-6">
           <p
             className="text-[10px] tracking-[0.2em] text-muted-foreground/70"
-            style={{ fontFamily: 'var(--font-mono, monospace)', textTransform: 'uppercase' }}
+            style={{
+              fontFamily: "var(--font-mono, monospace)",
+              textTransform: "uppercase",
+            }}
           >
             {images.length} projects archived
           </p>
           <p
             className="text-[10px] tracking-[0.2em] text-muted-foreground/70"
-            style={{ fontFamily: 'var(--font-mono, monospace)', textTransform: 'uppercase' }}
+            style={{
+              fontFamily: "var(--font-mono, monospace)",
+              textTransform: "uppercase",
+            }}
           >
             Static view
           </p>
@@ -140,21 +146,21 @@ export function StaticGallery({
               className="absolute inset-0"
               style={{
                 background:
-                  popupBackdrop === 'blurred-image'
+                  popupBackdrop === "blurred-image"
                     ? `url(${selected.src}) center/cover no-repeat`
-                    : popupBackgroundColor || 'oklch(0.12 0.008 60 / 0.96)',
+                    : popupBackgroundColor || "oklch(0.12 0.008 60 / 0.96)",
                 filter:
-                  popupBackdrop === 'blurred-image'
-                    ? 'blur(48px) brightness(0.35) saturate(1.4)'
-                    : 'none',
+                  popupBackdrop === "blurred-image"
+                    ? "blur(48px) brightness(0.35) saturate(1.4)"
+                    : "none",
               }}
             />
 
             {/* Close */}
             <button
               onClick={closeModal}
-              className="absolute right-6 top-6 z-50 flex h-9 w-9 items-center justify-center border border-border/40 bg-background/80 text-foreground/70 backdrop-blur-sm transition-colors hover:border-border hover:text-foreground"
-              style={{ borderRadius: '2px' }}
+              className="absolute top-6 right-6 z-50 flex h-9 w-9 items-center justify-center border border-border/40 bg-background/80 text-foreground/70 backdrop-blur-sm transition-colors hover:border-border hover:text-foreground"
+              style={{ borderRadius: "2px" }}
             >
               <X className="h-4 w-4" />
             </button>
@@ -170,7 +176,7 @@ export function StaticGallery({
             >
               <div
                 className="overflow-hidden border border-border/30"
-                style={{ borderRadius: '3px' }}
+                style={{ borderRadius: "3px" }}
               >
                 <img
                   src={selected.src}
@@ -183,8 +189,8 @@ export function StaticGallery({
                   <p
                     className="mb-1 text-xs tracking-[0.2em] text-muted-foreground/60"
                     style={{
-                      fontFamily: 'var(--font-mono, monospace)',
-                      textTransform: 'uppercase',
+                      fontFamily: "var(--font-mono, monospace)",
+                      textTransform: "uppercase",
                     }}
                   >
                     {selected.alt}
@@ -201,10 +207,10 @@ export function StaticGallery({
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="shrink-0 inline-flex items-center gap-1 border border-border/40 bg-background/80 px-3 py-1.5 text-xs text-foreground/70 transition-colors hover:border-border/70 hover:text-foreground"
+                    className="inline-flex shrink-0 items-center gap-1 border border-border/40 bg-background/80 px-3 py-1.5 text-xs text-foreground/70 transition-colors hover:border-border/70 hover:text-foreground"
                     style={{
-                      borderRadius: '2px',
-                      fontFamily: 'var(--font-mono, monospace)',
+                      borderRadius: "2px",
+                      fontFamily: "var(--font-mono, monospace)",
                     }}
                   >
                     Visit

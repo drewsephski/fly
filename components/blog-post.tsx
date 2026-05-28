@@ -13,21 +13,36 @@ interface BlogPostProps {
   slug: string
 }
 
-export function BlogPost({ title, description, date, readTime, tags, slug }: BlogPostProps) {
+export function BlogPost({
+  title,
+  description,
+  date,
+  readTime,
+  tags,
+  slug,
+}: BlogPostProps) {
   return (
     <Link href={`/blog/${slug}`} className="block">
       <article className="group relative flex flex-col gap-3 rounded-sm border border-border/40 bg-card/55 p-5 transition-all hover:border-border/70 hover:bg-card/80">
-        <div className="flex items-center gap-2 text-[10px] text-muted-foreground/90 font-mono">
+        <div className="flex items-center gap-2 font-mono text-[10px] text-muted-foreground/90">
           <span>{date}</span>
           <span className="h-3 w-px bg-border/50" />
           <span>{readTime}</span>
         </div>
-        <h4 className="text-sm font-semibold text-foreground leading-snug">{title}</h4>
-        <p className="text-xs leading-relaxed text-muted-foreground/90 line-clamp-2">{description}</p>
-        <div className="mt-auto flex items-center justify-between pt-3 border-t border-border/20">
+        <h4 className="text-sm leading-snug font-semibold text-foreground">
+          {title}
+        </h4>
+        <p className="line-clamp-2 text-xs leading-relaxed text-muted-foreground/90">
+          {description}
+        </p>
+        <div className="mt-auto flex items-center justify-between border-t border-border/20 pt-3">
           <div className="flex flex-wrap gap-1">
             {tags.map((tag) => (
-              <Badge key={tag} variant="outline" className="text-[10px] border-border/50 font-normal text-muted-foreground/90">
+              <Badge
+                key={tag}
+                variant="outline"
+                className="border-border/50 text-[10px] font-normal text-muted-foreground/90"
+              >
                 {tag}
               </Badge>
             ))}
@@ -43,13 +58,20 @@ export function BlogPostList({ posts }: { posts: BlogPostProps[] }) {
   return (
     <section id="writing" className="pb-28">
       <div className="animate-fade-up mb-8">
-        <h2 className="text-sm font-bold uppercase tracking-[0.3em] text-foreground/70" style={{ fontFamily: "var(--font-mono, monospace)" }}>
+        <h2
+          className="text-sm font-bold tracking-[0.3em] text-foreground/70 uppercase"
+          style={{ fontFamily: "var(--font-mono, monospace)" }}
+        >
           Writing
         </h2>
       </div>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {posts.map((post, i) => (
-          <div key={i} className="animate-fade-up" style={{ animationDelay: `${i * 40 + 100}ms` }}>
+          <div
+            key={i}
+            className="animate-fade-up"
+            style={{ animationDelay: `${i * 40 + 100}ms` }}
+          >
             <BlogPost {...post} />
           </div>
         ))}

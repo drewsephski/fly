@@ -1,9 +1,9 @@
-import { createOpenRouter } from "@openrouter/ai-sdk-provider";
-import { streamText, convertToModelMessages, UIMessage } from "ai";
+import { createOpenRouter } from "@openrouter/ai-sdk-provider"
+import { streamText, convertToModelMessages, UIMessage } from "ai"
 
 const openrouter = createOpenRouter({
   apiKey: process.env.OPENROUTER_API_KEY,
-});
+})
 
 const DREW_SYSTEM_PROMPT = `
 You are Drew Sepeczi's AI counterpart.
@@ -422,9 +422,9 @@ Every response should feel like:
 
 Not:
 "An AI assistant representing Drew generated this."
-`;
+`
 
-export const maxDuration = 30;
+export const maxDuration = 30
 
 const MODELS = [
   "openai/gpt-oss-120b:free",
@@ -433,19 +433,22 @@ const MODELS = [
   "minimax/minimax-m2.5:free",
   "tencent/hy3-preview:free",
   "openrouter/free",
-] as const;
+] as const
 
 export async function POST(req: Request) {
-  const { messages }: { messages: UIMessage[] } = await req.json();
+  const { messages }: { messages: UIMessage[] } = await req.json()
 
   if (!process.env.OPENROUTER_API_KEY) {
-    return new Response(JSON.stringify({ error: "OPENROUTER_API_KEY is not set" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({ error: "OPENROUTER_API_KEY is not set" }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
+    )
   }
 
-  let lastError: unknown;
+  let lastError: unknown
 
   for (const modelId of MODELS) {
     try {
@@ -453,22 +456,21 @@ export async function POST(req: Request) {
         model: openrouter(modelId),
         system: DREW_SYSTEM_PROMPT,
         messages: await convertToModelMessages(messages),
-      });
+      })
 
-      return result.toUIMessageStreamResponse();
+      return result.toUIMessageStreamResponse()
     } catch (err: unknown) {
-      lastError = err;
-      const msg =
-        err instanceof Error ? err.message : String(err);
-      console.error(`[chat] Model ${modelId} failed:`, msg);
+      lastError = err
+      const msg = err instanceof Error ? err.message : String(err)
+      console.error(`[chat] Model ${modelId} failed:`, msg)
       // Continue to next fallback model
     }
   }
 
   const message =
-    lastError instanceof Error ? lastError.message : "All models failed";
+    lastError instanceof Error ? lastError.message : "All models failed"
   return new Response(JSON.stringify({ error: message }), {
     status: 502,
     headers: { "Content-Type": "application/json" },
-  });
+  })
 }

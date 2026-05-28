@@ -1,8 +1,8 @@
-'use client'
+"use client"
 
-import { useEffect, useCallback } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
-import { X } from 'lucide-react'
+import { useEffect, useCallback } from "react"
+import { motion, AnimatePresence } from "motion/react"
+import { X } from "lucide-react"
 
 interface QuickLookProps {
   src: string | null
@@ -16,10 +16,10 @@ export function QuickLook({ src, alt, onClose }: QuickLookProps) {
   useEffect(() => {
     if (!src) return
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') close()
+      if (e.key === "Escape") close()
     }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
   }, [src, close])
 
   return (
@@ -54,7 +54,7 @@ export function QuickLook({ src, alt, onClose }: QuickLookProps) {
               />
               <button
                 onClick={close}
-                className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full border border-border/50 bg-background/90 text-foreground/70 backdrop-blur-sm transition-colors hover:border-border hover:text-foreground"
+                className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full border border-border/50 bg-background/90 text-foreground/70 backdrop-blur-sm transition-colors hover:border-border hover:text-foreground"
               >
                 <X className="h-4 w-4" />
               </button>

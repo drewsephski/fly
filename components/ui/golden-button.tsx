@@ -3,8 +3,7 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
 
-export interface GoldenButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface GoldenButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode
 }
 
@@ -15,11 +14,11 @@ const GoldenButton = React.forwardRef<HTMLButtonElement, GoldenButtonProps>(
         role="button"
         ref={ref}
         className={cn(
-          "touch-manipulation inline-flex items-center justify-center gap-1.5 outline-none font-inherit box-border border-none rounded-[0.3em] px-4 py-2",
+          "font-inherit box-border inline-flex touch-manipulation items-center justify-center gap-1.5 rounded-[0.3em] border-none px-4 py-2 outline-none",
           "shadow-[0_3px_6px_rgba(0,0,0,0.16),0_3px_6px_rgba(110,80,20,0.4),inset_0_-2px_5px_1px_rgba(139,66,8,1),inset_0_-1px_1px_3px_rgba(250,227,133,1)]",
           "bg-[linear-gradient(160deg,#a54e07_0%,#b47e11_20%,#fef1a2_45%,#bc881b_70%,#a54e07_100%)]",
           "border border-[#a55d07]",
-          "text-[rgb(120,50,5)] text-xs uppercase whitespace-nowrap",
+          "text-xs whitespace-nowrap text-[rgb(120,50,5)] uppercase",
           "[text-shadow:0_2px_2px_rgba(250,227,133,1)]",
           "cursor-pointer transition-all duration-200 ease-in-out",
           "bg-[length:100%_100%] bg-center",
@@ -34,7 +33,9 @@ const GoldenButton = React.forwardRef<HTMLButtonElement, GoldenButtonProps>(
         )}
         {...props}
       >
-        <span className="font-semibold tracking-wide flex items-center gap-1.5">{children}</span>
+        <span className="flex items-center gap-1.5 font-semibold tracking-wide">
+          {children}
+        </span>
       </button>
     )
   }

@@ -38,37 +38,35 @@ function CopyButton({ code }: { code: string }) {
 
 export function MarkdownRenderer({ content }: MarkdownRendererProps) {
   return (
-    <div className="prose prose-neutral prose-lg max-w-none dark:prose-invert">
+    <div className="prose prose-neutral prose-lg dark:prose-invert max-w-none">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
           // Headings
           h1: ({ children }) => (
-            <h1 className="mb-6 mt-12 text-3xl font-semibold leading-tight tracking-tight text-foreground first:mt-0">
+            <h1 className="mt-12 mb-6 text-3xl leading-tight font-semibold tracking-tight text-foreground first:mt-0">
               {children}
             </h1>
           ),
           h2: ({ children }) => (
-            <h2 className="mb-4 mt-10 text-2xl font-semibold leading-tight tracking-tight text-foreground">
+            <h2 className="mt-10 mb-4 text-2xl leading-tight font-semibold tracking-tight text-foreground">
               {children}
             </h2>
           ),
           h3: ({ children }) => (
-            <h3 className="mb-3 mt-8 text-xl font-semibold leading-snug text-foreground">
+            <h3 className="mt-8 mb-3 text-xl leading-snug font-semibold text-foreground">
               {children}
             </h3>
           ),
           h4: ({ children }) => (
-            <h4 className="mb-3 mt-6 text-lg font-semibold text-foreground">
+            <h4 className="mt-6 mb-3 text-lg font-semibold text-foreground">
               {children}
             </h4>
           ),
 
           // Paragraphs and text
           p: ({ children }) => (
-            <p className="mb-5 leading-7 text-muted-foreground">
-              {children}
-            </p>
+            <p className="mb-5 leading-7 text-muted-foreground">{children}</p>
           ),
           strong: ({ children }) => (
             <strong className="font-semibold text-foreground">
@@ -76,7 +74,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
             </strong>
           ),
           em: ({ children }) => (
-            <em className="italic text-foreground/90">{children}</em>
+            <em className="text-foreground/90 italic">{children}</em>
           ),
 
           // Lists
@@ -112,7 +110,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
                         <div className="h-2.5 w-2.5 rounded-full bg-white/10" />
                         <div className="h-2.5 w-2.5 rounded-full bg-white/10" />
                       </div>
-                      <span className="ml-1 text-[10px] font-mono font-medium text-white/30 uppercase tracking-widest">
+                      <span className="ml-1 font-mono text-[10px] font-medium tracking-widest text-white/30 uppercase">
                         {language}
                       </span>
                     </div>
@@ -140,7 +138,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
             // Inline code
             return (
               <code
-                className="rounded-md border border-border/40 bg-muted px-1.5 py-0.5 text-[0.8125rem] font-mono text-foreground/90 before:content-none after:content-none"
+                className="rounded-md border border-border/40 bg-muted px-1.5 py-0.5 font-mono text-[0.8125rem] text-foreground/90 before:content-none after:content-none"
                 {...props}
               >
                 {children}
@@ -153,7 +151,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
 
           // Blockquotes
           blockquote: ({ children }) => (
-            <blockquote className="my-6 border-l-2 border-border pl-5 italic text-muted-foreground">
+            <blockquote className="my-6 border-l-2 border-border pl-5 text-muted-foreground italic">
               {children}
             </blockquote>
           ),
@@ -171,27 +169,25 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
           ),
 
           // Horizontal rule
-          hr: () => (
-            <hr className="my-8 border-t border-border/50" />
-          ),
+          hr: () => <hr className="my-8 border-t border-border/50" />,
 
           // Tables (via remark-gfm)
           table: ({ children }) => (
             <div className="my-6 overflow-x-auto rounded-lg border border-border/50">
-              <table className="w-full text-sm text-left">
-                {children}
-              </table>
+              <table className="w-full text-left text-sm">{children}</table>
             </div>
           ),
           thead: ({ children }) => (
-            <thead className="bg-muted/50 text-xs uppercase text-muted-foreground">
+            <thead className="bg-muted/50 text-xs text-muted-foreground uppercase">
               {children}
             </thead>
           ),
           tbody: ({ children }) => (
             <tbody className="divide-y divide-border/50">{children}</tbody>
           ),
-          tr: ({ children }) => <tr className="transition-colors">{children}</tr>,
+          tr: ({ children }) => (
+            <tr className="transition-colors">{children}</tr>
+          ),
           th: ({ children }) => (
             <th className="px-4 py-3 font-medium text-muted-foreground">
               {children}

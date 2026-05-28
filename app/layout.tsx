@@ -3,7 +3,7 @@ import { Metadata } from "next"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -17,12 +17,19 @@ const dmSans = DM_Sans({
   weight: ["300", "400", "500"],
 })
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+}
+
 export const metadata: Metadata = {
   title: {
     default: "Drew Sepeczi - Web Developer",
-    template: "%s | Drew Sepeczi"
+    template: "%s | Drew Sepeczi",
   },
-  description: "A minimal colored web development portfolio showcasing modern frontend projects, React/Next.js expertise, and clean design principles.",
+  description:
+    "A minimal colored web development portfolio showcasing modern frontend projects, React/Next.js expertise, and clean design principles.",
   keywords: [
     "web developer",
     "frontend developer",
@@ -33,7 +40,7 @@ export const metadata: Metadata = {
     "minimal design",
     "modern web",
     "UI/UX",
-    "full stack"
+    "full stack",
   ],
   authors: [{ name: "Drew Sepeczi", url: "https://drewsepeczi.xyz" }],
   creator: "Drew Sepeczi",
@@ -42,23 +49,25 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://drewsepeczi.xyz",
     title: "Drew Sepeczi - Web Developer",
-    description: "A minimal colored web development portfolio showcasing modern frontend projects and skills.",
+    description:
+      "A minimal colored web development portfolio showcasing modern frontend projects and skills.",
     siteName: "Drew Sepeczi",
     images: [
       {
         url: "https://drewsepeczi.xyz/me-coffee.jpg",
         width: 585,
         height: 571,
-        alt: "Drew Sepeczi - Web Development Portfolio"
-      }
-    ]
+        alt: "Drew Sepeczi - Web Development Portfolio",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Drew Sepeczi - Web Developer",
-    description: "A minimal colored web development portfolio showcasing modern frontend projects and skills.",
+    description:
+      "A minimal colored web development portfolio showcasing modern frontend projects and skills.",
     images: ["https://drewsepeczi.xyz/me-coffee.jpg"],
-    creator: "@drewsepeczi"
+    creator: "@drewsepeczi",
   },
   robots: {
     index: true,
@@ -68,12 +77,12 @@ export const metadata: Metadata = {
       follow: true,
       "max-video-preview": -1,
       "max-image-preview": "large",
-      "max-snippet": -1
-    }
+      "max-snippet": -1,
+    },
   },
   verification: {
-    google: "81XT-CaAWLudKC3TmpkXs4k53NA5AmvYpVKflg2k8r0"
-  }
+    google: "81XT-CaAWLudKC3TmpkXs4k53NA5AmvYpVKflg2k8r0",
+  },
 }
 
 export default function RootLayout({
@@ -94,6 +103,9 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body>
+        <a id="skip-to-content" href="#main-content">
+          Skip to content
+        </a>
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>

@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-    --font-heading: var(--font-display);
+    --font-heading: var(--font-body);
     --font-sans: var(--font-body);
     --font-display: var(--font-display);
     --color-sidebar-ring: var(--sidebar-ring);
@@ -52,6 +52,11 @@
    LIGHT MODE — warm stone / charcoal editorial
    ───────────────────────────────────────────────────── */
 :root {
+    /* Safe area insets for notched devices */
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
+
     /* Spin button accents — warm gold / cool slate */
     --spin-accent-warm: oklch(0.58 0.12 70);
     --spin-accent-warm-light: oklch(0.68 0.10 70);
@@ -78,7 +83,7 @@
     --secondary: oklch(0.93 0.008 75 / 0.9);
     --secondary-foreground: oklch(0.22 0.012 55);
     --muted: oklch(0.93 0.008 75 / 0.85);
-    --muted-foreground: oklch(0.45 0.016 60);
+    --muted-foreground: oklch(0.40 0.018 60);
     --accent: oklch(0.93 0.008 75 / 0.85);
     --accent-foreground: oklch(0.22 0.012 55);
 
@@ -170,8 +175,50 @@
    BASE LAYER
    ───────────────────────────────────────────────────── */
 @layer base {
+  #skip-to-content {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    z-index: 100;
+    padding: 0.5rem 1rem;
+    background: var(--background);
+    color: var(--foreground);
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    transition: top 0.1s;
+    }
+
+  #skip-to-content:focus {
+    top: 0.5rem;
+    left: 0.5rem;
+    }
+
+  #skip-to-content:not(:focus) {
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    }
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
+    }
+
+  *:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 600;
     }
   body {
     @apply bg-background text-foreground;

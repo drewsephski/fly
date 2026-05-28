@@ -9,7 +9,8 @@ const blogPosts = [
   {
     slug: "agentic-ai-production-patterns-2026",
     title: "Agentic AI in Production: Patterns That Actually Work",
-    description: "After two years of real-world deployments, the patterns for reliable agentic systems have crystallized. Bounded autonomy, multi-agent governance, and hierarchical memory are the new standard.",
+    description:
+      "After two years of real-world deployments, the patterns for reliable agentic systems have crystallized. Bounded autonomy, multi-agent governance, and hierarchical memory are the new standard.",
     author: "Drew Sepeczi",
     date: "May 7, 2026",
     readTime: "7 min read",
@@ -98,12 +99,13 @@ const toolMiddleware = createToolMiddleware({
 
 **Agentic AI is not primarily an ML problem — it's a software engineering problem.** The models are capable enough. What determines success is the architecture around them: how you manage data flow, how you define boundaries, how you measure quality, and how you respond to failures.
 
-Companies that treat agents as software systems — with tests, CI/CD, monitoring, and an incident process — will succeed. Those that build them as prompt engineering projects will keep prototyping forever.`
+Companies that treat agents as software systems — with tests, CI/CD, monitoring, and an incident process — will succeed. Those that build them as prompt engineering projects will keep prototyping forever.`,
   },
   {
     slug: "building-ai-first-frontend-architectures",
     title: "Building AI-First Frontend Architectures in 2026",
-    description: "The React Compiler is out, AI agents scaffold entire features autonomously, and Edge AI personalizes bundle delivery. Here's what the modern frontend stack actually looks like.",
+    description:
+      "The React Compiler is out, AI agents scaffold entire features autonomously, and Edge AI personalizes bundle delivery. Here's what the modern frontend stack actually looks like.",
     author: "Drew Sepeczi",
     date: "May 5, 2026",
     readTime: "6 min read",
@@ -198,12 +200,13 @@ If you're building a new project in 2026, the minimal AI-first setup is:
 3. **A watcher agent** connected to your error tracking (Sentry, etc.)
 4. **Human review gates** in your CI/CD for AI-generated PRs
 
-The goal isn't to remove yourself from the loop — it's to ensure you're operating at the level of architecture and judgment, not syntax.`
+The goal isn't to remove yourself from the loop — it's to ensure you're operating at the level of architecture and judgment, not syntax.`,
   },
   {
     slug: "internet-of-agents-mcp-a2a-protocols",
     title: "The Internet of Agents: MCP, A2A, and What Comes Next",
-    description: "Open protocols are turning isolated AI automations into a global network. MCP, A2A, and ACP are the early infrastructure of a world where agents discover, transact, and coordinate across organizational boundaries.",
+    description:
+      "Open protocols are turning isolated AI automations into a global network. MCP, A2A, and ACP are the early infrastructure of a world where agents discover, transact, and coordinate across organizational boundaries.",
     author: "Drew Sepeczi",
     date: "May 3, 2026",
     readTime: "8 min read",
@@ -306,20 +309,27 @@ We're still in early days. The key unsolved problems:
 3. **Debugging**: Tracing a failure across five agents calling each other is significantly harder than debugging a single monolith.
 4. **Cost attribution**: In a multi-agent system, which agent is responsible for which LLM cost?
 
-The teams solving these problems — with open protocols rather than proprietary platforms — are building the foundational infrastructure of the next decade of software. It's genuinely the most interesting systems-level work happening right now.`
-  }
+The teams solving these problems — with open protocols rather than proprietary platforms — are building the foundational infrastructure of the next decade of software. It's genuinely the most interesting systems-level work happening right now.`,
+  },
 ]
 
-export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function BlogPostPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
   const { slug } = await params
-  const post = blogPosts.find(p => p.slug === slug)
+  const post = blogPosts.find((p) => p.slug === slug)
 
   if (!post) {
     notFound()
   }
 
   return (
-    <main className="relative z-10 min-h-svh text-foreground" style={{ fontFamily: "var(--font-body)" }}>
+    <main
+      className="relative z-10 min-h-svh text-foreground"
+      style={{ fontFamily: "var(--font-body)" }}
+    >
       {/* Grain overlay (subtle, complements dot-matrix) */}
       <div
         className="pointer-events-none fixed inset-0 z-50 opacity-[0.015]"
@@ -333,11 +343,17 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       {/* Header */}
       <header className="sticky top-0 z-40 border-b border-border/50 bg-background/70 backdrop-blur-md">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-          <Link href="/" className="text-xs text-muted-foreground transition-colors hover:text-foreground font-mono">
+          <Link
+            href="/"
+            className="font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
+          >
             ← Drew Sepeczi
           </Link>
           <nav className="flex items-center gap-1 text-sm text-muted-foreground">
-            <Link href="/#writing" className="rounded-sm px-3 py-1.5 text-xs transition-colors hover:bg-muted hover:text-foreground">
+            <Link
+              href="/#writing"
+              className="rounded-sm px-3 py-1.5 text-xs transition-colors hover:bg-muted hover:text-foreground"
+            >
               Writing
             </Link>
             <a
@@ -355,7 +371,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <div className="animate-fade-up mb-8">
           <Link
             href="/#writing"
-            className="inline-flex items-center gap-2 text-xs text-muted-foreground/60 transition-colors hover:text-muted-foreground font-mono"
+            className="inline-flex items-center gap-2 font-mono text-xs text-muted-foreground/60 transition-colors hover:text-muted-foreground"
           >
             ← all posts
           </Link>
@@ -364,19 +380,23 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <article className="animate-fade-up">
           {/* Article header */}
           <header className="mb-12">
-            <div className="flex flex-wrap gap-2 mb-6">
+            <div className="mb-6 flex flex-wrap gap-2">
               {post!.tags.map((tag) => (
-                <Badge key={tag} variant="outline" className="text-[10px] border-border/40 font-normal text-muted-foreground">
+                <Badge
+                  key={tag}
+                  variant="outline"
+                  className="border-border/40 text-[10px] font-normal text-muted-foreground"
+                >
                   {tag}
                 </Badge>
               ))}
             </div>
 
-            <h1 className="text-4xl font-semibold leading-tight text-foreground mb-6 sm:text-5xl">
+            <h1 className="mb-6 text-4xl leading-tight font-semibold text-foreground sm:text-5xl">
               {post!.title}
             </h1>
 
-            <div className="flex items-center gap-4 text-sm text-muted-foreground mb-8">
+            <div className="mb-8 flex items-center gap-4 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <Calendar className="h-3.5 w-3.5 opacity-60" />
                 <span>{post!.date}</span>
@@ -401,15 +421,19 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           </div>
 
           {/* Footer */}
-          <footer className="mt-20 pt-8 border-t border-border/50">
+          <footer className="mt-20 border-t border-border/50 pt-8">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Written by {post!.author}</p>
-                <p className="text-xs text-muted-foreground/60 mt-1">{post!.date}</p>
+                <p className="text-sm text-muted-foreground">
+                  Written by {post!.author}
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground/60">
+                  {post!.date}
+                </p>
               </div>
               <div className="flex gap-4">
                 <a
-                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Just read: ${post!.title}`)}&url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
+                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Just read: ${post!.title}`)}&url=${encodeURIComponent(typeof window !== "undefined" ? window.location.href : "")}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-xs text-muted-foreground transition-colors hover:text-foreground"
@@ -417,7 +441,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                   Share on X
                 </a>
                 <a
-                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
+                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(typeof window !== "undefined" ? window.location.href : "")}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-xs text-muted-foreground transition-colors hover:text-foreground"
@@ -433,13 +457,16 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   )
 }
 
-
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
   const { slug } = await params
-  const post = blogPosts.find(p => p.slug === slug)
+  const post = blogPosts.find((p) => p.slug === slug)
 
   if (!post) {
-    return { title: 'Post not found' }
+    return { title: "Post not found" }
   }
 
   return {

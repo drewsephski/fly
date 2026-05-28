@@ -22,7 +22,7 @@ export const GradientTracing: React.FC<GradientTracingProps> = ({
   strokeWidth = 2,
   path = `M0,${height / 2} L${width},${height / 2}`,
 }) => {
-  const gradientId = `gradient-tracing-${width}-${height}` 
+  const gradientId = `gradient-tracing-${width}-${height}`
 
   return (
     <div className="relative" style={{ width, height }}>
