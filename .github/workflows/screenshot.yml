@@ -99,7 +99,7 @@ jobs:
 
       - name: Run opencode analysis
         shell: bash
-        run: opencode run --model opencode/big-pickle --prompt "$(cat /tmp/prompt.txt)"
+        run: opencode run --model opencode/big-pickle "$(cat /tmp/prompt.txt)"
         env:
           OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
