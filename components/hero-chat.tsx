@@ -277,6 +277,7 @@ export function HeroChat() {
           <button
             type="submit"
             disabled={isLoading || !input.trim()}
+            aria-label="Send message"
             className="absolute right-2 bottom-2 flex h-6 w-6 items-center justify-center rounded-md bg-foreground text-background transition-all hover:bg-foreground/90 disabled:opacity-30"
           >
             <Send className="h-3 w-3" />

@@ -338,6 +338,7 @@ export function TalkToDrew({ open: controlledOpen, setOpen: controlledSetOpen, a
             <button
               type="submit"
               disabled={isLoading || !input.trim()}
+              aria-label="Send message"
               className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-foreground text-background transition-all hover:bg-foreground/90 disabled:opacity-30 disabled:hover:bg-foreground"
             >
               <Send className="h-3.5 w-3.5" />

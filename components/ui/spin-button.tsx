@@ -1,30 +1,20 @@
 "use client"
 
-import React, { useRef, useEffect } from "react"
+import React from "react"
 import styles from "./spin-button.module.css"
 
 interface SpinButtonProps {
   onClick?: () => void
-  onClose?: () => void
-  isOpen?: boolean
   className?: string
 }
 
-export default function SpinButton({ onClick, onClose, isOpen = false, className = "" }: SpinButtonProps) {
-  const buttonRef = useRef<HTMLButtonElement>(null)
-
-  useEffect(() => {
-    if (!isOpen) {
-      buttonRef.current?.blur()
-    }
-  }, [isOpen])
-
+export default function SpinButton({ onClick, className = "" }: SpinButtonProps) {
   return (
     <div className={className}>
       <button
-        ref={buttonRef}
-        className={`${styles.button}${isOpen ? ` ${styles.open}` : ""}`}
-        onClick={isOpen ? onClose : onClick}
+        className={styles.button}
+        onClick={onClick}
+        aria-label="View my work"
       >
         <div className={styles.bg} />
         <svg
@@ -63,34 +53,25 @@ export default function SpinButton({ onClick, onClose, isOpen = false, className
 
           <div className={styles.outline} />
           <div className={styles.content}>
-            <span className={`${styles.char} ${styles.state1}`}>
-              <span data-label="O" style={{ "--i": 1 } as React.CSSProperties}>O</span>
-              <span data-label="p" style={{ "--i": 2 } as React.CSSProperties}>p</span>
-              <span data-label="e" style={{ "--i": 3 } as React.CSSProperties}>e</span>
-                <span data-label="n" style={{ "--i": 3 } as React.CSSProperties}>n</span>
-              <span data-label=" " style={{ "--i": 6 } as React.CSSProperties}> </span>
-              <span data-label="C" style={{ "--i": 7 } as React.CSSProperties}>C</span>
-              <span data-label="h" style={{ "--i": 8 } as React.CSSProperties}>h</span>
-              <span data-label="a" style={{ "--i": 9 } as React.CSSProperties}>a</span>
-              <span data-label="t" style={{ "--i": 10 } as React.CSSProperties}>t</span>
-            </span>
+            <div className={`${styles.chars} ${styles.state1}`}>
+              {Array.from("Open Chat").map((ch, i) => (
+                <span key={i} style={{ "--i": i + 1 } as React.CSSProperties}>
+                  {ch === " " ? "\u00A0" : ch}
+                </span>
+              ))}
+            </div>
 
             <div className={styles.icon}>
               <div />
             </div>
 
-            <span className={`${styles.char} ${styles.state2}`}>
-              <span data-label="C" style={{ "--i": 1 } as React.CSSProperties}>C</span>
-              <span data-label="l" style={{ "--i": 2 } as React.CSSProperties}>l</span>
-              <span data-label="o" style={{ "--i": 3 } as React.CSSProperties}>o</span>
-              <span data-label="s" style={{ "--i": 4 } as React.CSSProperties}>s</span>
-              <span data-label="e" style={{ "--i": 4 } as React.CSSProperties}>e</span>
-              <span data-label="C" style={{ "--i": 5 } as React.CSSProperties}>C</span>
-              <span data-label="h" style={{ "--i": 6 } as React.CSSProperties}>h</span>
-              <span data-label="a" style={{ "--i": 6 } as React.CSSProperties}>a</span>
-              <span data-label="t" style={{ "--i": 6 } as React.CSSProperties}>t</span>
-
-            </span>
+            <div className={`${styles.chars} ${styles.state2}`}>
+              {Array.from("Close Chat").map((ch, i) => (
+                <span key={i} style={{ "--i": i + 1 } as React.CSSProperties}>
+                  {ch === " " ? "\u00A0" : ch}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </button>
