@@ -18,7 +18,7 @@ Full-Stack Engineer with extensive experience architecting scalable SaaS platfor
 
 ### Phoenix Agency | Founder & Lead Software Engineer
 
-*June 2025 – Present*
+*Jul 2023 – Aug 2024*
 
 - Architected and launched [phoenixdev.agency](https://phoenixdev.agency), a digital marketplace for SaaS boilerplates that enables founders to save $10,000+ in initial development costs and weeks of configuration time.
 - Developed a production-ready SaaS starter kit featuring robust authentication, multi-tenancy, Stripe subscription billing, and role-based access control (RBAC), used to launch client applications.
@@ -26,7 +26,7 @@ Full-Stack Engineer with extensive experience architecting scalable SaaS platfor
 
 ### Independent Consultant | Full-Stack Developer — Remote
 
-*October 2025 – February 2026*
+*Sep 2024 – Jan 2026*
 
 - **Key Project:** [SlotFlow](https://slotflow.fit) — Built a multi-tenant event management platform that automated critical operations (billing, scheduling, reminders) for organization administrators.
 - Designed complex domain logic for event optimization, integrating AI to streamline planning schedules and reduce administrative overhead by 50%.

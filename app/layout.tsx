@@ -19,8 +19,8 @@ const dmSans = DM_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: "Fly Portfolio - Web Developer",
-    template: "%s | Fly Portfolio"
+    default: "Drew Sepeczi - Web Developer",
+    template: "%s | Drew Sepeczi"
   },
   description: "A minimal colored web development portfolio showcasing modern frontend projects, React/Next.js expertise, and clean design principles.",
   keywords: [
@@ -41,23 +41,23 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://drewsepeczi.xyz",
-    title: "Fly Portfolio - Web Developer",
+    title: "Drew Sepeczi - Web Developer",
     description: "A minimal colored web development portfolio showcasing modern frontend projects and skills.",
-    siteName: "Fly Portfolio",
+    siteName: "Drew Sepeczi",
     images: [
       {
-        url: "https://drewsepeczi.xyz/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Fly Portfolio - Web Development Portfolio"
+        url: "https://drewsepeczi.xyz/me-coffee.jpg",
+        width: 585,
+        height: 571,
+        alt: "Drew Sepeczi - Web Development Portfolio"
       }
     ]
   },
   twitter: {
     card: "summary_large_image",
-    title: "Fly Portfolio - Web Developer",
+    title: "Drew Sepeczi - Web Developer",
     description: "A minimal colored web development portfolio showcasing modern frontend projects and skills.",
-    images: ["https://drewsepeczi.xyz/og-image.png"],
+    images: ["https://drewsepeczi.xyz/me-coffee.jpg"],
     creator: "@drewsepeczi"
   },
   robots: {
@@ -72,8 +72,7 @@ export const metadata: Metadata = {
     }
   },
   verification: {
-    google: "your-google-verification-code",
-    yandex: "your-yandex-verification-code"
+    google: "81XT-CaAWLudKC3TmpkXs4k53NA5AmvYpVKflg2k8r0"
   }
 }
 

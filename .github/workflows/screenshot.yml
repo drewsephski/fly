@@ -25,6 +25,13 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Validate dependencies exist
+        run: |
+          if [ ! -f package.json ]; then
+            echo "::error::package.json not found"
+            exit 1
+          fi
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -53,7 +60,7 @@ jobs:
 
       - name: Install project dependencies
         if: hashFiles('package.json') != ''
-        run: npm ci
+        run: npm install
 
       - name: Start local dev server
         if: hashFiles('package.json') != ''
