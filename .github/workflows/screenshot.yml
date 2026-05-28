@@ -70,7 +70,7 @@ jobs:
         if: hashFiles('package.json') != ''
         run: |
           npm run dev &
-          npx -y wait-on@latest ${{ env.TARGET_URL }} --timeout 30000
+          npx -y wait-on@latest "$TARGET_URL" --timeout 30000
 
       - name: Install opencode CLI
         run: curl -fsSL https://opencode.ai/install | bash
@@ -78,28 +78,31 @@ jobs:
       - name: Add opencode to PATH
         run: echo "$HOME/.opencode/bin" >> $GITHUB_PATH
 
+      - name: Write prompt to file
+        shell: bash
+        run: |
+          cat > /tmp/prompt.txt << EOF
+          Navigate to $TARGET_URL using agent-browser:
+            1. Run \`agent-browser open $TARGET_URL\` and wait for the page to load completely
+            2. Wait for page to settle: \`agent-browser wait 5000\`
+            3. Run \`agent-browser snapshot -i --json\` to inspect interactive elements
+            4. Wait for layout to stabilize: \`agent-browser wait 3000\`
+            5. Take a full-page screenshot: \`agent-browser screenshot --full landing-page.png\`
+
+          Then analyze the page using UI/UX best practices and the design-consultation skill:
+            - Evaluate layout, typography, color hierarchy, spacing, consistency, accessibility, and responsiveness
+            - Assign a rating from 1 (worst) to 10 (best)
+            - List specific strengths and weaknesses with actionable recommendations
+
+          Finally, create a GitHub Issue using \`gh issue create\` (GITHUB_TOKEN is available in env) with the title "UI/UX Audit: $TARGET_URL" and the full analysis as the body. Include the rating as a label (e.g. "rating-6") and attach the screenshot path.
+          EOF
+
       - name: Run opencode
         shell: bash
-        run: opencode github run
+        run: opencode --model opencode/big-pickle "$(cat /tmp/prompt.txt)"
         env:
-          MODEL: opencode/big-pickle
           OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TARGET_URL: ${{ env.TARGET_URL }}
-          PROMPT: |
-            Navigate to ${{ env.TARGET_URL }} using agent-browser:
-              1. Run `agent-browser open ${{ env.TARGET_URL }}` and wait for the page to load completely
-              2. Wait for page to settle: `agent-browser wait 5000`
-              3. Run `agent-browser snapshot -i --json` to inspect interactive elements
-              4. Wait for layout to stabilize: `agent-browser wait 3000`
-              5. Take a full-page screenshot: `agent-browser screenshot --full landing-page.png`
-
-            Then analyze the page using UI/UX best practices and the design-consultation skill:
-              - Evaluate layout, typography, color hierarchy, spacing, consistency, accessibility, and responsiveness
-              - Assign a rating from 1 (worst) to 10 (best)
-              - List specific strengths and weaknesses with actionable recommendations
-
-            Finally, create a GitHub Issue using `gh issue create` (GITHUB_TOKEN is available in env) with the title "UI/UX Audit: ${{ env.TARGET_URL }}" and the full analysis as the body. Include the rating as a label (e.g. "rating-6") and attach the screenshot path.
 
       - name: Upload screenshot
         uses: actions/upload-artifact@v4
