@@ -58,7 +58,7 @@ function FeaturedProjectCard({
       <div className="flex min-w-0 flex-1 flex-col justify-center gap-2 px-4 py-3.5 sm:px-5 sm:py-4">
         <div className="flex items-baseline gap-2.5">
           <span
-            className="shrink-0 font-mono text-[10px] text-muted-foreground/35 tabular-nums transition-colors duration-300 group-hover:text-[var(--spin-accent-warm)]/70"
+            className="shrink-0 font-mono text-[10px] text-muted-foreground/55 tabular-nums transition-colors duration-300 group-hover:text-[var(--spin-accent-warm)]/70"
             style={{ fontFamily: "var(--font-mono, monospace)" }}
           >
             {project.index}
@@ -73,7 +73,7 @@ function FeaturedProjectCard({
         </p>
 
         <p
-          className="truncate text-[10px] text-muted-foreground/45"
+          className="truncate text-[10px] text-muted-foreground/60"
           style={{ fontFamily: "var(--font-mono, monospace)" }}
         >
           {project.tags.join(" · ")}
@@ -95,7 +95,7 @@ function FeaturedProjectCard({
             className="inline-flex items-center gap-1 rounded-sm text-[11px] text-muted-foreground/80 transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
           >
             View
-            <ArrowUpRight className="h-3 w-3 transition-transform duration-300 group-hover:-translate-y-px group-hover:translate-x-px" />
+            <ArrowUpRight className="h-3 w-3 transition-transform duration-300 group-hover:translate-x-px group-hover:-translate-y-px" />
           </Link>
           {project.github && (
             <GitHubStarsButton

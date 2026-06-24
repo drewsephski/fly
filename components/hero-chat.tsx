@@ -148,8 +148,11 @@ export function HeroChat() {
       {/* Messages area */}
       <div
         ref={scrollRef}
+        role="log"
+        aria-live="polite"
+        aria-label="Chat messages"
         className={cn(
-          "scrollbar-thin custom-scrollbar flex-1 overflow-y-auto px-4 transition-all duration-300",
+          "custom-scrollbar flex-1 scrollbar-thin overflow-y-auto px-4 transition-all duration-300",
           hasStarted ? "max-h-[280px] space-y-3 py-4" : "py-6"
         )}
         style={{
@@ -258,7 +261,11 @@ export function HeroChat() {
 
         {/* Input */}
         <form onSubmit={handleSubmit} className="relative">
+          <label htmlFor="hero-chat-input" className="sr-only">
+            Ask anything about Drew's projects
+          </label>
           <textarea
+            id="hero-chat-input"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {

@@ -10,7 +10,9 @@ import {
   ArrowUpRight,
   ExternalLink,
   GitBranch,
+  Menu,
   MessageCircle,
+  X,
 } from "lucide-react"
 import Link from "next/link"
 import { BlogPostList } from "@/components/blog-post"
@@ -76,12 +78,17 @@ function ArchiveProjectCard({
   onAsk: (title: string) => void
 }) {
   return (
-    <Link
-      href={project.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group animate-fade-up relative flex flex-col overflow-hidden rounded-xl border border-border/35 bg-card/50 shadow-[0_1px_0_0_oklch(1_0_0/0.04)_inset] transition-[border-color,background-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-border/60 hover:bg-card/75 hover:shadow-[0_12px_40px_-20px_oklch(0_0_0/0.45),0_1px_0_0_oklch(1_0_0/0.06)_inset] focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+    <article
+      className="group animate-fade-up relative flex cursor-pointer flex-col overflow-hidden rounded-xl border border-border/35 bg-card/50 shadow-[0_1px_0_0_oklch(1_0_0/0.04)_inset] transition-[border-color,background-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-border/60 hover:bg-card/75 hover:shadow-[0_12px_40px_-20px_oklch(0_0_0/0.45),0_1px_0_0_oklch(1_0_0/0.06)_inset] focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
       style={{ animationDelay: `${animationDelay}ms` }}
+      onClick={() => window.open(project.url, "_blank", "noopener,noreferrer")}
+      onKeyDown={(e) => {
+        if (e.key === "Enter")
+          window.open(project.url, "_blank", "noopener,noreferrer")
+      }}
+      role="link"
+      tabIndex={0}
+      aria-label={`${project.title} - ${project.description}`}
     >
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--spin-accent-warm)]/0 to-transparent transition-all duration-500 group-hover:via-[var(--spin-accent-warm)]/35" />
 
@@ -101,7 +108,7 @@ function ArchiveProjectCard({
         <div className="flex items-start justify-between gap-2">
           <div className="flex min-w-0 items-center gap-2.5">
             <span
-              className="shrink-0 font-mono text-[10px] text-muted-foreground/35 tabular-nums transition-colors duration-300 group-hover:text-[var(--spin-accent-warm)]/70"
+              className="shrink-0 font-mono text-[10px] text-muted-foreground/55 tabular-nums transition-colors duration-300 group-hover:text-[var(--spin-accent-warm)]/70"
               style={{ fontFamily: "var(--font-mono, monospace)" }}
             >
               {project.index}
@@ -110,7 +117,7 @@ function ArchiveProjectCard({
               {project.title}
             </h4>
           </div>
-          <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground/25 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground/70" />
+          <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground/55 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground/70" />
         </div>
         <p className="line-clamp-2 text-xs leading-relaxed text-muted-foreground/85">
           {project.description}
@@ -138,13 +145,14 @@ function ArchiveProjectCard({
           </GoldenButton>
         </div>
       </div>
-    </Link>
+    </article>
   )
 }
 
 export default function Page() {
   const [chatOpen, setChatOpen] = useState(false)
   const [chatPrompt, setChatPrompt] = useState<string | undefined>(undefined)
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const [quickLook, setQuickLook] = useState<{
     src: string
     alt: string
@@ -169,36 +177,93 @@ export default function Page() {
             DS
           </span>
           <nav className="flex items-center gap-1 text-sm text-muted-foreground">
-            <a
-              href="#work"
-              className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
-            >
-              Work
-            </a>
-            <a
-              href="#journey"
-              className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
-            >
-              Journey
-            </a>
-            <a
-              href="#about"
-              className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
-            >
-              About
-            </a>
-            <Link
-              href="/gallery"
-              className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
-            >
-              Gallery
-            </Link>
-            <a
-              href="mailto:drew@drewsepeczi.xyz"
-              className="ml-2 inline-flex items-center gap-1.5 rounded-sm border border-border bg-foreground px-3 py-1.5 text-xs font-medium text-background transition-all hover:opacity-80"
-            >
-              Contact
-            </a>
+            <div className="hidden items-center gap-1 sm:flex">
+              <a
+                href="#work"
+                className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
+              >
+                Work
+              </a>
+              <a
+                href="#journey"
+                className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
+              >
+                Journey
+              </a>
+              <a
+                href="#about"
+                className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
+              >
+                About
+              </a>
+              <Link
+                href="/gallery"
+                className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
+              >
+                Gallery
+              </Link>
+              <a
+                href="mailto:drew@drewsepeczi.xyz"
+                className="ml-2 inline-flex items-center gap-1.5 rounded-sm border border-border bg-foreground px-3 py-1.5 text-xs font-medium text-background transition-all hover:opacity-80"
+              >
+                Contact
+              </a>
+            </div>
+            <div className="sm:hidden">
+              <button
+                onClick={() => setMobileNavOpen(!mobileNavOpen)}
+                className="flex h-9 w-9 items-center justify-center rounded-md border border-border/50 bg-muted/30 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                aria-label={mobileNavOpen ? "Close menu" : "Open menu"}
+                aria-expanded={mobileNavOpen}
+              >
+                {mobileNavOpen ? (
+                  <X className="h-4 w-4" />
+                ) : (
+                  <Menu className="h-4 w-4" />
+                )}
+              </button>
+              {mobileNavOpen && (
+                <div className="absolute top-full right-0 left-0 mx-4 mt-2 rounded-xl border border-border/50 bg-background/95 p-4 shadow-xl backdrop-blur-md">
+                  <div className="flex flex-col gap-2">
+                    <a
+                      href="#work"
+                      onClick={() => setMobileNavOpen(false)}
+                      className="rounded-sm px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                    >
+                      Work
+                    </a>
+                    <a
+                      href="#journey"
+                      onClick={() => setMobileNavOpen(false)}
+                      className="rounded-sm px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                    >
+                      Journey
+                    </a>
+                    <a
+                      href="#about"
+                      onClick={() => setMobileNavOpen(false)}
+                      className="rounded-sm px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                    >
+                      About
+                    </a>
+                    <Link
+                      href="/gallery"
+                      onClick={() => setMobileNavOpen(false)}
+                      className="rounded-sm px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                    >
+                      Gallery
+                    </Link>
+                    <a
+                      href="mailto:drew@drewsepeczi.xyz"
+                      onClick={() => setMobileNavOpen(false)}
+                      className="inline-flex items-center gap-1.5 rounded-sm border border-border bg-foreground px-3 py-2 text-xs font-medium text-background transition-all hover:opacity-80"
+                    >
+                      Contact
+                    </a>
+                  </div>
+                </div>
+              )}
+            </div>
           </nav>
         </div>
       </header>
@@ -334,7 +399,7 @@ export default function Page() {
               </h2>
             </div>
             <span
-              className="font-mono text-[10px] text-muted-foreground/30"
+              className="font-mono text-[10px] text-muted-foreground/55"
               style={{ fontFamily: "var(--font-mono, monospace)" }}
             >
               {FEATURED_PROJECTS.length} projects
@@ -360,7 +425,7 @@ export default function Page() {
                 Archive
               </h3>
               <span
-                className="font-mono text-[10px] text-muted-foreground/30"
+                className="font-mono text-[10px] text-muted-foreground/55"
                 style={{ fontFamily: "var(--font-mono, monospace)" }}
               >
                 {ARCHIVE_PROJECTS.length} more

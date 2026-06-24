@@ -243,7 +243,10 @@ export function TalkToDrew({
         {/* Messages */}
         <div
           ref={scrollRef}
-          className="scrollbar-thin custom-scrollbar flex-1 space-y-4 overflow-y-auto px-4 py-4"
+          role="log"
+          aria-live="polite"
+          aria-label="Chat messages"
+          className="custom-scrollbar flex-1 scrollbar-thin space-y-4 overflow-y-auto px-4 py-4"
           style={{
             scrollbarWidth: "thin",
             scrollbarColor: "var(--border) transparent",
@@ -337,7 +340,11 @@ export function TalkToDrew({
           className="border-t border-border/40 px-4 py-3"
         >
           <div className="flex items-center gap-2 rounded-lg border border-border/40 bg-muted/30 px-3 py-2 transition-colors focus-within:border-border/80 focus-within:bg-muted/50">
+            <label htmlFor="talk-to-drew-input" className="sr-only">
+              Ask about Drew's projects
+            </label>
             <input
+              id="talk-to-drew-input"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask about Drew's projects..."
