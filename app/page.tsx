@@ -104,7 +104,7 @@ function ArchiveProjectCard({
         <div className="flex items-start justify-between gap-2">
           <div className="flex min-w-0 items-center gap-2.5">
             <span
-              className="shrink-0 font-mono text-[10px] text-muted-foreground/35 tabular-nums transition-colors duration-300 group-hover:text-[var(--spin-accent-warm)]/70"
+              className="shrink-0 font-mono text-[10px] text-muted-foreground/55 tabular-nums transition-colors duration-300 group-hover:text-[var(--spin-accent-warm)]/70"
               style={{ fontFamily: "var(--font-mono, monospace)" }}
             >
               {project.index}
@@ -113,7 +113,7 @@ function ArchiveProjectCard({
               {project.title}
             </h4>
           </div>
-          <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground/25 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground/70" />
+          <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground/25 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground/70" />
         </div>
         <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
           {project.description}
@@ -172,7 +172,10 @@ export default function Page() {
       <header className="sticky top-0 z-40 border-b border-border/50 bg-background/70 backdrop-blur-md">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
           <SiteLogo />
-          <nav className="flex items-center gap-1 text-base text-muted-foreground">
+          <nav
+            aria-label="Main navigation"
+            className="flex items-center gap-1 text-base text-muted-foreground"
+          >
             <a
               href="#products"
               className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
@@ -222,36 +225,14 @@ export default function Page() {
             <div className="absolute top-20 left-0 h-px w-12 bg-border" />
 
             {/* Gradient tracing — responsive on all sizes */}
-            <div className="absolute top-4 right-4 flex flex-col items-center gap-6 opacity-40 md:top-48 md:right-20 md:opacity-100 lg:top-12 lg:right-8">
-              <div className="md:hidden">
-                <GradientTracing
-                  width={120}
-                  height={120}
-                  path="M60,0 L45,45 L75,45 L30,120 L60,60 L30,60 L60,0"
-                  gradientColors={["#2EB9DF", "#2EB9DF", "#1ba4ff"]}
-                  strokeWidth={2}
-                  animationDuration={2}
-                />
-              </div>
-              <div className="hidden md:block lg:hidden">
-                <GradientTracing
-                  width={240}
-                  height={240}
-                  path="M120,0 L90,90 L150,90 L60,240 L120,120 L60,120 L120,0"
-                  gradientColors={["#2EB9DF", "#2EB9DF", "#1ba4ff"]}
-                  strokeWidth={2}
-                  animationDuration={2}
-                />
-              </div>
-              <div className="hidden lg:block">
-                <GradientTracing
-                  width={180}
-                  height={180}
-                  path="M90,0 L67.5,67.5 L112.5,67.5 L45,180 L90,90 L45,90 L90,0"
-                  strokeWidth={2}
-                  animationDuration={2}
-                />
-              </div>
+            <div aria-hidden="true" className="hidden md:block">
+              <GradientTracing
+                width={180}
+                height={180}
+                path="M90,0 L67.5,67.5 L112.5,67.5 L45,180 L90,90 L45,90 L90,0"
+                strokeWidth={2}
+                animationDuration={2}
+              />
             </div>
 
             <div className="animate-fade-up">
@@ -286,7 +267,7 @@ export default function Page() {
             </div>
 
             <div className="animate-fade-up delay-200">
-              <p className="mt-8 max-w-lg text-lg leading-relaxed text-muted-foreground">
+              <p className="mt-8 max-w-lg text-xl leading-relaxed text-muted-foreground">
                 I turn rough ideas into shipped AI products, tools, and
                 infrastructure.
               </p>
@@ -454,8 +435,8 @@ export default function Page() {
                 infrastructure.
               </p>
               <p className="max-w-2xl text-base leading-relaxed text-muted-foreground">
-                My work sits between founder, engineer, and product designer —
-                I care about shipping real tools, not polished mockups.
+                My work sits between founder, engineer, and product designer — I
+                care about shipping real tools, not polished mockups.
               </p>
 
               <div className="border-t border-border/50 pt-6">
@@ -564,8 +545,8 @@ export default function Page() {
             </h2>
             <p className="mx-auto mt-4 max-w-md text-base leading-relaxed text-muted-foreground">
               I help founders turn messy ideas into shipped software — product
-              strategy, AI workflows, full-stack architecture, and
-              launch-ready execution.
+              strategy, AI workflows, full-stack architecture, and launch-ready
+              execution.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <a
@@ -589,7 +570,7 @@ export default function Page() {
                 href="https://github.com/drewsephski"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="transition-colors hover:text-foreground"
+                className="rounded-sm transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
               >
                 GitHub
               </a>
@@ -598,7 +579,7 @@ export default function Page() {
                 href="https://linkedin.com/in/drewsepeczi"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="transition-colors hover:text-foreground"
+                className="rounded-sm transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
               >
                 LinkedIn
               </a>
@@ -607,7 +588,7 @@ export default function Page() {
                 href="https://instagram.com/drew.sepeczi"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="transition-colors hover:text-foreground"
+                className="rounded-sm transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
               >
                 Instagram
               </a>
