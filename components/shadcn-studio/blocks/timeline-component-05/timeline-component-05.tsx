@@ -20,10 +20,10 @@ const TimelineContent = ({ entries }: TimelineProps) => {
           className="relative flex scroll-mt-18 justify-end gap-4"
         >
           <div className="sticky top-19 flex w-36 flex-col items-end gap-1 self-start pb-4 max-md:hidden">
-            <div className="text-right text-sm font-semibold text-foreground">
+            <div className="text-right text-base font-semibold text-foreground">
               {entry.company}
             </div>
-            <div className="text-right font-mono text-xs text-muted-foreground">
+            <div className="text-right font-mono text-sm text-muted-foreground">
               {entry.period}
             </div>
           </div>
@@ -39,10 +39,10 @@ const TimelineContent = ({ entries }: TimelineProps) => {
           </div>
           <div className="flex flex-1 flex-col gap-4 pb-11 pl-3 md:pl-6 lg:pl-9">
             <div className="flex flex-col gap-1 md:hidden">
-              <div className="text-sm font-semibold text-foreground">
+              <div className="text-base font-semibold text-foreground">
                 {entry.company}
               </div>
-              <div className="font-mono text-xs text-muted-foreground">
+              <div className="font-mono text-sm text-muted-foreground">
                 {entry.period}
               </div>
             </div>

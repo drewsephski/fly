@@ -6,6 +6,7 @@ import { ParallaxGallery } from "@/components/parallax-gallery"
 import { StaticGallery } from "@/components/static-gallery"
 import { LayoutGrid, Columns3 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { SiteLogo } from "@/components/site-logo"
 import { getPriorityGalleryImages } from "@/lib/projects"
 
 const legacyGalleryImages = [
@@ -204,31 +205,31 @@ const GalleryPage = () => {
       {/* ── Header / Navbar ── */}
       <header className="sticky top-0 z-40 border-b border-border/50 bg-background/70 backdrop-blur-md">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-          <Link
-            href="/"
-            className="text-sm font-semibold tracking-[0.15em] text-foreground transition-colors hover:text-muted-foreground"
-            style={{ fontFamily: "var(--font-body)" }}
-          >
-            DS
-          </Link>
-          <nav className="flex items-center gap-1 text-sm text-muted-foreground">
+          <SiteLogo />
+          <nav className="flex items-center gap-1 text-base text-muted-foreground">
             <Link
-              href="/#work"
+              href="/#products"
               className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
             >
-              Work
+              Products
             </Link>
             <Link
-              href="/#journey"
+              href="/#experience"
               className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
             >
-              Journey
+              Experience
             </Link>
             <Link
               href="/#about"
               className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
             >
               About
+            </Link>
+            <Link
+              href="/#writing"
+              className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
+            >
+              Writing
             </Link>
             <Link
               href="/gallery"

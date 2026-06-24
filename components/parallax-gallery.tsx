@@ -276,13 +276,12 @@ function GalleryTile({
 }: GalleryTileProps) {
   return (
     <div
-      className="group relative mb-3 cursor-pointer overflow-hidden md:mb-4"
+      className={cn(
+        "group relative mb-3 cursor-pointer overflow-hidden border border-border/8 md:mb-4",
+        isActive && "border-border/20"
+      )}
       style={{
         borderRadius: "3px",
-        border: "1px solid",
-        borderColor: isActive
-          ? "oklch(0.52 0.018 65 / 0.5)"
-          : "oklch(0.88 0.014 72 / 0.6)",
         transition: "border-color 0.25s ease, opacity 0.25s ease",
         opacity: isAnyHovered && !isActive ? 0.45 : 1,
       }}

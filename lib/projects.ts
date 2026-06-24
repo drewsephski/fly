@@ -5,11 +5,22 @@ export interface ProjectDepth {
   challenge: string
 }
 
+export type ProjectStatus =
+  | "Live"
+  | "Open Source"
+  | "In Progress"
+  | "SaaS"
+  | "Mac App"
+  | "CLI"
+  | "Product Hunt"
+  | "Client Work"
+
 export interface FeaturedProject {
   title: string
   url: string
   description: string
   tags: string[]
+  status: ProjectStatus[]
   index: string
   featured: boolean
   image: string
@@ -26,10 +37,19 @@ export interface ArchiveProject {
   url: string
   description: string
   tags: string[]
+  status?: ProjectStatus[]
   index: string
   featured: boolean
   image: string
 }
+
+export const PROOF_METRICS = [
+  { value: "30+", label: "shipped web projects" },
+  { value: "10+", label: "AI products built" },
+  { value: "Full-stack", label: "AI + infra" },
+  { value: "Open source", label: "maintainer" },
+  { value: "Product Hunt", label: "launches" },
+] as const
 
 export type GalleryDepth = "background" | "mid" | "foreground"
 
@@ -46,8 +66,9 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
     title: "NodeBase",
     url: "https://nodebasev2.vercel.app/",
     description:
-      "Open-source node graph editor for building and sharing AI workflows.",
-    tags: ["Open Source", "AI", "Visual"],
+      "Visual workflow studio for builders who want to compose, run, and share AI pipelines without locking into a closed platform.",
+    tags: ["Open Source", "AI", "Visual Editor"],
+    status: ["Live", "Open Source", "SaaS"],
     index: "01",
     featured: true,
     image: "/projects/nodebase.png",
@@ -70,8 +91,9 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
     title: "PortfolioOS",
     url: "https://portfolios.chat/",
     description:
-      "AI-native portfolios that answer recruiter questions from your resume, GitHub, and LinkedIn.",
+      "AI-native portfolio for job seekers and founders — recruiters ask follow-ups and your site answers from resume, GitHub, and LinkedIn.",
     tags: ["AI", "Portfolio", "SaaS"],
+    status: ["Live", "SaaS"],
     index: "02",
     featured: true,
     image: "/projects/portfoliosos.png",
@@ -89,8 +111,9 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
     title: "RagBase",
     url: "https://ragbase.dev/",
     description:
-      "Instant document Q&A — drop a PDF or URL, get cited answers. No signup required.",
+      "Private document Q&A for anyone drowning in PDFs — drop a file or URL, get cited answers in-browser with no signup.",
     tags: ["AI", "RAG", "Privacy"],
+    status: ["Live", "Open Source"],
     index: "03",
     featured: true,
     image: "/projects/ragbase.png",
@@ -107,8 +130,9 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
     title: "Trace",
     url: "https://trace.builders/",
     description:
-      "Screen Studio quality recordings for $9 once — AI zoom, captions, and cursor FX.",
-    tags: ["Dev Tools", "Video", "Open Source"],
+      "AI screen recorder for founders who need polished launch videos, GIFs, and product demos without editing complexity.",
+    tags: ["Mac App", "AI Video", "Launch Assets", "Electron"],
+    status: ["Live", "Open Source", "Mac App"],
     index: "04",
     featured: true,
     image: "/projects/trace.png",
@@ -125,8 +149,9 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
     title: "Squido",
     url: "https://squidagent.app/",
     description:
-      "Open-source coding agent for the terminal — read, bash, edit, and write from one CLI.",
-    tags: ["Open Source", "AI", "CLI"],
+      "Terminal coding agent for developers who live in the shell — read, bash, edit, and write across messy real codebases.",
+    tags: ["CLI", "AI Agents", "Open Source"],
+    status: ["Live", "Open Source", "CLI"],
     index: "05",
     featured: true,
     image: "/projects/squido.png",
@@ -142,8 +167,9 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
     title: "SquidCrawl",
     url: "https://squidcrawl.dev/",
     description:
-      "Open-source AI scraper API — deploy with one command, 5–10x faster than Firecrawl on the edge.",
-    tags: ["Open Source", "AI", "Infrastructure"],
+      "Edge-native scraper API for AI agents — deploy in one command, 5–10× faster than Firecrawl with LLM-optimized output.",
+    tags: ["Infrastructure", "AI", "Open Source"],
+    status: ["Live", "Open Source"],
     index: "06",
     featured: true,
     image: "/projects/squidcrawl.png",
@@ -162,8 +188,10 @@ export const ARCHIVE_PROJECTS: ArchiveProject[] = [
   {
     title: "Fight Intel",
     url: "https://fight.dog/",
-    description: "Live UFC odds, fighter analytics, and AI fight predictions.",
+    description:
+      "Live UFC analytics for fight fans — odds, fighter stats, and AI predictions in one dashboard.",
     tags: ["AI", "Sports", "Analytics"],
+    status: ["Live"],
     index: "07",
     featured: false,
     image: "/projects/ufc.png",
@@ -172,8 +200,9 @@ export const ARCHIVE_PROJECTS: ArchiveProject[] = [
     title: "NovaHub",
     url: "https://novahub.dev/",
     description:
-      "AI project analysis that turns repos into recruiter-ready portfolios.",
+      "Repo-to-portfolio tool for engineers — AI turns GitHub projects into recruiter-ready case studies.",
     tags: ["AI", "PM", "Insights"],
+    status: ["Live"],
     index: "08",
     featured: false,
     image: "/projects/novahub.png",
@@ -181,8 +210,10 @@ export const ARCHIVE_PROJECTS: ArchiveProject[] = [
   {
     title: "ReelDiff",
     url: "https://reeldiff.vercel.app/",
-    description: "GitHub PRs turned into shareable video walkthroughs.",
+    description:
+      "PR walkthrough generator for dev teams — turn GitHub diffs into shareable video explainers.",
     tags: ["Dev Tools", "Video", "GitHub"],
+    status: ["Live"],
     index: "09",
     featured: false,
     image: "/projects/reeldiff.png",
@@ -190,8 +221,10 @@ export const ARCHIVE_PROJECTS: ArchiveProject[] = [
   {
     title: "PromptMarket",
     url: "https://promptmarket.sh/",
-    description: "Curated system prompts for LLMs.",
+    description:
+      "Curated system prompt marketplace for teams shipping with LLMs.",
     tags: ["AI", "Prompts", "Tools"],
+    status: ["Live"],
     index: "10",
     featured: false,
     image: "/projects/promptsh.png",
@@ -199,8 +232,10 @@ export const ARCHIVE_PROJECTS: ArchiveProject[] = [
   {
     title: "PixelMint",
     url: "https://pixel-mint-sigma.vercel.app/",
-    description: "AI studio for generating images and videos.",
+    description:
+      "Generative studio for creators — AI image and video generation in one workspace.",
     tags: ["Image/Video", "Creative", "Generative"],
+    status: ["Live"],
     index: "11",
     featured: false,
     image: "/projects/pixelmint.png",
@@ -208,8 +243,10 @@ export const ARCHIVE_PROJECTS: ArchiveProject[] = [
   {
     title: "Roast My UI",
     url: "https://roastmyui.me/",
-    description: "Gen Z AI that roasts your UI.",
+    description:
+      "Design feedback tool with personality — AI roasts your UI and suggests fixes.",
     tags: ["AI", "Design", "Fun"],
+    status: ["Live"],
     index: "12",
     featured: false,
     image: "/projects/roastmyui.png",
@@ -217,8 +254,10 @@ export const ARCHIVE_PROJECTS: ArchiveProject[] = [
   {
     title: "Phoenix Notebook",
     url: "https://phoenixnotebook.netlify.app/",
-    description: "Research assistant — sources, summaries, slides.",
+    description:
+      "Research workspace for students and analysts — sources, summaries, and slides from one upload.",
     tags: ["AI", "Research", "Productivity"],
+    status: ["Live"],
     index: "13",
     featured: false,
     image: "/projects/phoenixnotebook.png",
@@ -226,8 +265,10 @@ export const ARCHIVE_PROJECTS: ArchiveProject[] = [
   {
     title: "Drew's AI Twin",
     url: "https://drewchats.vercel.app/",
-    description: "Chat with an AI version of me.",
+    description:
+      "Conversational clone of my portfolio — ask about my work, stack, and projects.",
     tags: ["AI", "Personal", "Chatbot"],
+    status: ["Live"],
     index: "14",
     featured: false,
     image: "/projects/drewchats.png",
@@ -235,8 +276,10 @@ export const ARCHIVE_PROJECTS: ArchiveProject[] = [
   {
     title: "Get Cracked",
     url: "https://getcracked.lol/",
-    description: "AI SaaS starter for rapid launches.",
+    description:
+      "AI SaaS boilerplate for founders who want auth, billing, and deploy wired on day one.",
     tags: ["AI", "SaaS", "Template"],
+    status: ["Live", "Open Source"],
     index: "15",
     featured: false,
     image: "/projects/getcracked.png",

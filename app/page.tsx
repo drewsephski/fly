@@ -26,6 +26,9 @@ import { QuickLook } from "@/components/quick-look"
 import SpinButton from "@/components/ui/spin-button"
 import { GoldenButton } from "@/components/ui/golden-button"
 import { ProjectsBentoGrid } from "@/components/projects-bento-grid"
+import { ProofStrip } from "@/components/proof-strip"
+import { ProjectStatusBadges } from "@/components/project-status-badges"
+import { SiteLogo } from "@/components/site-logo"
 import { ARCHIVE_PROJECTS, FEATURED_PROJECTS } from "@/lib/projects"
 
 const postsArray = [
@@ -106,21 +109,24 @@ function ArchiveProjectCard({
             >
               {project.index}
             </span>
-            <h4 className="truncate text-sm font-medium tracking-tight text-foreground">
+            <h4 className="truncate text-base font-medium tracking-tight text-foreground">
               {project.title}
             </h4>
           </div>
           <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground/25 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground/70" />
         </div>
-        <p className="line-clamp-2 text-xs leading-relaxed text-muted-foreground/85">
+        <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
           {project.description}
         </p>
+        {project.status && project.status.length > 0 && (
+          <ProjectStatusBadges status={project.status} />
+        )}
         <div className="mt-auto flex flex-wrap items-center gap-2 pt-1.5">
           {project.tags.map((tag) => (
             <Badge
               key={tag}
               variant="secondary"
-              className="border border-border/30 bg-muted/30 text-[10px] font-normal text-muted-foreground/80"
+              className="border border-border/30 bg-muted/30 text-xs font-normal text-muted-foreground"
             >
               {tag}
             </Badge>
@@ -131,9 +137,9 @@ function ArchiveProjectCard({
               e.stopPropagation()
               onAsk(project.title)
             }}
-            className="ml-auto h-[2.5em] px-2 text-[10px]"
+            className="ml-auto h-[2.5em] px-2.5 text-xs"
           >
-            <MessageCircle className="h-2.5 w-2.5" />
+            <MessageCircle className="h-3 w-3" />
             Ask
           </GoldenButton>
         </div>
@@ -165,27 +171,31 @@ export default function Page() {
       {/* ── Header ── */}
       <header className="sticky top-0 z-40 border-b border-border/50 bg-background/70 backdrop-blur-md">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-          <span className="text-sm font-semibold tracking-[0.15em] text-foreground">
-            DS
-          </span>
-          <nav className="flex items-center gap-1 text-sm text-muted-foreground">
+          <SiteLogo />
+          <nav className="flex items-center gap-1 text-base text-muted-foreground">
             <a
-              href="#work"
+              href="#products"
               className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
             >
-              Work
+              Products
             </a>
             <a
-              href="#journey"
+              href="#experience"
               className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
             >
-              Journey
+              Experience
             </a>
             <a
               href="#about"
               className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
             >
               About
+            </a>
+            <a
+              href="#writing"
+              className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
+            >
+              Writing
             </a>
             <Link
               href="/gallery"
@@ -194,8 +204,8 @@ export default function Page() {
               Gallery
             </Link>
             <a
-              href="mailto:drew@drewsepeczi.xyz"
-              className="ml-2 inline-flex items-center gap-1.5 rounded-sm border border-border bg-foreground px-3 py-1.5 text-xs font-medium text-background transition-all hover:opacity-80"
+              href="#contact"
+              className="ml-2 inline-flex items-center gap-1.5 rounded-sm border border-border bg-foreground px-3 py-1.5 text-sm font-medium text-background transition-all hover:opacity-80"
             >
               Contact
             </a>
@@ -276,9 +286,9 @@ export default function Page() {
             </div>
 
             <div className="animate-fade-up delay-200">
-              <p className="mt-8 max-w-md text-base leading-relaxed text-muted-foreground">
-                I build AI products and infrastructure that ships under real
-                load.
+              <p className="mt-8 max-w-lg text-lg leading-relaxed text-muted-foreground">
+                I turn rough ideas into shipped AI products, tools, and
+                infrastructure.
               </p>
             </div>
 
@@ -320,18 +330,23 @@ export default function Page() {
           </div>
         </section>
 
+        <ProofStrip />
+
         <Separator className="mb-24 opacity-50 max-sm:mb-16" />
 
-        {/* ── Work ── */}
-        <section id="work" className="pb-28 max-sm:pb-16">
+        {/* ── Featured Products ── */}
+        <section id="products" className="pb-28 max-sm:pb-16">
           <div className="animate-fade-up mb-14 flex items-end justify-between max-sm:mb-8">
             <div>
               <h2
-                className="text-sm font-bold tracking-[0.3em] text-foreground/70 uppercase"
+                className="text-sm font-bold tracking-[0.3em] text-foreground/80 uppercase"
                 style={{ fontFamily: "var(--font-mono, monospace)" }}
               >
-                Work
+                Featured Products
               </h2>
+              <p className="mt-3 max-w-md text-base text-muted-foreground">
+                What I build — AI tools, infra, and products that ship.
+              </p>
             </div>
             <span
               className="font-mono text-[10px] text-muted-foreground/30"
@@ -350,15 +365,20 @@ export default function Page() {
             }}
           />
 
-          {/* Archive section */}
+          {/* Other builds */}
           <div className="mt-20 max-sm:mt-12">
             <div className="animate-fade-up mb-8 flex items-end justify-between border-b border-border/25 pb-4">
-              <h3
-                className="text-xs font-medium tracking-[0.25em] text-muted-foreground/60 uppercase"
-                style={{ fontFamily: "var(--font-mono, monospace)" }}
-              >
-                Archive
-              </h3>
+              <div>
+                <h3
+                  className="text-sm font-bold tracking-[0.25em] text-foreground/75 uppercase"
+                  style={{ fontFamily: "var(--font-mono, monospace)" }}
+                >
+                  Other Builds
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Experiments, side projects, and shipped apps.
+                </p>
+              </div>
               <span
                 className="font-mono text-[10px] text-muted-foreground/30"
                 style={{ fontFamily: "var(--font-mono, monospace)" }}
@@ -413,10 +433,10 @@ export default function Page() {
 
         {/* ── About ── */}
         <section id="about" className="pb-28 max-sm:pb-16">
-          <div className="grid gap-20 md:grid-cols-[200px_1fr]">
+          <div className="grid gap-12 md:grid-cols-[200px_1fr] md:gap-20">
             <div className="animate-fade-up">
               <h2
-                className="text-sm font-bold tracking-[0.3em] text-foreground/70 uppercase"
+                className="text-sm font-bold tracking-[0.3em] text-foreground/80 uppercase"
                 style={{ fontFamily: "var(--font-mono, monospace)" }}
               >
                 About
@@ -424,17 +444,23 @@ export default function Page() {
             </div>
 
             <div className="animate-fade-up space-y-6 delay-100">
-              <p className="text-base leading-relaxed text-muted-foreground">
-                Production AI systems — multi-tenant, infrastructure-first. From
-                PortfolioOS to Squido, built to scale.
+              <p className="max-w-2xl text-lg leading-relaxed text-foreground/90 sm:text-xl sm:leading-relaxed">
+                I&apos;m an AI product engineer focused on turning rough ideas
+                into working products fast.
               </p>
-              <p className="text-base leading-relaxed text-muted-foreground">
-                Off hours: UFC and side projects about UFC.
+              <p className="max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg sm:leading-relaxed">
+                I build across the full stack: product strategy, UI, backend
+                systems, AI workflows, billing, auth, deployment, and launch
+                infrastructure.
+              </p>
+              <p className="max-w-2xl text-base leading-relaxed text-muted-foreground">
+                My work sits between founder, engineer, and product designer —
+                I care about shipping real tools, not polished mockups.
               </p>
 
               <div className="border-t border-border/50 pt-6">
                 <p
-                  className="mb-4 text-[10px] font-medium tracking-[0.25em] text-muted-foreground/60 uppercase"
+                  className="mb-4 text-xs font-medium tracking-[0.25em] text-muted-foreground uppercase"
                   style={{ fontFamily: "var(--font-mono, monospace)" }}
                 >
                   Core Competencies
@@ -450,7 +476,7 @@ export default function Page() {
                   ].map((skill) => (
                     <div key={skill} className="flex items-center gap-2">
                       <div className="h-1.5 w-1.5 rounded-full bg-foreground/60" />
-                      <span className="text-sm text-muted-foreground">
+                      <span className="text-base text-muted-foreground">
                         {skill}
                       </span>
                     </div>
@@ -462,15 +488,18 @@ export default function Page() {
         </section>
         <Separator className="mb-28 opacity-50 max-sm:mb-16" />
 
-        {/* ── Timeline / Journey ── */}
-        <section id="journey" className="pb-28 max-sm:pb-16">
+        {/* ── Experience ── */}
+        <section id="experience" className="pb-28 max-sm:pb-16">
           <div className="animate-fade-up mb-14 max-sm:mb-8">
             <h2
-              className="text-sm font-bold tracking-[0.3em] text-foreground/70 uppercase"
+              className="text-sm font-bold tracking-[0.3em] text-foreground/80 uppercase"
               style={{ fontFamily: "var(--font-mono, monospace)" }}
             >
-              Journey
+              Experience
             </h2>
+            <p className="mt-3 max-w-md text-base text-muted-foreground">
+              Where I&apos;ve built — agencies, consulting, and my own products.
+            </p>
           </div>
 
           <div className="animate-fade-up delay-100">
@@ -501,7 +530,7 @@ export default function Page() {
         <BlogPostList posts={postsArray} />
 
         {/* ── CTA ── */}
-        <section className="animate-fade-up pb-36">
+        <section id="contact" className="animate-fade-up pb-36">
           <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-card/70 px-10 py-16 text-center">
             {/* Gold accent bar */}
             <div className="absolute top-0 right-8 left-8 h-px bg-gradient-to-r from-transparent via-[var(--spin-accent-warm)]/50 to-transparent" />
@@ -525,27 +554,37 @@ export default function Page() {
             />
 
             <p
-              className="mb-3 text-[10px] font-medium tracking-[0.3em] text-muted-foreground/70 uppercase"
+              className="mb-3 text-xs font-medium tracking-[0.3em] text-muted-foreground uppercase"
               style={{ fontFamily: "var(--font-mono, monospace)" }}
             >
-              Get in touch
+              Contact
             </p>
-            <h2 className="text-4xl font-semibold text-foreground sm:text-5xl">
-              Let&apos;s build something.
+            <h2 className="text-3xl font-semibold text-foreground sm:text-4xl lg:text-5xl">
+              Need an AI product built fast?
             </h2>
-            <p className="mx-auto mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
-              Open to collaborations and new projects.
+            <p className="mx-auto mt-4 max-w-md text-base leading-relaxed text-muted-foreground">
+              I help founders turn messy ideas into shipped software — product
+              strategy, AI workflows, full-stack architecture, and
+              launch-ready execution.
             </p>
-            <a
-              href="mailto:drew@drewsepeczi.xyz"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-8 inline-flex items-center gap-2 rounded-sm border border-amber-700/30 bg-background px-7 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:border-amber-500/60 hover:shadow-[0_0_24px_-6px_#d97706]"
-            >
-              Send an email
-              <ArrowUpRight className="h-4 w-4" />
-            </a>
-            <div className="mt-4 flex items-center justify-center gap-4 text-xs text-muted-foreground/80">
+            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <a
+                href="mailto:drew@drewsepeczi.xyz"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-sm border border-amber-700/30 bg-background px-7 py-3 text-base font-medium text-foreground transition-all duration-300 hover:border-amber-500/60 hover:shadow-[0_0_24px_-6px_#d97706]"
+              >
+                Start a Project
+                <ArrowUpRight className="h-4 w-4" />
+              </a>
+              <a
+                href="#products"
+                className="inline-flex items-center gap-2 rounded-sm border border-border/60 px-7 py-3 text-base font-medium text-muted-foreground transition-colors hover:border-border hover:text-foreground"
+              >
+                View My Work
+              </a>
+            </div>
+            <div className="mt-6 flex items-center justify-center gap-4 text-sm text-muted-foreground">
               <a
                 href="https://github.com/drewsephski"
                 target="_blank"
@@ -579,9 +618,9 @@ export default function Page() {
 
       {/* ── Footer ── */}
       <footer className="border-t border-border/50">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
+        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-6">
           <span
-            className="text-[11px] text-muted-foreground/50"
+            className="text-sm text-muted-foreground"
             style={{ fontFamily: "var(--font-mono, monospace)" }}
           >
             © 2026 Drew Sepeczi
@@ -606,7 +645,7 @@ export default function Page() {
               </svg>
             </a>
             <span
-              className="pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 scale-0 rounded px-2 py-1 text-[10px] text-muted-foreground/60 opacity-0 transition-all duration-200 group-hover:scale-100 group-hover:opacity-100"
+              className="pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 scale-0 rounded px-2 py-1 text-xs text-muted-foreground opacity-0 transition-all duration-200 group-hover:scale-100 group-hover:opacity-100"
               style={{ fontFamily: "var(--font-mono, monospace)" }}
             >
               github
@@ -616,7 +655,7 @@ export default function Page() {
             href="https://portfolios.chat/"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-[11px] text-muted-foreground/50 transition-colors hover:text-foreground"
+            className="flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
             style={{ fontFamily: "var(--font-mono, monospace)" }}
           >
             portfolio

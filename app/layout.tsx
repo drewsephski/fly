@@ -83,6 +83,14 @@ export const metadata: Metadata = {
   verification: {
     google: "81XT-CaAWLudKC3TmpkXs4k53NA5AmvYpVKflg2k8r0",
   },
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "32x32", type: "image/x-icon" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
+  manifest: "/site.webmanifest",
 }
 
 export default function RootLayout({
@@ -96,12 +104,6 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn("antialiased", playfair.variable, dmSans.variable)}
     >
-      <head>
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-
-        <link rel="manifest" href="/site.webmanifest" />
-      </head>
       <body>
         <a id="skip-to-content" href="#main-content">
           Skip to content

@@ -60,11 +60,10 @@ export function StaticGallery({
                 ease: [0.16, 1, 0.3, 1],
               }}
               className={cn(
-                "group relative col-span-1 row-span-1 cursor-pointer overflow-hidden"
+                "group relative col-span-1 row-span-1 cursor-pointer overflow-hidden border border-border/8 transition-colors hover:border-border/20"
               )}
               style={{
                 borderRadius: "3px",
-                border: "1px solid oklch(0.88 0.014 72 / 0.6)",
               }}
               onClick={() => openImage(image)}
             >

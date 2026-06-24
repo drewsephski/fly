@@ -4,14 +4,20 @@
   "description": "A minimal colored web development portfolio showcasing modern frontend projects and skills.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#000000",
+  "background_color": "#1C1A18",
+  "theme_color": "#1C1A18",
   "orientation": "portrait-primary",
   "icons": [
     {
       "src": "/favicon.ico",
       "sizes": "32x32",
       "type": "image/x-icon"
+    },
+    {
+      "src": "/apple-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "/icon.svg",
