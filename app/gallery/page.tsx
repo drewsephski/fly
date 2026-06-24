@@ -6,8 +6,9 @@ import { ParallaxGallery } from "@/components/parallax-gallery"
 import { StaticGallery } from "@/components/static-gallery"
 import { LayoutGrid, Columns3 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { getPriorityGalleryImages } from "@/lib/projects"
 
-const galleryImages = [
+const legacyGalleryImages = [
   {
     src: "/projects/phoenixdesign.png",
     alt: "Red Noir",
@@ -184,14 +185,6 @@ const galleryImages = [
       "An AI-powered tool that creates clean and shareable portfolios from LinkedIn profiles instantly.",
   },
   {
-    src: "/projects/ufc.png",
-    alt: "Fight Intel",
-    depth: "background" as const,
-    url: "https://fight.dog/",
-    description:
-      "Real-time UFC odds, fighter analytics, and AI-powered predictive insights for MMA events.",
-  },
-  {
     src: "/projects/voxflow.png",
     alt: "VoxFlow",
     depth: "mid" as const,
@@ -200,6 +193,8 @@ const galleryImages = [
       "VoxFlow provides an AI Voice Agent Template designed for SaaS startups, enabling quick development and deployment of voice agents.",
   },
 ]
+
+const galleryImages = [...getPriorityGalleryImages(), ...legacyGalleryImages]
 
 const GalleryPage = () => {
   const [viewMode, setViewMode] = useState<"scroll" | "grid">("scroll")

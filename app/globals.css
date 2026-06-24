@@ -349,3 +349,21 @@
 .animate-rainbow {
   animation: rainbow 3s linear infinite;
 }
+
+@keyframes arrow-nudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(6px);
+  }
+}
+
+.animate-arrow-nudge {
+  animation: arrow-nudge 1.4s ease-in-out infinite;
+}
+
+.group:hover .arrow-nudge-on-hover {
+  animation: arrow-nudge 1.4s ease-in-out infinite;
+}

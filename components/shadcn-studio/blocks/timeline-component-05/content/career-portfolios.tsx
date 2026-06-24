@@ -11,10 +11,8 @@ const CareerPortfoliosContent = () => {
         </p>
       </div>
       <p className="text-sm leading-relaxed text-muted-foreground">
-        Building an AI-native portfolio platform that turns resumes, GitHub, and
-        LinkedIn profiles into conversational, SEO-optimized sites that answer
-        recruiters for you. Multi-source ingestion, edge deployment,
-        subscription at $12/mo.
+        AI portfolio platform. Resumes, GitHub, and LinkedIn become conversational
+        sites that answer recruiters for you.
       </p>
       <Link
         href="https://portfolios.chat"

@@ -1,18 +1,18 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { GradientTracing } from "@/components/ui/gradient-tracing"
 import {
+  ArrowRight,
   ArrowUpRight,
   ExternalLink,
   GitBranch,
   MessageCircle,
-  Eye,
 } from "lucide-react"
 import Link from "next/link"
-import { cn } from "@/lib/utils"
 import { BlogPostList } from "@/components/blog-post"
 import TimelineContent from "@/components/shadcn-studio/blocks/timeline-component-05/timeline-component-05"
 import CareerPresentContent from "@/components/shadcn-studio/blocks/timeline-component-05/content/career-present"
@@ -25,95 +25,14 @@ import { AuroraText } from "@/components/ui/aurora-text"
 import { QuickLook } from "@/components/quick-look"
 import SpinButton from "@/components/ui/spin-button"
 import { GoldenButton } from "@/components/ui/golden-button"
-
-const FEATURED_PROJECTS = [
-  {
-    title: "NodeBase",
-    url: "https://nodebasev2.vercel.app/",
-    description:
-      "Open-source visual studio for building, running, and sharing AI workflows with a node graph editor.",
-    tags: ["Open Source", "AI", "Visual"],
-    index: "01",
-    featured: true,
-    centerpiece: true,
-    image: "/projects/nodebase.png",
-    depth: {
-      problem:
-        "AI workflow tools were either too simple (no-coding) or required deep expertise (full programming)",
-      solution:
-        "Visual node-based editor with drag-and-drop AI pipeline building + real-time collaboration",
-      tech: ["React Flow", "TypeScript", "Supabase", "Edge Functions"],
-      challenge:
-        "Implemented operational transformation for real-time collaboration across complex node graphs",
-      architecture:
-        "Client-side node editor + Supabase real-time + Edge Functions for AI execution",
-      dataflow:
-        "User creates nodes → Graph state syncs → AI executes at edge → Results stream back",
-    },
-  },
-  {
-    title: "NovaHub",
-    url: "https://novahub.dev/",
-    description:
-      "Make Your Projects Look 10x More Credible. AI-powered analysis, intelligent insights, and seamless data management for your projects.",
-    tags: ["AI", "PM", "Insights"],
-    index: "03",
-    featured: true,
-    image: "/projects/novahub.png",
-    depth: {
-      problem:
-        "Developers struggled to showcase their projects effectively to recruiters and stakeholders",
-      solution:
-        "Built AI-powered platform that transforms projects into recruiter-ready portfolios with actionable insights",
-      tech: ["React", "Node.js", "OpenAI API", "PostgreSQL", "Vercel"],
-      challenge:
-        "Developed custom AI scoring system that evaluates projects and generates compelling summaries hiring managers want to read",
-    },
-  },
-  {
-    title: "Fight Intel",
-    url: "https://fight.dog/",
-    description:
-      "Real-time UFC odds, fighter analytics, and AI-powered predictive insights for MMA events.",
-    tags: ["AI", "Sports", "Analytics"],
-    index: "02",
-    featured: true,
-    image: "/projects/ufc.png",
-    depth: {
-      problem:
-        "MMA betting data was fragmented across bookmakers with no unified analytics",
-      solution: "Built real-time odds aggregation with ML prediction engine",
-      tech: ["Next.js", "Python", "PostgreSQL", "Redis", "WebSocket"],
-      challenge:
-        "Kept odds sync under 200ms across 3 sources using WebSockets + Redis caching",
-    },
-  },
-
-  {
-    title: "ReelDiff",
-    url: "https://reeldiff.vercel.app/",
-    description:
-      "Transforms code changes into visual stories by generating shareable videos from GitHub PRs.",
-    tags: ["Dev Tools", "Video", "GitHub"],
-    index: "04",
-    featured: true,
-    image: "/projects/reeldiff.png",
-    depth: {
-      problem:
-        "Code changes were impossible to share with non-technical stakeholders",
-      solution: "Automated video generation from git diffs using AI narration",
-      tech: ["GitHub API", "FFmpeg", "OpenAI", "Next.js"],
-      challenge:
-        "Built git parser that extracts semantic changes and generates natural language descriptions",
-    },
-  },
-]
+import { ProjectsBentoGrid } from "@/components/projects-bento-grid"
+import { ARCHIVE_PROJECTS, FEATURED_PROJECTS } from "@/lib/projects"
 
 const postsArray = [
   {
     title: "Agentic AI in Production: Patterns That Actually Work",
     description:
-      "After two years of real-world deployments, the patterns for reliable agentic systems have crystallized. Bounded autonomy, multi-agent governance, and hierarchical memory are the new standard.",
+      "Bounded autonomy, multi-agent governance, and hierarchical memory — what holds up after two years in production.",
     author: "Drew Sepeczi",
     date: "May 7, 2026",
     readTime: "7 min read",
@@ -124,7 +43,7 @@ const postsArray = [
   {
     title: "Building AI-First Frontend Architectures in 2026",
     description:
-      "The React Compiler is out, AI agents scaffold entire features autonomously, and Edge AI personalizes bundle delivery. Here's what the modern frontend stack actually looks like.",
+      "React Compiler, agent-scaffolded features, and edge-personalized bundles — the stack that's actually shipping.",
     author: "Drew Sepeczi",
     date: "May 5, 2026",
     readTime: "6 min read",
@@ -135,7 +54,7 @@ const postsArray = [
   {
     title: "The Internet of Agents: MCP, A2A, and What Comes Next",
     description:
-      "Open protocols are turning isolated AI automations into a global network. MCP, A2A, and ACP are the early infrastructure of a world where agents discover, transact, and coordinate across boundaries.",
+      "How MCP, A2A, and ACP turn isolated automations into a network where agents discover and coordinate.",
     author: "Drew Sepeczi",
     date: "May 3, 2026",
     readTime: "8 min read",
@@ -145,65 +64,83 @@ const postsArray = [
   },
 ]
 
-const ARCHIVE_PROJECTS = [
-  {
-    title: "PromptMarket",
-    url: "https://promptmarket.sh/",
-    description:
-      "A public collection of precision-engineered system prompts for LLMs.",
-    tags: ["AI", "Prompts", "Tools"],
-    index: "05",
-    featured: false,
-    image: "/projects/promptsh.png",
-  },
-  {
-    title: "PixelMint",
-    url: "https://pixel-mint-sigma.vercel.app/",
-    description:
-      "AI creative studio for generating images and videos — built for creators making viral content.",
-    tags: ["Image/Video", "Creative", "Generative"],
-    index: "06",
-    featured: false,
-  },
-  {
-    title: "Roast My UI",
-    url: "https://roastmyui.me/",
-    description:
-      "Get your UI savagely critiqued by a brutally honest Gen Z AI.",
-    tags: ["AI", "Design", "Fun"],
-    index: "07",
-    featured: false,
-    image: "/projects/roastmyui.png",
-  },
-  {
-    title: "Phoenix Notebook",
-    url: "https://phoenixnotebook.netlify.app/",
-    description:
-      "AI research assistant that aggregates sources, generates summaries, and creates presentations.",
-    tags: ["AI", "Research", "Productivity"],
-    index: "08",
-    featured: false,
-  },
-  {
-    title: "Drew's AI Twin",
-    url: "https://drewchats.vercel.app/",
-    description:
-      "Personal AI twin that answers questions and shares information about Drew and his work.",
-    tags: ["AI", "Personal", "Chatbot"],
-    index: "09",
-    featured: false,
-  },
-  {
-    title: "Get Cracked",
-    url: "https://getcracked.lol/",
-    description:
-      "AI-powered SaaS template with pre-built features for rapid development.",
-    tags: ["AI", "SaaS", "Template"],
-    index: "10",
-    featured: false,
-    image: "/projects/getcracked.png",
-  },
-]
+type ArchiveProject = (typeof ARCHIVE_PROJECTS)[number]
+
+function ArchiveProjectCard({
+  project,
+  animationDelay,
+  onAsk,
+}: {
+  project: ArchiveProject
+  animationDelay: number
+  onAsk: (title: string) => void
+}) {
+  return (
+    <Link
+      href={project.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group animate-fade-up relative flex flex-col overflow-hidden rounded-xl border border-border/35 bg-card/50 shadow-[0_1px_0_0_oklch(1_0_0/0.04)_inset] transition-[border-color,background-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-border/60 hover:bg-card/75 hover:shadow-[0_12px_40px_-20px_oklch(0_0_0/0.45),0_1px_0_0_oklch(1_0_0/0.06)_inset] focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+      style={{ animationDelay: `${animationDelay}ms` }}
+    >
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--spin-accent-warm)]/0 to-transparent transition-all duration-500 group-hover:via-[var(--spin-accent-warm)]/35" />
+
+      {project.image && (
+        <div className="relative aspect-[16/10] overflow-hidden border-b border-border/25 bg-muted/15">
+          <Image
+            src={project.image}
+            alt={`${project.title} screenshot`}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+          />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-card/70 via-card/10 to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-90" />
+        </div>
+      )}
+      <div className="flex flex-1 flex-col gap-2.5 px-4 py-4">
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex min-w-0 items-center gap-2.5">
+            <span
+              className="shrink-0 font-mono text-[10px] text-muted-foreground/35 tabular-nums transition-colors duration-300 group-hover:text-[var(--spin-accent-warm)]/70"
+              style={{ fontFamily: "var(--font-mono, monospace)" }}
+            >
+              {project.index}
+            </span>
+            <h4 className="truncate text-sm font-medium tracking-tight text-foreground">
+              {project.title}
+            </h4>
+          </div>
+          <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground/25 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground/70" />
+        </div>
+        <p className="line-clamp-2 text-xs leading-relaxed text-muted-foreground/85">
+          {project.description}
+        </p>
+        <div className="mt-auto flex flex-wrap items-center gap-2 pt-1.5">
+          {project.tags.map((tag) => (
+            <Badge
+              key={tag}
+              variant="secondary"
+              className="border border-border/30 bg-muted/30 text-[10px] font-normal text-muted-foreground/80"
+            >
+              {tag}
+            </Badge>
+          ))}
+          <GoldenButton
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              onAsk(project.title)
+            }}
+            className="ml-auto h-[2.5em] px-2 text-[10px]"
+          >
+            <MessageCircle className="h-2.5 w-2.5" />
+            Ask
+          </GoldenButton>
+        </div>
+      </div>
+    </Link>
+  )
+}
 
 export default function Page() {
   const [chatOpen, setChatOpen] = useState(false)
@@ -340,12 +277,8 @@ export default function Page() {
 
             <div className="animate-fade-up delay-200">
               <p className="mt-8 max-w-md text-base leading-relaxed text-muted-foreground">
-                I turn AI into infrastructure and products that scale.
-                <span className="text-foreground">
-                  {" "}
-                  <br />
-                  Fast shipping, scalable systems, real impact.
-                </span>
+                I build AI products and infrastructure that ships under real
+                load.
               </p>
             </div>
 
@@ -373,7 +306,7 @@ export default function Page() {
                 </a>
                 <div className="h-3.5 w-px bg-border" />
                 <a
-                  href="https://portfoliosys.vercel.app/"
+                  href="https://portfolios.chat/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex items-center gap-2 text-xs text-muted-foreground transition-colors hover:text-foreground"
@@ -393,17 +326,11 @@ export default function Page() {
         <section id="work" className="pb-28 max-sm:pb-16">
           <div className="animate-fade-up mb-14 flex items-end justify-between max-sm:mb-8">
             <div>
-              <p
-                className="mb-2 text-[10px] font-medium tracking-[0.3em] text-foreground/50 uppercase"
-                style={{ fontFamily: "var(--font-mono, monospace)" }}
-              >
-                Selected Projects
-              </p>
               <h2
                 className="text-sm font-bold tracking-[0.3em] text-foreground/70 uppercase"
                 style={{ fontFamily: "var(--font-mono, monospace)" }}
               >
-                Featured Work
+                Work
               </h2>
             </div>
             <span
@@ -414,236 +341,18 @@ export default function Page() {
             </span>
           </div>
 
-          <div className="space-y-6">
-            {FEATURED_PROJECTS.map((project, i) => (
-              <div
-                key={project.url}
-                className={cn(
-                  "group animate-fade-up relative rounded-xl border transition-colors",
-                  project.centerpiece
-                    ? "border-foreground/25 bg-card/90"
-                    : "border-border/50 bg-card/60 hover:bg-card/80"
-                )}
-                style={{ animationDelay: `${i * 35 + 80}ms` }}
-              >
-                {/* Centerpiece accent line */}
-                {project.centerpiece && (
-                  <div className="absolute top-0 left-0 h-full w-[3px] rounded-l-xl bg-gradient-to-b from-foreground/40 via-foreground/20 to-transparent" />
-                )}
-
-                <div className="p-6 md:p-8">
-                  {/* Header row */}
-                  <div className="mb-5 flex flex-wrap items-start justify-between gap-4">
-                    <div className="flex min-w-0 items-center gap-3">
-                      <span
-                        className="shrink-0 font-mono text-[10px] text-muted-foreground/30 tabular-nums"
-                        style={{ fontFamily: "var(--font-mono, monospace)" }}
-                      >
-                        {project.index}
-                      </span>
-                      <div className="min-w-0">
-                        <div className="mb-1.5 flex flex-wrap items-center gap-2">
-                          <h3
-                            className={cn(
-                              "leading-tight font-semibold text-foreground",
-                              project.centerpiece ? "text-xl" : "text-lg"
-                            )}
-                          >
-                            {project.title}
-                          </h3>
-                          {project.centerpiece && (
-                            <Badge className="shrink-0 border-foreground/20 bg-foreground/10 text-[10px] text-foreground/80">
-                              Featured
-                            </Badge>
-                          )}
-                          <div className="ml-1 flex flex-wrap gap-1">
-                            {project.tags.map((tag) => (
-                              <Badge
-                                key={tag}
-                                variant="secondary"
-                                className="border border-border/30 text-[10px] font-normal text-muted-foreground/90"
-                              >
-                                {tag}
-                              </Badge>
-                            ))}
-                          </div>
-                        </div>
-                        <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
-                          {project.description}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex shrink-0 items-center gap-2">
-                      <GoldenButton
-                        onClick={() => {
-                          setChatPrompt(`Tell me about ${project.title}`)
-                          setChatOpen(true)
-                        }}
-                      >
-                        <MessageCircle className="h-3 w-3" />
-                        Ask about it
-                      </GoldenButton>
-                      {"image" in project && project.image && (
-                        <button
-                          onClick={() =>
-                            setQuickLook({
-                              src: project.image as string,
-                              alt: project.title,
-                            })
-                          }
-                          className="inline-flex items-center gap-1.5 rounded-md border border-border/40 px-3 py-1.5 text-xs text-muted-foreground transition-all hover:border-border/80 hover:bg-muted/30 hover:text-foreground"
-                        >
-                          <Eye className="h-3 w-3" />
-                          Quick look
-                        </button>
-                      )}
-                      <Link
-                        href={project.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 rounded-md border border-border/40 px-3 py-1.5 text-xs text-muted-foreground transition-all hover:border-border/80 hover:bg-muted/30 hover:text-foreground"
-                      >
-                        View
-                        <ArrowUpRight className="h-3 w-3" />
-                      </Link>
-                    </div>
-                  </div>
-
-                  {/* Depth spec sheet */}
-                  <div
-                    className={cn(
-                      "rounded-lg border border-border/30 bg-background/60 p-4",
-                      project.centerpiece && "border-border/50 bg-muted/30"
-                    )}
-                  >
-                    <div className="mb-4 grid gap-x-6 gap-y-2.5 sm:grid-cols-2">
-                      <div className="space-y-0.5">
-                        <p
-                          className="text-[9px] font-medium tracking-[0.25em] text-muted-foreground/60 uppercase"
-                          style={{ fontFamily: "var(--font-mono, monospace)" }}
-                        >
-                          Problem
-                        </p>
-                        <p className="text-xs leading-relaxed text-muted-foreground/90">
-                          {project.depth.problem}
-                        </p>
-                      </div>
-                      <div className="space-y-0.5">
-                        <p
-                          className="text-[9px] font-medium tracking-[0.25em] text-muted-foreground/60 uppercase"
-                          style={{ fontFamily: "var(--font-mono, monospace)" }}
-                        >
-                          Solution
-                        </p>
-                        <p className="text-xs leading-relaxed text-muted-foreground/90">
-                          {project.depth.solution}
-                        </p>
-                      </div>
-                      <div className="space-y-0.5">
-                        <p
-                          className="text-[9px] font-medium tracking-[0.25em] text-muted-foreground/60 uppercase"
-                          style={{ fontFamily: "var(--font-mono, monospace)" }}
-                        >
-                          Challenge
-                        </p>
-                        <p className="text-xs leading-relaxed text-muted-foreground/90">
-                          {project.depth.challenge}
-                        </p>
-                      </div>
-                      {project.depth.architecture && (
-                        <div className="space-y-0.5">
-                          <p
-                            className="text-[9px] font-medium tracking-[0.25em] text-muted-foreground/60 uppercase"
-                            style={{
-                              fontFamily: "var(--font-mono, monospace)",
-                            }}
-                          >
-                            Architecture
-                          </p>
-                          <p className="text-xs leading-relaxed text-muted-foreground/90">
-                            {project.depth.architecture}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Footer: tech + optional data flow */}
-                    <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border/30 pt-3">
-                      <div className="flex flex-wrap gap-1.5">
-                        {project.depth.tech.map((tech) => (
-                          <span
-                            key={tech}
-                            className="inline-flex items-center rounded border border-border/40 bg-background px-2 py-0.5 font-mono text-[10px] text-muted-foreground/90"
-                            style={{
-                              fontFamily: "var(--font-mono, monospace)",
-                            }}
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                      {project.depth.dataflow && (
-                        <p
-                          className="hidden font-mono text-[10px] text-muted-foreground/60 lg:block"
-                          style={{ fontFamily: "var(--font-mono, monospace)" }}
-                        >
-                          {project.depth.dataflow}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Centerpiece extra CTA */}
-                  {project.centerpiece && (
-                    <div className="mt-4 flex items-center gap-4">
-                      <a
-                        href="https://github.com/drewsephski/nodebase"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group animate-rainbow before:animate-rainbow relative inline-flex h-10 cursor-pointer items-center justify-center rounded-md border-0 bg-[linear-gradient(#fff,#fff),linear-gradient(#fff_50%,rgba(255,255,255,0.6)_80%,rgba(0,0,0,0)),linear-gradient(90deg,hsl(0,100%,63%),hsl(90,100%,63%),hsl(210,100%,63%),hsl(195,100%,63%),hsl(270,100%,63%))] bg-[length:200%] [background-clip:padding-box,border-box,border-box] [background-origin:border-box] px-4 py-2 text-sm font-medium whitespace-nowrap text-foreground ring-offset-background transition-all duration-300 [border:calc(0.08*1rem)_solid_transparent] before:absolute before:bottom-[-20%] before:left-1/2 before:z-[0] before:h-[20%] before:w-[60%] before:-translate-x-1/2 before:bg-[linear-gradient(90deg,hsl(0,100%,63%),hsl(90,100%,63%),hsl(210,100%,63%),hsl(195,100%,63%),hsl(270,100%,63%))] before:[filter:blur(calc(0.8*1rem))] hover:contrast-110 hover:saturate-150 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 dark:bg-[linear-gradient(#121213,#121213),linear-gradient(#121213_50%,rgba(18,18,19,0.6)_80%,rgba(18,18,19,0)),linear-gradient(90deg,hsl(0,100%,63%),hsl(90,100%,63%),hsl(210,100%,63%),hsl(195,100%,63%),hsl(270,100%,63%))]"
-                      >
-                        <div className="flex items-center">
-                          <svg className="size-4" viewBox="0 0 438.549 438.549">
-                            <path
-                              d="M409.132 114.573c-19.608-33.596-46.205-60.194-79.798-79.8-33.598-19.607-70.277-29.408-110.063-29.408-39.781 0-76.472 9.804-110.063 29.408-33.596 19.605-60.192 46.204-79.8 79.8C9.803 148.168 0 184.854 0 224.63c0 47.78 13.94 90.745 41.827 128.906 27.884 38.164 63.906 64.572 108.063 79.227 5.14.954 8.945.283 11.419-1.996 2.475-2.282 3.711-5.14 3.711-8.562 0-.571-.049-5.708-.144-15.417a2549.81 2549.81 0 01-.144-25.406l-6.567 1.136c-4.187.767-9.469 1.092-15.846 1-6.374-.089-12.991-.757-19.842-1.999-6.854-1.231-13.229-4.086-19.13-8.559-5.898-4.473-10.085-10.328-12.56-17.556l-2.855-6.57c-1.903-4.374-4.899-9.233-8.992-14.559-4.093-5.331-8.232-8.945-12.419-10.848l-1.999-1.431c-1.332-.951-2.568-2.098-3.711-3.429-1.142-1.331-1.997-2.663-2.568-3.997-.572-1.335-.098-2.43 1.427-3.289 1.525-.859 4.281-1.276 8.28-1.276l5.708.853c3.807.763 8.516 3.042 14.133 6.851 5.614 3.806 10.229 8.754 13.846 14.842 4.38 7.806 9.657 13.754 15.846 17.847 6.184 4.093 12.419 6.136 18.699 6.136 6.28 0 11.704-.476 16.274-1.423 4.565-.952 8.848-2.383 12.847-4.285 1.713-12.758 6.377-22.559 13.988-29.41-10.848-1.14-20.601-2.857-29.264-5.14-8.658-2.286-17.605-5.996-26.835-11.14-9.235-5.137-16.896-11.516-22.985-19.126-6.09-7.614-11.088-17.61-14.987-29.979-3.901-12.374-5.852-26.648-5.852-42.826 0-23.035 7.52-42.637 22.557-58.817-7.044-17.318-6.379-36.732 1.997-58.24 5.52-1.715 13.706-.428 24.554 3.853 10.85 4.283 18.794 7.952 23.84 10.994 5.046 3.041 9.089 5.618 12.135 7.708 17.705-4.947 35.976-7.421 54.818-7.421s37.117 2.474 54.823 7.421l10.849-6.849c7.419-4.57 16.18-8.758 26.262-12.565 10.088-3.805 17.802-4.853 23.134-3.138 8.562 21.509 9.325 40.922 2.279 58.24 15.036 16.18 22.559 35.787 22.559 58.817 0 16.178-1.958 30.497-5.853 42.966-3.9 12.471-8.941 22.457-15.125 29.979-6.191 7.521-13.901 13.85-23.131 18.986-9.232 5.14-18.182 8.85-26.84 11.136-8.662 2.286-18.415 4.004-29.263 5.146 9.894 8.562 14.842 22.077 14.842 40.539v60.237c0 3.422 1.19 6.279 3.572 8.562 2.379 2.279 6.136 2.95 11.276 1.995 44.163-14.653 80.185-41.062 108.068-79.226 27.88-38.161 41.825-81.126 41.825-128.906-.01-39.771-9.818-76.454-29.414-110.049z"
-                              fill="#fff"
-                            />
-                          </svg>
-                          <span className="ml-1 p-1 text-white lg:inline">
-                            Star on GitHub
-                          </span>
-                        </div>
-                        <div className="ml-2 flex items-center gap-1 text-sm md:flex">
-                          <svg
-                            className="size-4 text-gray-500 transition-all duration-200 group-hover:text-yellow-300"
-                            data-slot="icon"
-                            aria-hidden="true"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              clip-rule="evenodd"
-                              d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-                              fill-rule="evenodd"
-                            />
-                          </svg>
-                          <span className="inline-block text-base font-bold tracking-wider text-black tabular-nums dark:text-white">
-                            22
-                          </span>
-                        </div>
-                      </a>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+          <ProjectsBentoGrid
+            projects={FEATURED_PROJECTS}
+            onPreview={setQuickLook}
+            onAsk={(title) => {
+              setChatPrompt(`Tell me about ${title}`)
+              setChatOpen(true)
+            }}
+          />
 
           {/* Archive section */}
           <div className="mt-20 max-sm:mt-12">
-            <div className="animate-fade-up mb-8 flex items-end justify-between">
+            <div className="animate-fade-up mb-8 flex items-end justify-between border-b border-border/25 pb-4">
               <h3
                 className="text-xs font-medium tracking-[0.25em] text-muted-foreground/60 uppercase"
                 style={{ fontFamily: "var(--font-mono, monospace)" }}
@@ -658,74 +367,44 @@ export default function Page() {
               </span>
             </div>
 
-            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {ARCHIVE_PROJECTS.map((project, i) => (
-                <Link
+                <ArchiveProjectCard
                   key={project.url}
-                  href={project.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group animate-fade-up flex flex-col gap-2.5 rounded-lg border border-border/40 bg-card/55 px-4 py-3.5 transition-all hover:border-border/70 hover:bg-card/80"
-                  style={{ animationDelay: `${i * 20 + 300}ms` }}
-                >
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex min-w-0 items-center gap-2.5">
-                      <span
-                        className="shrink-0 font-mono text-[10px] text-muted-foreground/30 tabular-nums"
-                        style={{ fontFamily: "var(--font-mono, monospace)" }}
-                      >
-                        {project.index}
-                      </span>
-                      <h4 className="truncate text-sm font-medium text-foreground">
-                        {project.title}
-                      </h4>
-                    </div>
-                    <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground/30 transition-all group-hover:-translate-y-px group-hover:text-muted-foreground" />
-                  </div>
-                  <p className="line-clamp-2 pl-[1.625rem] text-xs leading-relaxed text-muted-foreground/90">
-                    {project.description}
-                  </p>
-                  <div className="flex flex-wrap items-center gap-2 pl-[1.625rem]">
-                    {project.tags.map((tag) => (
-                      <Badge
-                        key={tag}
-                        variant="secondary"
-                        className="border border-border/40 text-[10px] font-normal text-muted-foreground/90"
-                      >
-                        {tag}
-                      </Badge>
-                    ))}
-                    {"image" in project && project.image && (
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault()
-                          e.stopPropagation()
-                          setQuickLook({
-                            src: project.image as string,
-                            alt: project.title,
-                          })
-                        }}
-                        className="ml-auto inline-flex items-center gap-1 rounded-md border border-border/50 px-2 py-0.5 text-[10px] text-muted-foreground/90 transition-all hover:border-border/80 hover:bg-card/80 hover:text-foreground"
-                      >
-                        <Eye className="h-2.5 w-2.5" />
-                        Quick look
-                      </button>
-                    )}
-                    <GoldenButton
-                      onClick={(e) => {
-                        e.preventDefault()
-                        e.stopPropagation()
-                        setChatPrompt(`Tell me about ${project.title}`)
-                        setChatOpen(true)
-                      }}
-                      className="h-[2.5em] px-2 text-[10px]"
-                    >
-                      <MessageCircle className="h-2.5 w-2.5" />
-                      Ask about it
-                    </GoldenButton>
-                  </div>
-                </Link>
+                  project={project}
+                  animationDelay={i * 20 + 300}
+                  onAsk={(title) => {
+                    setChatPrompt(`Tell me about ${title}`)
+                    setChatOpen(true)
+                  }}
+                />
               ))}
+            </div>
+
+            <div className="mt-10 flex justify-center max-sm:mt-8">
+              <Link
+                href="/gallery"
+                className="group animate-fade-up relative flex w-full max-w-md flex-col items-center justify-center gap-3 overflow-hidden rounded-xl border border-dashed border-border/45 bg-card/25 px-8 py-10 text-center shadow-[0_1px_0_0_oklch(1_0_0/0.03)_inset] transition-all duration-300 hover:border-[var(--spin-accent-warm)]/30 hover:bg-card/45 hover:shadow-[0_16px_48px_-24px_oklch(0_0_0/0.5)] focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none sm:max-w-lg sm:gap-4 sm:px-12 sm:py-12"
+                style={{
+                  animationDelay: `${ARCHIVE_PROJECTS.length * 20 + 320}ms`,
+                }}
+                aria-label="View all projects in the gallery"
+              >
+                <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-[var(--spin-accent-warm)]/40 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                <span
+                  className="text-[10px] font-medium tracking-[0.28em] text-muted-foreground/55 uppercase"
+                  style={{ fontFamily: "var(--font-mono, monospace)" }}
+                >
+                  Explore
+                </span>
+                <span className="flex items-center justify-center gap-3 text-2xl font-semibold tracking-tight text-foreground sm:gap-4 sm:text-3xl">
+                  All Projects
+                  <ArrowRight className="arrow-nudge-on-hover size-6 shrink-0 text-muted-foreground/70 transition-colors duration-300 group-hover:text-[var(--spin-accent-warm)] sm:size-7" />
+                </span>
+                <span className="max-w-[22ch] text-sm leading-relaxed text-muted-foreground/85">
+                  Full visual archive in the gallery
+                </span>
+              </Link>
             </div>
           </div>
         </section>
@@ -746,13 +425,11 @@ export default function Page() {
 
             <div className="animate-fade-up space-y-6 delay-100">
               <p className="text-base leading-relaxed text-muted-foreground">
-                I build AI systems that handle real traffic — multi-tenant,
-                production-ready, infrastructure-first. From NodeBase to Fight
-                Intel, everything I ship is built to scale.
+                Production AI systems — multi-tenant, infrastructure-first. From
+                PortfolioOS to Squido, built to scale.
               </p>
               <p className="text-base leading-relaxed text-muted-foreground">
-                When I&apos;m not building, I&apos;m watching UFC (and probably
-                building something UFC-related).
+                Off hours: UFC and side projects about UFC.
               </p>
 
               <div className="border-t border-border/50 pt-6">
@@ -857,8 +534,7 @@ export default function Page() {
               Let&apos;s build something.
             </h2>
             <p className="mx-auto mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
-              Have a project in mind? I&apos;m always open to interesting
-              collaborations.
+              Open to collaborations and new projects.
             </p>
             <a
               href="mailto:drew@drewsepeczi.xyz"
@@ -937,7 +613,7 @@ export default function Page() {
             </span>
           </div>
           <a
-            href="https://portfoliosys.vercel.app/"
+            href="https://portfolios.chat/"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 text-[11px] text-muted-foreground/50 transition-colors hover:text-foreground"

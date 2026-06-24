@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils"
 import { MessageCircle, X, Send, Loader2, Bot, User } from "lucide-react"
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
+import { CHAT_SUGGESTED_PROMPTS } from "@/lib/projects"
 
 interface ChatMessage {
   id: string
@@ -315,12 +316,7 @@ export function TalkToDrew({
         {/* Prompt pills */}
         <div className="border-t border-border/40 px-2 pt-3 pb-1.5">
           <div className="flex flex-wrap gap-2">
-            {[
-              "what's your favorite stack?",
-              "what are you building now?",
-              "tell me about NodeBase",
-              "should founders learn code?",
-            ].map((pill) => (
+            {CHAT_SUGGESTED_PROMPTS.map((pill) => (
               <button
                 key={pill}
                 onClick={() => {

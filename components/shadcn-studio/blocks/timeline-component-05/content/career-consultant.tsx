@@ -11,10 +11,8 @@ const CareerConsultantContent = () => {
         </p>
       </div>
       <p className="text-sm leading-relaxed text-muted-foreground">
-        Built SlotFlow, a multi-tenant event management platform with AI-powered
-        scheduling that cut admin overhead by 50%. Designed complex domain logic
-        for event optimization, data isolation across tenants, and LLM pipelines
-        for intelligent recommendations.
+        Built SlotFlow — multi-tenant event platform with AI scheduling that cut
+        admin overhead in half.
       </p>
       <Link
         href="https://slotflow.fit"

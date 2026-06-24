@@ -13,10 +13,8 @@ const CareerPresentContent = () => {
         </p>
       </div>
       <p className="text-sm leading-relaxed text-muted-foreground">
-        Built phoenixdev.agency, a SaaS boilerplate marketplace saving founders
-        $10K+ in dev costs. Launched NodeBase (open-source AI workflow studio),
-        Astra SaaS template (Top 15 Product Hunt), and shipped multiple client
-        MVPs with 60%+ reduction in dev time.
+        Founded phoenixdev.agency. Shipped NodeBase, Astra (Top 15 Product Hunt),
+        and client MVPs with 60% faster delivery.
       </p>
       <div className="flex flex-wrap items-center gap-3">
         <Link

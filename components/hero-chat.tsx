@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils"
 import { Send, Loader2, ArrowUpRight } from "lucide-react"
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
+import { CHAT_SUGGESTED_PROMPTS } from "@/lib/projects"
 
 interface ChatMessage {
   id: string
@@ -12,12 +13,7 @@ interface ChatMessage {
   content: string
 }
 
-const PREBUILT_PROMPTS = [
-  "what's your favorite stack?",
-  "what are you building now?",
-  "tell me about NodeBase",
-  "should founders learn to code?",
-]
+const PREBUILT_PROMPTS = [...CHAT_SUGGESTED_PROMPTS]
 
 export function HeroChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([])
