@@ -11,8 +11,8 @@ const CareerPortfoliosContent = () => {
         </p>
       </div>
       <p className="text-base leading-relaxed text-muted-foreground">
-        AI portfolio platform. Resumes, GitHub, and LinkedIn become conversational
-        sites that answer recruiters for you.
+        AI portfolio platform. Resumes, GitHub, and LinkedIn become
+        conversational sites that answer recruiters for you.
       </p>
       <Link
         href="https://portfolios.chat"

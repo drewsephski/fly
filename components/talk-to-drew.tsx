@@ -243,7 +243,7 @@ export function TalkToDrew({
         {/* Messages */}
         <div
           ref={scrollRef}
-          className="scrollbar-thin custom-scrollbar flex-1 space-y-4 overflow-y-auto px-4 py-4"
+          className="custom-scrollbar flex-1 scrollbar-thin space-y-4 overflow-y-auto px-4 py-4"
           style={{
             scrollbarWidth: "thin",
             scrollbarColor: "var(--border) transparent",

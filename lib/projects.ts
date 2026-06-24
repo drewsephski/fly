@@ -289,7 +289,10 @@ export const ARCHIVE_PROJECTS: ArchiveProject[] = [
 const GALLERY_DEPTHS: GalleryDepth[] = ["foreground", "mid", "background"]
 
 function projectToGalleryImage(
-  project: Pick<FeaturedProject | ArchiveProject, "title" | "url" | "description" | "image">,
+  project: Pick<
+    FeaturedProject | ArchiveProject,
+    "title" | "url" | "description" | "image"
+  >,
   depth: GalleryDepth
 ): GalleryImage {
   return {
@@ -308,7 +311,10 @@ export function getPriorityGalleryImages(): GalleryImage[] {
   )
 
   const recentArchive = ARCHIVE_PROJECTS.slice(0, 4).map((project, i) =>
-    projectToGalleryImage(project, GALLERY_DEPTHS[(i + 1) % GALLERY_DEPTHS.length]!)
+    projectToGalleryImage(
+      project,
+      GALLERY_DEPTHS[(i + 1) % GALLERY_DEPTHS.length]!
+    )
   )
 
   return [...featured, ...recentArchive]

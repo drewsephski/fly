@@ -149,7 +149,7 @@ export function HeroChat() {
       <div
         ref={scrollRef}
         className={cn(
-          "scrollbar-thin custom-scrollbar flex-1 overflow-y-auto px-4 transition-all duration-300",
+          "custom-scrollbar flex-1 scrollbar-thin overflow-y-auto px-4 transition-all duration-300",
           hasStarted ? "max-h-[280px] space-y-3 py-4" : "py-6"
         )}
         style={{
