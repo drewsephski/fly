@@ -1,5 +1,5 @@
 import { createOpenRouter } from "@openrouter/ai-sdk-provider"
-import { streamText, convertToModelMessages, UIMessage } from "ai"
+import { convertToModelMessages, safeValidateUIMessages, streamText } from "ai"
 import {
   formatArchiveProjectsForPrompt,
   formatFeaturedProjectsForPrompt,
@@ -310,7 +310,6 @@ SquidV1 - https://squidv1.vercel.app/ - AI-powered conversational tools.
 Squid Sable - https://squid-sable.vercel.app/ - AI agents with structured access to 250+ integrations through unified protocol.
 SquidVault - https://squidvault.vercel.app/ - Secure video platform for therapists sharing session recordings with zero-knowledge encryption.
 Titan Agent - https://titan-agent-three.vercel.app/ - Modern Next.js 15 stack for fast secure web app development.
-Shoo - https://shoo-seven.vercel.app/ - Hosted authentication with session management and team features.
 Andrew's Automations - https://drewsautomations.world/ - AI app marketplace with ready-to-use templates, user management, monetization.
 LinkFolio - https://linkfolio-cyan.vercel.app/ - AI-powered tool creating clean shareable portfolios from LinkedIn profiles instantly.
 Contex - https://contex-five.vercel.app/ - Assistance with libraries, frameworks, APIs, patterns via live documentation.
@@ -417,8 +416,6 @@ export const maxDuration = 30
 const CHAT_MODEL = "google/gemini-3-flash-preview"
 
 export async function POST(req: Request) {
-  const { messages }: { messages: UIMessage[] } = await req.json()
-
   if (!process.env.OPENROUTER_API_KEY) {
     return new Response(
       JSON.stringify({ error: "OPENROUTER_API_KEY is not set" }),
@@ -429,10 +426,34 @@ export async function POST(req: Request) {
     )
   }
 
+  let body: unknown
+
+  try {
+    body = await req.json()
+  } catch {
+    return Response.json({ error: "Invalid JSON body" }, { status: 400 })
+  }
+
+  if (!body || typeof body !== "object" || !("messages" in body)) {
+    return Response.json({ error: "Messages are required" }, { status: 400 })
+  }
+
+  const validation = await safeValidateUIMessages({
+    messages: (body as { messages: unknown }).messages,
+  })
+
+  if (!validation.success) {
+    console.warn("[chat] Rejected invalid UI messages:", validation.error)
+    return Response.json({ error: "Invalid messages" }, { status: 400 })
+  }
+
+  const modelMessages = await convertToModelMessages(validation.data)
+
   const result = streamText({
     model: openrouter(CHAT_MODEL),
     system: DREW_SYSTEM_PROMPT,
-    messages: await convertToModelMessages(messages),
+    messages: modelMessages,
+    abortSignal: req.signal,
     maxOutputTokens: 500,
     onError: ({ error }) => {
       console.error(`[chat] Model ${CHAT_MODEL} failed:`, error)

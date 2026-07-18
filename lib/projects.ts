@@ -108,26 +108,6 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
     },
   },
   {
-    title: "PortfolioOS",
-    url: "https://portfolios.chat/",
-    description:
-      "AI-native portfolio for job seekers and founders — recruiters ask follow-ups and your site answers from resume, GitHub, and LinkedIn.",
-    tags: ["AI", "Portfolio", "SaaS"],
-    status: ["Live", "SaaS"],
-    index: "03",
-    featured: true,
-    image: "/projects/portfoliosos.png",
-    depth: {
-      problem:
-        "Static portfolios can't respond when recruiters have follow-up questions",
-      solution:
-        "Multi-source ingestion into a conversational portfolio with edge deploy",
-      tech: ["Next.js", "OpenAI", "Vercel", "RAG", "Stripe"],
-      challenge:
-        "Structuring resume, GitHub, and LinkedIn into a knowledge base that answers accurately",
-    },
-  },
-  {
     title: "NodeBase",
     url: "https://nodebasev2.vercel.app/",
     description:
@@ -171,6 +151,7 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
         "Citation-backed answers that stay trustworthy across PDFs, docs, and URLs",
     },
   },
+
   {
     title: "SquidCrawl",
     url: "https://squidcrawl.dev/",
@@ -188,6 +169,26 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
       tech: ["Cloudflare Workers", "Hono", "oRPC", "Better Auth", "Next.js"],
       challenge:
         "Millisecond parses on V8 without headless browsers for most HTML pages",
+    },
+  },
+  {
+    title: "PortfolioOS",
+    url: "https://portfolios.chat/",
+    description:
+      "AI-native portfolio for job seekers and founders — recruiters ask follow-ups and your site answers from resume, GitHub, and LinkedIn.",
+    tags: ["AI", "Portfolio", "SaaS"],
+    status: ["Live", "SaaS"],
+    index: "03",
+    featured: true,
+    image: "/projects/portfoliosos.png",
+    depth: {
+      problem:
+        "Static portfolios can't respond when recruiters have follow-up questions",
+      solution:
+        "Multi-source ingestion into a conversational portfolio with edge deploy",
+      tech: ["Next.js", "OpenAI", "Vercel", "RAG", "Stripe"],
+      challenge:
+        "Structuring resume, GitHub, and LinkedIn into a knowledge base that answers accurately",
     },
   },
 ]
@@ -238,17 +239,6 @@ export const ARCHIVE_PROJECTS: ArchiveProject[] = [
     image: "/projects/promptsh.png",
   },
   {
-    title: "PixelMint",
-    url: "https://pixel-mint-sigma.vercel.app/",
-    description:
-      "Generative studio for creators — AI image and video generation in one workspace.",
-    tags: ["Image/Video", "Creative", "Generative"],
-    status: ["Live"],
-    index: "11",
-    featured: false,
-    image: "/projects/pixelmint.png",
-  },
-  {
     title: "Roast My UI",
     url: "https://roastmyui.me/",
     description:
@@ -291,6 +281,17 @@ export const ARCHIVE_PROJECTS: ArchiveProject[] = [
     index: "15",
     featured: false,
     image: "/projects/getcracked.png",
+  },
+  {
+    title: "Shoo",
+    url: "https://shooauth.com/",
+    description:
+      "Hosted authentication infrastructure with sessions, audit logs, and team management built in.",
+    tags: ["Auth", "Infrastructure", "SaaS"],
+    status: ["In Progress", "SaaS"],
+    index: "16",
+    featured: false,
+    image: "/projects/shoo.png",
   },
 ]
 

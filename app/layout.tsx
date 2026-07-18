@@ -1,20 +1,28 @@
-import { Playfair_Display, DM_Sans } from "next/font/google"
+import { DM_Sans, Fraunces, IBM_Plex_Mono } from "next/font/google"
 import { Metadata } from "next"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 
-const playfair = Playfair_Display({
+const fraunces = Fraunces({
   subsets: ["latin"],
   variable: "--font-playfair",
-  weight: ["400", "500", "600", "700"],
+  weight: "variable",
+  style: ["normal", "italic"],
+  axes: ["opsz", "SOFT", "WONK"],
 })
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-dm-sans",
-  weight: ["300", "400", "500"],
+  weight: ["400", "500", "600"],
+})
+
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  weight: ["400", "500"],
 })
 
 export const viewport = {
@@ -102,7 +110,12 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("antialiased", playfair.variable, dmSans.variable)}
+      className={cn(
+        "antialiased",
+        fraunces.variable,
+        dmSans.variable,
+        plexMono.variable
+      )}
     >
       <body>
         <a id="skip-to-content" href="#main-content">

@@ -1,17 +1,30 @@
 "use client"
 
-import { useState, useRef, useEffect, useCallback } from "react"
-import { cn } from "@/lib/utils"
+import { useCallback, useEffect, useRef, useState } from "react"
+import { useChat } from "@ai-sdk/react"
+import { DefaultChatTransport, type UIMessage } from "ai"
 import { MessageCircle, X, Send, Loader2, Bot, User } from "lucide-react"
-import ReactMarkdown from "react-markdown"
-import remarkGfm from "remark-gfm"
-import { CHAT_SUGGESTED_PROMPTS } from "@/lib/projects"
-import { parseChatStreamChunk } from "@/lib/chat-stream"
 
-interface ChatMessage {
-  id: string
-  role: "user" | "assistant"
-  content: string
+import { MessageResponse } from "@/components/ai-elements/message"
+import { cn } from "@/lib/utils"
+import { CHAT_SUGGESTED_PROMPTS } from "@/lib/projects"
+
+const CHAT_TRANSPORT = new DefaultChatTransport({ api: "/api/chat" })
+const CHAT_ERROR_MESSAGE =
+  "The portfolio assistant is temporarily unavailable. Try again shortly."
+const INITIAL_MESSAGES: UIMessage[] = [
+  {
+    id: "welcome",
+    role: "assistant",
+    parts: [{ type: "text", text: "hi!" }],
+  },
+]
+
+function getMessageText(message: UIMessage) {
+  return message.parts
+    .filter((part) => part.type === "text")
+    .map((part) => part.text)
+    .join("")
 }
 
 interface TalkToDrewProps {
@@ -28,155 +41,63 @@ export function TalkToDrew({
   const [internalOpen, setInternalOpen] = useState(false)
   const open = controlledOpen ?? internalOpen
   const setOpen = controlledSetOpen ?? setInternalOpen
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      id: "welcome",
-      role: "assistant",
-      content: "hi!",
-    },
-  ])
   const [input, setInput] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
-  const abortRef = useRef<AbortController | null>(null)
   const lastAutoSendRef = useRef<string | undefined>(undefined)
+  const {
+    messages,
+    sendMessage,
+    status,
+    error,
+    clearError,
+    setMessages,
+    stop,
+  } = useChat({
+    transport: CHAT_TRANSPORT,
+    messages: INITIAL_MESSAGES,
+  })
+  const isLoading = status === "submitted" || status === "streaming"
 
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight
     }
-  }, [messages, isLoading])
+  }, [messages, status])
 
-  const sendMessage = useCallback(
+  const submitMessage = useCallback(
     async (text: string) => {
-      if (!text.trim() || isLoading) return
+      const question = text.trim()
+      if (!question || isLoading) return
 
-      const userMessage: ChatMessage = {
-        id: `user-${Date.now()}`,
-        role: "user",
-        content: text.trim(),
-      }
-
-      const assistantId = `assistant-${Date.now()}`
-      const assistantMessage: ChatMessage = {
-        id: assistantId,
-        role: "assistant",
-        content: "",
-      }
-
-      setMessages((prev) => [...prev, userMessage, assistantMessage])
+      clearError()
       setInput("")
-      setIsLoading(true)
-      setError(null)
-
-      const controller = new AbortController()
-      abortRef.current = controller
-
-      try {
-        const response = await fetch("/api/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            messages: [...messages, userMessage].map((m) => ({
-              id: m.id,
-              role: m.role,
-              content: m.content,
-              parts: [{ type: "text", text: m.content }],
-            })),
-          }),
-          signal: controller.signal,
-        })
-
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`)
-        }
-
-        const reader = response.body?.getReader()
-        if (!reader) throw new Error("No response body")
-
-        const decoder = new TextDecoder()
-        let buffer = ""
-
-        while (true) {
-          const { done, value } = await reader.read()
-          if (done) break
-
-          buffer += decoder.decode(value, { stream: true })
-
-          // SSE messages are separated by double newlines
-          const chunks = buffer.split("\n\n")
-          buffer = chunks.pop() ?? ""
-
-          for (const chunkStr of chunks) {
-            const dataLine = chunkStr
-              .split("\n")
-              .find((l) => l.startsWith("data:"))
-            if (!dataLine) continue
-
-            const data = dataLine.slice(5).trim()
-            if (data === "[DONE]") continue
-
-            const parsed = parseChatStreamChunk(data)
-            if (!parsed) continue
-
-            if (parsed.type === "error") {
-              throw new Error(parsed.errorText ?? "The AI request failed")
-            }
-
-            if (parsed.type === "text-delta" && parsed.delta) {
-              setMessages((prev) =>
-                prev.map((m) =>
-                  m.id === assistantId
-                    ? { ...m, content: m.content + parsed.delta }
-                    : m
-                )
-              )
-            }
-          }
-        }
-      } catch (err) {
-        if ((err as Error).name !== "AbortError") {
-          setError("The portfolio assistant did not respond. Try again.")
-          setMessages((prev) => prev.filter((m) => m.id !== assistantId))
-        }
-      } finally {
-        setIsLoading(false)
-        abortRef.current = null
-      }
+      await sendMessage({ text: question })
     },
-    [isLoading, messages]
+    [clearError, isLoading, sendMessage]
   )
 
   useEffect(() => {
     if (open && autoSend && autoSend !== lastAutoSendRef.current) {
       lastAutoSendRef.current = autoSend
-      sendMessage(autoSend)
+      void submitMessage(autoSend)
     }
     if (!open) {
       lastAutoSendRef.current = undefined
     }
-  }, [open, autoSend, sendMessage])
+  }, [open, autoSend, submitMessage])
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault()
-      sendMessage(input)
+      void submitMessage(input)
     },
-    [input, sendMessage]
+    [input, submitMessage]
   )
 
   const clearChat = () => {
-    abortRef.current?.abort()
-    setMessages([
-      {
-        id: "welcome",
-        role: "assistant",
-        content: "hi!",
-      },
-    ])
-    setError(null)
-    setIsLoading(false)
+    stop()
+    setMessages(INITIAL_MESSAGES)
+    clearError()
   }
 
   return (
@@ -252,50 +173,59 @@ export function TalkToDrew({
             scrollbarColor: "var(--border) transparent",
           }}
         >
-          {messages.map((msg: ChatMessage) => (
-            <div
-              key={msg.id}
-              className={cn(
-                "flex gap-2.5",
-                msg.role === "user" ? "flex-row-reverse" : "flex-row"
-              )}
-            >
-              <div
-                className={cn(
-                  "flex h-6 w-6 shrink-0 items-center justify-center rounded-full border",
-                  msg.role === "user"
-                    ? "border-border/50 bg-muted"
-                    : "border-foreground/10 bg-foreground/5"
-                )}
-              >
-                {msg.role === "user" ? (
-                  <User className="h-3 w-3 text-muted-foreground" />
-                ) : (
-                  <Bot className="h-3 w-3 text-muted-foreground" />
-                )}
-              </div>
-              <div
-                className={cn(
-                  "max-w-[80%] rounded-lg border px-3 py-2 text-xs leading-relaxed",
-                  msg.role === "user"
-                    ? "border-border/40 bg-muted/40 text-foreground"
-                    : "border-border/30 bg-transparent text-muted-foreground"
-                )}
-              >
-                {msg.role === "assistant" ? (
-                  <div className="prose prose-sm prose-neutral dark:prose-invert prose-p:my-1 prose-ul:my-1 prose-li:my-0.5 prose-headings:my-1.5 prose-headings:text-sm prose-headings:font-semibold prose-a:text-foreground prose-a:underline prose-a:underline-offset-2 max-w-none">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                      {msg.content || "\u00A0"}
-                    </ReactMarkdown>
-                  </div>
-                ) : (
-                  <p>{msg.content}</p>
-                )}
-              </div>
-            </div>
-          ))}
+          {messages.map((message) => {
+            const text = getMessageText(message)
+            const isUser = message.role === "user"
 
-          {isLoading && (
+            return (
+              <div
+                key={message.id}
+                className={cn(
+                  "flex gap-2.5",
+                  isUser ? "flex-row-reverse" : "flex-row"
+                )}
+              >
+                <div
+                  className={cn(
+                    "flex h-6 w-6 shrink-0 items-center justify-center rounded-full border",
+                    isUser
+                      ? "border-border/50 bg-muted"
+                      : "border-foreground/10 bg-foreground/5"
+                  )}
+                >
+                  {isUser ? (
+                    <User className="h-3 w-3 text-muted-foreground" />
+                  ) : (
+                    <Bot className="h-3 w-3 text-muted-foreground" />
+                  )}
+                </div>
+                <div
+                  className={cn(
+                    "max-w-[80%] rounded-lg border px-3 py-2 text-xs leading-relaxed",
+                    isUser
+                      ? "border-border/40 bg-muted/40 text-foreground"
+                      : "border-border/30 bg-transparent text-muted-foreground"
+                  )}
+                >
+                  {isUser ? (
+                    <p>{text}</p>
+                  ) : (
+                    <MessageResponse
+                      className="prose prose-sm prose-neutral dark:prose-invert prose-p:my-1 prose-ul:my-1 prose-li:my-0.5 prose-headings:my-1.5 prose-headings:text-sm prose-headings:font-semibold prose-a:text-foreground prose-a:underline prose-a:underline-offset-2 max-w-none"
+                      isAnimating={
+                        status === "streaming" &&
+                        message.id === messages.at(-1)?.id
+                      }
+                    >
+                      {text || "\u00A0"}
+                    </MessageResponse>
+                  )}
+                </div>
+              </div>
+            )
+          })}
+
+          {status === "submitted" && (
             <div className="flex gap-2.5">
               <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5">
                 <Bot className="h-3 w-3 text-muted-foreground" />
@@ -314,7 +244,7 @@ export function TalkToDrew({
               className="rounded-lg border border-destructive/30 bg-destructive/5 px-3 py-2 text-xs text-destructive"
               role="alert"
             >
-              {error}
+              {CHAT_ERROR_MESSAGE}
             </div>
           )}
         </div>
