@@ -1,5 +1,6 @@
 import { DM_Sans, Fraunces, IBM_Plex_Mono } from "next/font/google"
 import { Metadata } from "next"
+import Script from "next/script"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
@@ -76,6 +77,10 @@ export const metadata: Metadata = {
       "AI products, interfaces, and infrastructure designed and shipped by Drew Sepeczi.",
     images: ["https://drewsepeczi.xyz/me-coffee.jpg"],
     creator: "@drewsepeczi",
+    site: "@drewsepeczi",
+  },
+  alternates: {
+    canonical: "https://drewsepeczi.xyz",
   },
   robots: {
     index: true,
@@ -118,6 +123,23 @@ export default function RootLayout({
       )}
     >
       <body>
+        <Script
+          id="person-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Drew Sepeczi",
+              url: "https://drewsepeczi.xyz",
+              jobTitle: "AI Product Engineer",
+              sameAs: [
+                "https://github.com/drewsephski",
+                "https://linkedin.com/in/drewsepeczi",
+              ],
+            }),
+          }}
+        />
         <a id="skip-to-content" href="#main-content">
           Skip to content
         </a>
