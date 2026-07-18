@@ -327,6 +327,7 @@ export default async function BlogPostPage({
 
   return (
     <main
+      id="main-content"
       className="relative z-10 min-h-svh text-foreground"
       style={{ fontFamily: "var(--font-body)" }}
     >
@@ -340,33 +341,7 @@ export default async function BlogPostPage({
         }}
       />
 
-      {/* Header */}
-      <header className="sticky top-0 z-40 border-b border-border/50 bg-background/70 backdrop-blur-md">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-          <Link
-            href="/"
-            className="font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
-          >
-            ← Drew Sepeczi
-          </Link>
-          <nav className="flex items-center gap-1 text-sm text-muted-foreground">
-            <Link
-              href="/#writing"
-              className="rounded-sm px-3 py-1.5 text-xs transition-colors hover:bg-muted hover:text-foreground"
-            >
-              Writing
-            </Link>
-            <a
-              href="mailto:drew@drewsepeczi.xyz"
-              className="ml-2 inline-flex items-center gap-1.5 rounded-sm border border-border bg-foreground px-3 py-1.5 text-xs font-medium text-background transition-all hover:opacity-80"
-            >
-              Contact
-            </a>
-          </nav>
-        </div>
-      </header>
-
-      <div className="mx-auto max-w-3xl px-6 py-20">
+      <div className="mx-auto max-w-3xl px-6 pt-36 pb-20">
         {/* Back link */}
         <div className="animate-fade-up mb-8">
           <Link

@@ -2,6 +2,7 @@ import { DM_Sans, Fraunces, IBM_Plex_Mono } from "next/font/google"
 import { Metadata } from "next"
 
 import "./globals.css"
+import { SiteHeader } from "@/components/site-header"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 
@@ -121,7 +122,10 @@ export default function RootLayout({
         <a id="skip-to-content" href="#main-content">
           Skip to content
         </a>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <SiteHeader />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   )

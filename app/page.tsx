@@ -15,7 +15,6 @@ import { BackToTop } from "@/components/back-to-top"
 import { HeroChat } from "@/components/hero-chat"
 import { ProjectBento } from "@/components/project-bento"
 import { QuickLook } from "@/components/quick-look"
-import { SiteHeader } from "@/components/site-header"
 import { TalkToDrew } from "@/components/talk-to-drew"
 import { ARCHIVE_PROJECTS, FEATURED_PROJECTS } from "@/lib/projects"
 
@@ -95,8 +94,6 @@ export default function Page() {
 
   return (
     <main id="main-content" className="atelier-page">
-      <SiteHeader />
-
       <section className="atelier-hero" aria-labelledby="hero-title">
         <div
           className="atelier-hero__status reveal"

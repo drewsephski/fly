@@ -2,20 +2,22 @@
 
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
-import { Mail, Menu, X } from "lucide-react"
+import { Mail, Menu, Moon, Sun, X } from "lucide-react"
+import { useTheme } from "next-themes"
 
 import { SiteLogo } from "@/components/site-logo"
 
 const links = [
-  { href: "#products", label: "Work" },
-  { href: "#about", label: "Approach" },
-  { href: "#writing", label: "Writing" },
+  { href: "/#products", label: "Work" },
+  { href: "/#about", label: "Approach" },
+  { href: "/#writing", label: "Writing" },
 ] as const
 
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false)
   const dialogRef = useRef<HTMLDialogElement>(null)
   const firstLinkRef = useRef<HTMLAnchorElement>(null)
+  const { resolvedTheme, setTheme } = useTheme()
 
   useEffect(() => {
     const dialog = dialogRef.current
@@ -42,12 +44,23 @@ export function SiteHeader() {
 
         <nav className="atelier-nav__links" aria-label="Primary navigation">
           {links.map((link) => (
-            <a key={link.href} href={link.href}>
+            <Link key={link.href} href={link.href}>
               {link.label}
-            </a>
+            </Link>
           ))}
           <Link href="/gallery">Gallery</Link>
         </nav>
+
+        <button
+          type="button"
+          className="atelier-nav__theme"
+          aria-label="Toggle color theme"
+          title="Toggle theme (D)"
+          onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+        >
+          <Moon className="dark:hidden" aria-hidden="true" />
+          <Sun className="hidden dark:block" aria-hidden="true" />
+        </button>
 
         <a href="mailto:drewsepeczi@gmail.com" className="atelier-nav__cta">
           <Mail aria-hidden="true" />
@@ -93,7 +106,7 @@ export function SiteHeader() {
           </div>
           <nav aria-label="Mobile navigation">
             {links.map((link, index) => (
-              <a
+              <Link
                 key={link.href}
                 ref={index === 0 ? firstLinkRef : undefined}
                 href={link.href}
@@ -101,7 +114,7 @@ export function SiteHeader() {
               >
                 <span>{link.label}</span>
                 <span aria-hidden="true">↗</span>
-              </a>
+              </Link>
             ))}
             <Link href="/gallery" onClick={closeMenu}>
               <span>Gallery</span>

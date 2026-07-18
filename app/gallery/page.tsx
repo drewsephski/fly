@@ -1,12 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import Link from "next/link"
 import { ParallaxGallery } from "@/components/parallax-gallery"
 import { StaticGallery } from "@/components/static-gallery"
 import { LayoutGrid, Columns3 } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { SiteLogo } from "@/components/site-logo"
 import { getPriorityGalleryImages } from "@/lib/projects"
 
 const legacyGalleryImages = [
@@ -201,54 +199,9 @@ const GalleryPage = () => {
   const [viewMode, setViewMode] = useState<"scroll" | "grid">("scroll")
 
   return (
-    <main className="relative z-10 min-h-screen">
-      {/* ── Header / Navbar ── */}
-      <header className="sticky top-0 z-40 border-b border-border/50 bg-background/70 backdrop-blur-md">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-          <SiteLogo />
-          <nav className="flex items-center gap-1 text-base text-muted-foreground">
-            <Link
-              href="/#products"
-              className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
-            >
-              Products
-            </Link>
-            <Link
-              href="/#experience"
-              className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
-            >
-              Experience
-            </Link>
-            <Link
-              href="/#about"
-              className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
-            >
-              About
-            </Link>
-            <Link
-              href="/#writing"
-              className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
-            >
-              Writing
-            </Link>
-            <Link
-              href="/gallery"
-              className="rounded-sm bg-muted px-3 py-1.5 text-foreground transition-colors hover:bg-muted/80"
-            >
-              Gallery
-            </Link>
-            <a
-              href="mailto:drew@drewsepeczi.xyz"
-              className="ml-2 inline-flex items-center gap-1.5 rounded-sm border border-border bg-foreground px-3 py-1.5 text-xs font-medium text-background transition-all hover:opacity-80"
-            >
-              Contact
-            </a>
-          </nav>
-        </div>
-      </header>
-
+    <main id="main-content" className="relative z-10 min-h-screen">
       {/* ── Gallery Header ── */}
-      <div className="mx-auto max-w-5xl px-6 pt-16 pb-6">
+      <div className="mx-auto max-w-5xl px-6 pt-32 pb-6">
         <div className="flex items-end justify-between">
           <div>
             <p

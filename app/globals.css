@@ -1252,6 +1252,29 @@
   height: 0.9rem;
 }
 
+.atelier-nav__theme {
+  display: inline-flex;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-round);
+  background: var(--color-paper-3);
+  color: var(--color-ink-2);
+  transition:
+    border-color var(--dur-micro) var(--ease-out),
+    background-color var(--dur-micro) var(--ease-out),
+    color var(--dur-micro) var(--ease-out),
+    transform var(--dur-micro) var(--ease-out);
+}
+
+.atelier-nav__theme svg {
+  width: 1rem;
+  height: 1rem;
+}
+
 .atelier-nav__toggle {
   display: none;
   width: 2.75rem;
@@ -2183,6 +2206,42 @@
   color: var(--color-muted);
 }
 
+.atelier-simple-list__row--link {
+  position: relative;
+  margin-inline: calc(var(--space-md) * -1);
+  padding-inline: var(--space-md);
+  overflow: hidden;
+  border-radius: var(--radius-control);
+  transition:
+    border-color var(--dur-short) var(--ease-out),
+    background-color var(--dur-short) var(--ease-out),
+    box-shadow var(--dur-short) var(--ease-out),
+    transform var(--dur-short) var(--ease-out);
+}
+
+.atelier-simple-list__row--link::before {
+  position: absolute;
+  inset: var(--space-md) auto var(--space-md) 0;
+  width: 0.125rem;
+  border-radius: var(--radius-round);
+  background: var(--color-accent);
+  content: "";
+  opacity: 0;
+  transform: scaleY(0.35);
+  transform-origin: center;
+  transition:
+    opacity var(--dur-short) var(--ease-out),
+    transform var(--dur-short) var(--ease-out);
+}
+
+.atelier-simple-list__row--link h3,
+.atelier-simple-list__row--link p,
+.atelier-simple-list__row--link svg {
+  transition:
+    color var(--dur-short) var(--ease-out),
+    transform var(--dur-short) var(--ease-out);
+}
+
 .atelier-contact {
   display: grid;
   margin-block: clamp(var(--space-2xl), 7vw, var(--space-3xl));
@@ -2283,6 +2342,13 @@
     transform: translateY(-1px);
   }
 
+  .atelier-nav__theme:hover {
+    border-color: var(--color-accent-hover);
+    background: var(--color-accent-hover);
+    color: var(--color-accent-ink);
+    transform: translateY(-1px);
+  }
+
   .atelier-hero__foot a:hover,
   .atelier-section-head--compact > a:hover,
   .atelier-case__actions a:hover,
@@ -2304,14 +2370,68 @@
     transform: translateY(-0.5rem);
   }
 
-  .atelier-index__row:hover,
-  .atelier-simple-list__row--link:hover {
+  .atelier-index__row:hover {
     color: var(--color-accent-hover);
     transform: translateX(0.25rem);
   }
+
+  .atelier-simple-list__row--link:hover {
+    border-color: color-mix(
+      in oklch,
+      var(--color-accent) 38%,
+      var(--color-rule)
+    );
+    background: color-mix(
+      in oklch,
+      var(--color-accent-soft) 56%,
+      transparent
+    );
+    box-shadow: 0 0.75rem 2rem -1.75rem
+      color-mix(in oklch, var(--color-accent) 42%, transparent);
+    transform: translateY(-0.125rem);
+  }
+}
+
+.atelier-simple-list__row--link:hover::before,
+.atelier-simple-list__row--link:focus-visible::before {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.atelier-simple-list__row--link:focus-visible {
+  border-color: color-mix(
+    in oklch,
+    var(--color-accent) 38%,
+    var(--color-rule)
+  );
+  background: color-mix(
+    in oklch,
+    var(--color-accent-soft) 56%,
+    transparent
+  );
+  box-shadow: 0 0.75rem 2rem -1.75rem
+    color-mix(in oklch, var(--color-accent) 42%, transparent);
+  transform: translateY(-0.125rem);
+}
+
+.atelier-simple-list__row--link:hover h3,
+.atelier-simple-list__row--link:focus-visible h3 {
+  color: var(--color-accent-hover);
+}
+
+.atelier-simple-list__row--link:hover p,
+.atelier-simple-list__row--link:focus-visible p {
+  color: var(--color-ink-2);
+}
+
+.atelier-simple-list__row--link:hover svg,
+.atelier-simple-list__row--link:focus-visible svg {
+  color: var(--color-accent-hover);
+  transform: translate(0.125rem, -0.125rem);
 }
 
 .atelier-nav__cta:active,
+.atelier-nav__theme:active,
 .atelier-contact__button:active,
 .dossier-chat__form button:active,
 .atelier-case__actions a:active,
@@ -2542,6 +2662,14 @@
 
   .atelier-case__image {
     transition-duration: 150ms;
+  }
+
+  .atelier-simple-list__row--link,
+  .atelier-simple-list__row--link::before,
+  .atelier-simple-list__row--link h3,
+  .atelier-simple-list__row--link p,
+  .atelier-simple-list__row--link svg {
+    transition-duration: 0.01ms;
   }
 }
 

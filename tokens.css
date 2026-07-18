@@ -1,4 +1,6 @@
 :root {
+  color-scheme: light;
+
   --color-paper: oklch(0.982 0.003 80);
   --color-paper-2: oklch(0.998 0.001 80);
   --color-paper-3: oklch(0.958 0.004 80);
@@ -67,6 +69,8 @@
 }
 
 .dark {
+  color-scheme: dark;
+
   --color-paper: oklch(0.145 0.018 258);
   --color-paper-2: oklch(0.18 0.022 258);
   --color-paper-3: oklch(0.225 0.026 258);
