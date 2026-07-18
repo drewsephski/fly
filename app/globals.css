@@ -1276,6 +1276,7 @@
   padding: var(--space-md);
   border: 0;
   background: color-mix(in oklch, var(--color-ink) 18%, transparent);
+  pointer-events: auto;
 }
 
 .atelier-mobile-nav::backdrop {
