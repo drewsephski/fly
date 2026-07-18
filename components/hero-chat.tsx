@@ -70,6 +70,7 @@ export function HeroChat() {
           "dossier-chat__messages custom-scrollbar",
           hasStarted && "dossier-chat__messages--active"
         )}
+        aria-live="polite"
       >
         {!hasStarted ? (
           <div className="dossier-chat__empty">

@@ -239,6 +239,7 @@ export default function Page() {
                     fill
                     sizes="(max-width: 900px) 100vw, 58vw"
                     className="atelier-case__image"
+                    loading="lazy"
                   />
                 </span>
               </button>

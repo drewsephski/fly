@@ -34,6 +34,7 @@ export function ProjectBento({ projects }: { projects: BentoEntry[] }) {
             alt={`${project.title} interface`}
             fill
             sizes="(max-width: 700px) 50vw, 33vw"
+            loading="lazy"
           />
           <div className="atelier-bento__scrim">
             <p className="atelier-bento__title">{project.title}</p>
