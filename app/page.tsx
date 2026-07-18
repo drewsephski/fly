@@ -204,7 +204,9 @@ export default function Page() {
           <div className="portfolio-hero__proof animate-fade-up delay-200">
             <div className="portfolio-hero__proof-label">
               <span>Ask the portfolio</span>
-              <a href="#products">Browse work ↓</a>
+              <a href="#products" className="inline-flex min-h-11 items-center">
+                Browse work ↓
+              </a>
             </div>
             <HeroChat />
           </div>
@@ -426,6 +428,7 @@ export default function Page() {
               href="https://github.com/drewsephski"
               target="_blank"
               rel="noopener noreferrer"
+              className="inline-flex min-h-11 items-center"
             >
               GitHub
             </a>
@@ -433,10 +436,16 @@ export default function Page() {
               href="https://linkedin.com/in/drewsepeczi"
               target="_blank"
               rel="noopener noreferrer"
+              className="inline-flex min-h-11 items-center"
             >
               LinkedIn
             </a>
-            <a href="mailto:drewsepeczi@gmail.com">Email</a>
+            <a
+              href="mailto:drewsepeczi@gmail.com"
+              className="inline-flex min-h-11 items-center px-2"
+            >
+              Email
+            </a>
           </div>
         </div>
       </footer>

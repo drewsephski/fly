@@ -62,15 +62,29 @@ export function SiteHeader() {
     }
   }, [menuOpen])
 
+  useEffect(() => {
+    if (!menuOpen) return
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return
+      event.preventDefault()
+      setMenuOpen(false)
+    }
+
+    document.addEventListener("keydown", onKeyDown, true)
+    return () => document.removeEventListener("keydown", onKeyDown, true)
+  }, [menuOpen])
+
   const closeMenu = () => setMenuOpen(false)
 
   return (
-    <header className={`site-nav${isFloating ? "is-floating" : ""}`}>
+    <header className={isFloating ? "site-nav is-floating" : "site-nav"}>
       <div className="site-nav__inner">
-        <div className="site-nav__brand">
-          <SiteLogo markClassName="size-8" />
-          <span aria-hidden="true">Drew Sepeczi</span>
-        </div>
+        <SiteLogo
+          className="site-nav__brand min-h-11"
+          markClassName="size-8"
+          label="Drew Sepeczi"
+        />
 
         <nav className="site-nav__desktop" aria-label="Primary navigation">
           {primaryLinks.map((link) => (

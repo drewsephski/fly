@@ -1,5 +1,5 @@
-/* Hallmark · macrostructure: Portfolio Grid · tone: technical editorial · anchor hue: cobalt · nav: N10 · footer: Ft5 */
-/* Hallmark · pre-emit critique: P5 H4 E4 S5 R4 V5 */
+/* Hallmark · macrostructure: Portfolio Grid · theme: Cobalt-adapted · tone: technical editorial · anchor hue: cobalt · nav: N10 · footer: Ft5 · contrast: pass (40–41) · slop: pass (42–45) · honest: pass (46) · chrome: pass (47) · tokens: pass (48) · responsive: pass (49) · icons: pass (30) · mobile: pass (34, 49, 50–57) */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R4 V5 */
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -104,8 +104,8 @@
 @layer base {
   #skip-to-content {
     position: absolute;
-    top: -100%;
-    left: 0;
+    top: 0.5rem;
+    left: 0.5rem;
     z-index: 100;
     padding: 0.5rem 1rem;
     background: var(--background);
@@ -116,12 +116,12 @@
     border-radius: 0.375rem;
     outline: 2px solid var(--ring);
     outline-offset: 2px;
-    transition: top 0.1s;
+    transform: translateY(calc(-100% - 1rem));
+    transition: transform var(--dur-micro) var(--ease-out);
     }
 
   #skip-to-content:focus {
-    top: 0.5rem;
-    left: 0.5rem;
+    transform: translateY(0);
     }
 
   #skip-to-content:not(:focus) {
@@ -340,6 +340,7 @@
 .site-nav__brand {
   display: inline-flex;
   min-width: 0;
+  min-height: 2.75rem;
   align-items: center;
   gap: var(--space-sm);
   color: var(--color-ink);
@@ -536,7 +537,8 @@
 .portfolio-hero {
   display: grid;
   min-width: 0;
-  padding-block: clamp(var(--space-2xl), 10vw, var(--space-4xl)) var(--space-3xl);
+  padding-block: clamp(var(--space-2xl), 7vw, var(--space-3xl))
+    clamp(var(--space-3xl), 10vw, var(--space-4xl));
   gap: var(--space-2xl);
 }
 
@@ -679,6 +681,9 @@
 }
 
 .portfolio-hero__proof-label a {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
   color: var(--color-accent-hover);
   font-weight: 500;
   white-space: nowrap;
@@ -784,6 +789,9 @@
 }
 
 .portfolio-footer__links a {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
   color: var(--color-ink-2);
   white-space: nowrap;
 }

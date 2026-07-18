@@ -25,11 +25,11 @@ export const viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "Drew Sepeczi - Web Developer",
+    default: "Drew Sepeczi — AI Product Engineer",
     template: "%s | Drew Sepeczi",
   },
   description:
-    "A minimal colored web development portfolio showcasing modern frontend projects, React/Next.js expertise, and clean design principles.",
+    "Drew Sepeczi turns rough ideas into shipped AI products, interfaces, and infrastructure. Explore selected work, or get in touch to build something useful.",
   keywords: [
     "web developer",
     "frontend developer",
@@ -48,9 +48,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://drewsepeczi.xyz",
-    title: "Drew Sepeczi - Web Developer",
+    title: "Drew Sepeczi — AI Product Engineer",
     description:
-      "A minimal colored web development portfolio showcasing modern frontend projects and skills.",
+      "AI products, interfaces, and infrastructure designed and shipped by Drew Sepeczi.",
     siteName: "Drew Sepeczi",
     images: [
       {
@@ -63,9 +63,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Drew Sepeczi - Web Developer",
+    title: "Drew Sepeczi — AI Product Engineer",
     description:
-      "A minimal colored web development portfolio showcasing modern frontend projects and skills.",
+      "AI products, interfaces, and infrastructure designed and shipped by Drew Sepeczi.",
     images: ["https://drewsepeczi.xyz/me-coffee.jpg"],
     creator: "@drewsepeczi",
   },

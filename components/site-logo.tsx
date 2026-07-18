@@ -42,9 +42,10 @@ export function SiteLogoMark({
 interface SiteLogoProps {
   className?: string
   markClassName?: string
+  label?: string
 }
 
-export function SiteLogo({ className, markClassName }: SiteLogoProps) {
+export function SiteLogo({ className, markClassName, label }: SiteLogoProps) {
   return (
     <Link
       href="/"
@@ -55,6 +56,7 @@ export function SiteLogo({ className, markClassName }: SiteLogoProps) {
       aria-label="Drew Sepeczi home"
     >
       <SiteLogoMark className={cn("size-7", markClassName)} />
+      {label ? <span aria-hidden="true">{label}</span> : null}
     </Link>
   )
 }
