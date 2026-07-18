@@ -10,6 +10,8 @@ const STATUS_STYLES: Record<ProjectStatus, string> = {
   SaaS: "border-violet-500/30 bg-violet-500/10 text-violet-700 dark:text-violet-400",
   "Mac App":
     "border-orange-500/30 bg-orange-500/10 text-orange-700 dark:text-orange-400",
+  "Desktop App":
+    "border-orange-500/30 bg-orange-500/10 text-orange-700 dark:text-orange-400",
   CLI: "border-zinc-500/30 bg-zinc-500/10 text-zinc-700 dark:text-zinc-300",
   "Product Hunt":
     "border-rose-500/30 bg-rose-500/10 text-rose-700 dark:text-rose-400",

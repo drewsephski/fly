@@ -244,7 +244,7 @@ PROJECTS
 
 ${formatFeaturedProjectsForPrompt()}
 
-Previous flagship projects include NodeBase, NovaHub, Fight Intel, and ReelDiff.
+Other shipped products include NodeBase, PortfolioOS, RagBase, SquidCrawl, NovaHub, Fight Intel, and ReelDiff.
 
 Additional projects include:
 - AI tooling
@@ -414,14 +414,7 @@ Not:
 
 export const maxDuration = 30
 
-const MODELS = [
-  "openai/gpt-oss-120b:free",
-  "nvidia/nemotron-3-super:free",
-  "google/gemma-4-31b:free",
-  "minimax/minimax-m2.5:free",
-  "tencent/hy3-preview:free",
-  "openrouter/free",
-] as const
+const CHAT_MODEL = "google/gemini-3-flash-preview"
 
 export async function POST(req: Request) {
   const { messages }: { messages: UIMessage[] } = await req.json()
@@ -436,29 +429,17 @@ export async function POST(req: Request) {
     )
   }
 
-  let lastError: unknown
+  const result = streamText({
+    model: openrouter(CHAT_MODEL),
+    system: DREW_SYSTEM_PROMPT,
+    messages: await convertToModelMessages(messages),
+    maxOutputTokens: 500,
+    onError: ({ error }) => {
+      console.error(`[chat] Model ${CHAT_MODEL} failed:`, error)
+    },
+  })
 
-  for (const modelId of MODELS) {
-    try {
-      const result = streamText({
-        model: openrouter(modelId),
-        system: DREW_SYSTEM_PROMPT,
-        messages: await convertToModelMessages(messages),
-      })
-
-      return result.toUIMessageStreamResponse()
-    } catch (err: unknown) {
-      lastError = err
-      const msg = err instanceof Error ? err.message : String(err)
-      console.error(`[chat] Model ${modelId} failed:`, msg)
-      // Continue to next fallback model
-    }
-  }
-
-  const message =
-    lastError instanceof Error ? lastError.message : "All models failed"
-  return new Response(JSON.stringify({ error: message }), {
-    status: 502,
-    headers: { "Content-Type": "application/json" },
+  return result.toUIMessageStreamResponse({
+    onError: () => "The AI is temporarily unavailable. Please try again.",
   })
 }

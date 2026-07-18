@@ -6,6 +6,7 @@ import { Send, Loader2, ArrowUpRight } from "lucide-react"
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
 import { CHAT_SUGGESTED_PROMPTS } from "@/lib/projects"
+import { parseChatStreamChunk } from "@/lib/chat-stream"
 
 interface ChatMessage {
   id: string
@@ -98,19 +99,21 @@ export function HeroChat() {
             const data = dataLine.slice(5).trim()
             if (data === "[DONE]") continue
 
-            try {
-              const parsed = JSON.parse(data)
-              if (parsed.type === "text-delta" && parsed.delta) {
-                setMessages((prev) =>
-                  prev.map((m) =>
-                    m.id === assistantId
-                      ? { ...m, content: m.content + parsed.delta }
-                      : m
-                  )
+            const parsed = parseChatStreamChunk(data)
+            if (!parsed) continue
+
+            if (parsed.type === "error") {
+              throw new Error(parsed.errorText ?? "The AI request failed")
+            }
+
+            if (parsed.type === "text-delta" && parsed.delta) {
+              setMessages((prev) =>
+                prev.map((m) =>
+                  m.id === assistantId
+                    ? { ...m, content: m.content + parsed.delta }
+                    : m
                 )
-              }
-            } catch {
-              // ignore malformed chunks
+              )
             }
           }
         }
