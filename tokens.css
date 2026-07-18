@@ -1,0 +1,75 @@
+:root {
+  --color-paper: oklch(0.985 0.006 255);
+  --color-paper-2: oklch(0.965 0.01 255);
+  --color-paper-3: oklch(0.94 0.016 255);
+  --color-ink: oklch(0.19 0.022 258);
+  --color-ink-2: oklch(0.31 0.026 258);
+  --color-neutral: oklch(0.47 0.026 258);
+  --color-muted: oklch(0.52 0.024 258);
+  --color-rule: oklch(0.87 0.018 255);
+  --color-rule-2: oklch(0.81 0.022 255);
+  --color-accent: oklch(0.55 0.2 257);
+  --color-accent-hover: oklch(0.49 0.21 257);
+  --color-accent-soft: oklch(0.92 0.045 255);
+  --color-accent-ink: oklch(0.99 0.004 255);
+  --color-focus: oklch(0.42 0.19 257);
+  --color-error: oklch(0.56 0.2 27);
+
+  --font-display: var(--font-playfair);
+  --font-body: var(--font-dm-sans);
+  --font-utility: var(--font-dm-sans);
+
+  --space-3xs: 0.125rem;
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+  --space-4xl: 9rem;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: 1.25rem;
+  --text-lg: 1.5625rem;
+  --text-xl: 1.953rem;
+  --text-2xl: 2.441rem;
+  --text-3xl: 3.052rem;
+  --text-display-s: clamp(2.6rem, 6vw, 4.35rem);
+  --text-display: clamp(3rem, 7vw, 5.25rem);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long: 420ms;
+  --dur-nav: 520ms;
+
+  --rule-hair: 1px;
+  --radius-control: 0.5rem;
+  --radius-card: 0.875rem;
+  --radius-nav: 1rem;
+  --radius-round: 999px;
+}
+
+.dark {
+  --color-paper: oklch(0.145 0.018 258);
+  --color-paper-2: oklch(0.18 0.022 258);
+  --color-paper-3: oklch(0.225 0.026 258);
+  --color-ink: oklch(0.96 0.008 255);
+  --color-ink-2: oklch(0.86 0.014 255);
+  --color-neutral: oklch(0.74 0.02 255);
+  --color-muted: oklch(0.72 0.022 255);
+  --color-rule: oklch(0.31 0.026 258);
+  --color-rule-2: oklch(0.4 0.032 258);
+  --color-accent: oklch(0.7 0.16 252);
+  --color-accent-hover: oklch(0.76 0.14 252);
+  --color-accent-soft: oklch(0.27 0.075 257);
+  --color-accent-ink: oklch(0.14 0.02 258);
+  --color-focus: oklch(0.78 0.14 252);
+  --color-error: oklch(0.7 0.16 27);
+}

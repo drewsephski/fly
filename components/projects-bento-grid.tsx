@@ -21,11 +21,11 @@ function ProjectActions({
   onAsk: (title: string) => void
 }) {
   return (
-    <div className="flex flex-wrap items-center gap-3 pt-1">
+    <div className="flex flex-wrap items-center gap-2 pt-1">
       <button
         type="button"
         onClick={() => onAsk(project.title)}
-        className="inline-flex items-center gap-1.5 rounded-sm text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+        className="inline-flex min-h-11 items-center gap-1.5 rounded-md px-2 text-sm text-muted-foreground transition-colors duration-200 hover:text-[var(--color-accent-hover)] focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
       >
         <MessageCircle className="h-3.5 w-3.5" />
         Ask
@@ -34,10 +34,10 @@ function ProjectActions({
         href={project.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-1.5 rounded-sm text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+        className="inline-flex min-h-11 items-center gap-1.5 rounded-md px-2 text-sm text-muted-foreground transition-colors duration-200 hover:text-[var(--color-accent-hover)] focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
       >
         View
-        <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-px group-hover:translate-x-px" />
+        <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-px group-hover:-translate-y-px" />
       </Link>
       {project.github && (
         <GitHubStarsButton
@@ -65,8 +65,8 @@ function HeroProjectCard({
   priority?: boolean
 }) {
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-xl border border-border/40 bg-card/55 shadow-[0_1px_0_0_oklch(1_0_0/0.04)_inset] transition-[border-color,background-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-border/65 hover:bg-card/75 hover:shadow-[0_16px_48px_-24px_oklch(0_0_0/0.5),0_1px_0_0_oklch(1_0_0/0.06)_inset]">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--spin-accent-warm)]/0 to-transparent transition-all duration-500 group-hover:via-[var(--spin-accent-warm)]/35" />
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card/55 transition-[border-color,background-color] duration-200 focus-within:border-[var(--color-accent)] hover:border-[var(--color-accent)] hover:bg-card/80">
+      <div className="pointer-events-none absolute top-0 left-0 z-10 h-px w-12 bg-[var(--color-accent)] opacity-0 transition-opacity duration-200 group-focus-within:opacity-100 group-hover:opacity-100" />
 
       <button
         type="button"
@@ -89,10 +89,7 @@ function HeroProjectCard({
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 space-y-1">
             <div className="flex items-baseline gap-2.5">
-              <span
-                className="shrink-0 font-mono text-xs text-muted-foreground/60 tabular-nums transition-colors duration-300 group-hover:text-[var(--spin-accent-warm)]/80"
-                style={{ fontFamily: "var(--font-mono, monospace)" }}
-              >
+              <span className="shrink-0 text-xs text-muted-foreground/60 tabular-nums transition-colors duration-200 group-hover:text-[var(--color-accent-hover)]">
                 {project.index}
               </span>
               <h3 className="text-lg font-semibold tracking-tight text-foreground sm:text-xl">
@@ -108,10 +105,7 @@ function HeroProjectCard({
           {project.description}
         </p>
 
-        <p
-          className="text-xs text-muted-foreground/80"
-          style={{ fontFamily: "var(--font-mono, monospace)" }}
-        >
+        <p className="text-xs text-muted-foreground/80">
           {project.tags.join(" · ")}
         </p>
 
@@ -127,11 +121,11 @@ export function ProjectsBentoGrid({
   onAsk,
 }: ProjectsBentoGridProps) {
   return (
-    <div className="grid gap-5 sm:grid-cols-2">
+    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
       {projects.map((project, i) => (
         <div
           key={project.url}
-          className="animate-fade-up"
+          className={`animate-fade-up${i === 0 ? "sm:col-span-2" : ""}`}
           style={{ animationDelay: `${i * 40 + 80}ms` }}
         >
           <HeroProjectCard

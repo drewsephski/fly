@@ -4,14 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { GradientTracing } from "@/components/ui/gradient-tracing"
-import {
-  ArrowRight,
-  ArrowUpRight,
-  ExternalLink,
-  GitBranch,
-  MessageCircle,
-} from "lucide-react"
+import { ArrowRight, ArrowUpRight, Mail, MessageCircle } from "lucide-react"
 import Link from "next/link"
 import { BlogPostList } from "@/components/blog-post"
 import TimelineContent from "@/components/shadcn-studio/blocks/timeline-component-05/timeline-component-05"
@@ -21,14 +14,11 @@ import CareerPortfoliosContent from "@/components/shadcn-studio/blocks/timeline-
 import { BackToTop } from "@/components/back-to-top"
 import { TalkToDrew } from "@/components/talk-to-drew"
 import { HeroChat } from "@/components/hero-chat"
-import { AuroraText } from "@/components/ui/aurora-text"
 import { QuickLook } from "@/components/quick-look"
-import SpinButton from "@/components/ui/spin-button"
-import { GoldenButton } from "@/components/ui/golden-button"
 import { ProjectsBentoGrid } from "@/components/projects-bento-grid"
 import { ProofStrip } from "@/components/proof-strip"
 import { ProjectStatusBadges } from "@/components/project-status-badges"
-import { SiteLogo } from "@/components/site-logo"
+import { SiteHeader } from "@/components/site-header"
 import { ARCHIVE_PROJECTS, FEATURED_PROJECTS } from "@/lib/projects"
 
 const postsArray = [
@@ -83,10 +73,10 @@ function ArchiveProjectCard({
       href={project.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group animate-fade-up relative flex flex-col overflow-hidden rounded-xl border border-border/35 bg-card/50 shadow-[0_1px_0_0_oklch(1_0_0/0.04)_inset] transition-[border-color,background-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:border-border/60 hover:bg-card/75 hover:shadow-[0_12px_40px_-20px_oklch(0_0_0/0.45),0_1px_0_0_oklch(1_0_0/0.06)_inset] focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+      className="group animate-fade-up relative flex flex-col overflow-hidden rounded-xl border border-border bg-card/55 transition-[border-color,background-color] duration-200 hover:border-[var(--color-accent)] hover:bg-card/80 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
       style={{ animationDelay: `${animationDelay}ms` }}
     >
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--spin-accent-warm)]/0 to-transparent transition-all duration-500 group-hover:via-[var(--spin-accent-warm)]/35" />
+      <div className="pointer-events-none absolute top-0 left-0 h-px w-10 bg-[var(--color-accent)] opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
 
       {project.image && (
         <div className="relative aspect-[16/10] overflow-hidden border-b border-border/25 bg-muted/15">
@@ -103,17 +93,14 @@ function ArchiveProjectCard({
       <div className="flex flex-1 flex-col gap-2.5 px-4 py-4">
         <div className="flex items-start justify-between gap-2">
           <div className="flex min-w-0 items-center gap-2.5">
-            <span
-              className="shrink-0 font-mono text-[10px] text-muted-foreground/35 tabular-nums transition-colors duration-300 group-hover:text-[var(--spin-accent-warm)]/70"
-              style={{ fontFamily: "var(--font-mono, monospace)" }}
-            >
+            <span className="shrink-0 text-xs text-muted-foreground/60 tabular-nums transition-colors duration-200 group-hover:text-[var(--color-accent-hover)]">
               {project.index}
             </span>
             <h4 className="truncate text-base font-medium tracking-tight text-foreground">
               {project.title}
             </h4>
           </div>
-          <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground/25 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground/70" />
+          <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground/50 transition-colors duration-200 group-hover:text-[var(--color-accent-hover)]" />
         </div>
         <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
           {project.description}
@@ -131,17 +118,18 @@ function ArchiveProjectCard({
               {tag}
             </Badge>
           ))}
-          <GoldenButton
+          <button
+            type="button"
             onClick={(e) => {
               e.preventDefault()
               e.stopPropagation()
               onAsk(project.title)
             }}
-            className="ml-auto h-[2.5em] px-2.5 text-xs"
+            className="ml-auto inline-flex min-h-11 items-center gap-1.5 rounded-md border border-border px-3 text-xs font-medium text-muted-foreground transition-[border-color,color,transform] duration-200 hover:border-[var(--color-accent)] hover:text-[var(--color-accent-hover)] active:translate-y-px"
           >
             <MessageCircle className="h-3 w-3" />
             Ask
-          </GoldenButton>
+          </button>
         </div>
       </div>
     </Link>
@@ -158,175 +146,67 @@ export default function Page() {
 
   return (
     <main id="main-content" className="relative z-10 min-h-svh text-foreground">
-      {/* ── Grain overlay (subtle, complements dot-matrix) ── */}
-      <div
-        className="pointer-events-none fixed inset-0 z-50 opacity-[0.007]"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-          backgroundRepeat: "repeat",
-          backgroundSize: "128px 128px",
-        }}
-      />
+      <SiteHeader />
 
-      {/* ── Header ── */}
-      <header className="sticky top-0 z-40 border-b border-border/50 bg-background/70 backdrop-blur-md">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-          <SiteLogo />
-          <nav className="flex items-center gap-1 text-base text-muted-foreground">
-            <a
-              href="#products"
-              className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
+      <div className="portfolio-shell">
+        <section className="portfolio-hero" aria-labelledby="hero-title">
+          <div className="portfolio-hero__copy">
+            <p className="portfolio-hero__meta animate-fade-up">
+              AI product engineer · Chicago
+            </p>
+            <h1
+              id="hero-title"
+              className="portfolio-hero__title animate-fade-up delay-100"
             >
-              Products
-            </a>
-            <a
-              href="#experience"
-              className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
-            >
-              Experience
-            </a>
-            <a
-              href="#about"
-              className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
-            >
-              About
-            </a>
-            <a
-              href="#writing"
-              className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
-            >
-              Writing
-            </a>
-            <Link
-              href="/gallery"
-              className="rounded-sm px-3 py-1.5 transition-colors hover:bg-muted hover:text-foreground"
-            >
-              Gallery
-            </Link>
-            <a
-              href="#contact"
-              className="ml-2 inline-flex items-center gap-1.5 rounded-sm border border-border bg-foreground px-3 py-1.5 text-sm font-medium text-background transition-all hover:opacity-80"
-            >
-              Contact
-            </a>
-          </nav>
-        </div>
-      </header>
-
-      <div className="mx-auto max-w-5xl px-6">
-        {/* ── Hero ── */}
-        <section className="relative pt-28 pb-24 max-sm:pt-20 max-sm:pb-16 lg:grid lg:grid-cols-[1fr_380px] lg:gap-12">
-          {/* Left column — hero content */}
-          <div className="relative">
-            {/* Decorative rule */}
-            <div className="absolute top-20 left-0 h-px w-12 bg-border" />
-
-            {/* Gradient tracing — responsive on all sizes */}
-            <div className="absolute top-4 right-4 flex flex-col items-center gap-6 opacity-40 md:top-48 md:right-20 md:opacity-100 lg:top-12 lg:right-8">
-              <div className="md:hidden">
-                <GradientTracing
-                  width={120}
-                  height={120}
-                  path="M60,0 L45,45 L75,45 L30,120 L60,60 L30,60 L60,0"
-                  gradientColors={["#2EB9DF", "#2EB9DF", "#1ba4ff"]}
-                  strokeWidth={2}
-                  animationDuration={2}
-                />
-              </div>
-              <div className="hidden md:block lg:hidden">
-                <GradientTracing
-                  width={240}
-                  height={240}
-                  path="M120,0 L90,90 L150,90 L60,240 L120,120 L60,120 L120,0"
-                  gradientColors={["#2EB9DF", "#2EB9DF", "#1ba4ff"]}
-                  strokeWidth={2}
-                  animationDuration={2}
-                />
-              </div>
-              <div className="hidden lg:block">
-                <GradientTracing
-                  width={180}
-                  height={180}
-                  path="M90,0 L67.5,67.5 L112.5,67.5 L45,180 L90,90 L45,90 L90,0"
-                  strokeWidth={2}
-                  animationDuration={2}
-                />
-              </div>
-            </div>
-
-            <div className="animate-fade-up">
-              <p
-                className="mb-5 text-[10px] font-medium tracking-[0.3em] text-muted-foreground uppercase"
-                style={{ fontFamily: "var(--font-mono, monospace)" }}
+              Drew Sepeczi builds <span>AI products.</span>
+            </h1>
+            <p className="portfolio-hero__lede animate-fade-up delay-200">
+              I turn rough ideas into shipped software—product strategy,
+              interfaces, AI systems, infrastructure, and launch execution.
+            </p>
+            <div className="portfolio-hero__actions animate-fade-up delay-300">
+              <a
+                href="mailto:drewsepeczi@gmail.com"
+                className="portfolio-hero__primary"
               >
-                AI-Native · Full-Stack
-              </p>
-            </div>
-
-            <div className="animate-fade-up delay-100">
-              <h1
-                className="max-w-3xl leading-[1.05] font-semibold tracking-tight"
-                style={{ fontSize: "clamp(2.5rem, 6vw + 0.5rem, 5.5rem)" }}
+                <Mail aria-hidden="true" />
+                Email Drew
+              </a>
+              <a
+                href="https://squidagent.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="portfolio-hero__secondary"
               >
-                <AuroraText
-                  className="font-semibold"
-                  colors={[
-                    "oklch(0.96 0.006 75)",
-                    "oklch(0.78 0.10 70)",
-                    "oklch(0.68 0.12 70)",
-                    "oklch(0.85 0.06 70)",
-                  ]}
-                  speed={0.8}
-                >
-                  Drew
-                  <br />
-                  Sepeczi
-                </AuroraText>
-              </h1>
+                Open Squid Agent
+                <ArrowUpRight aria-hidden="true" />
+              </a>
             </div>
-
-            <div className="animate-fade-up delay-200">
-              <p className="mt-8 max-w-lg text-lg leading-relaxed text-muted-foreground">
-                I turn rough ideas into shipped AI products, tools, and
-                infrastructure.
-              </p>
-            </div>
-
-            <div className="animate-fade-up mt-12 rotate-6 delay-300">
-              <SpinButton
-                onClick={() => setChatOpen(true)}
-                onClose={() => setChatOpen(false)}
-                isOpen={chatOpen}
-              />
+            <div
+              className="portfolio-hero__outcomes animate-fade-up delay-400"
+              aria-label="Primary destinations"
+            >
+              <a href="#products">
+                <span>Selected work</span>
+                <span>{FEATURED_PROJECTS.length} featured products</span>
+              </a>
+              <a
+                href="https://github.com/drewsephski"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span>Source and experiments</span>
+                <span>github.com/drewsephski</span>
+              </a>
             </div>
           </div>
 
-          {/* Right column — inline chat (lg only) */}
-          <div className="animate-fade-up hidden delay-200 lg:block">
-            <div className="lg:pt-12">
-              <div className="mb-4 flex items-center gap-5">
-                <a
-                  href="https://github.com/drewsephski"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-2 text-xs text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  <GitBranch className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-px" />
-                  <span className="tracking-wide">GitHub</span>
-                </a>
-                <div className="h-3.5 w-px bg-border" />
-                <a
-                  href="https://portfolios.chat/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-2 text-xs text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  <ExternalLink className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-px" />
-                  <span className="tracking-wide">Portfolio</span>
-                </a>
-              </div>
-              <HeroChat />
+          <div className="portfolio-hero__proof animate-fade-up delay-200">
+            <div className="portfolio-hero__proof-label">
+              <span>Ask the portfolio</span>
+              <a href="#products">Browse work ↓</a>
             </div>
+            <HeroChat />
           </div>
         </section>
 
@@ -336,22 +216,15 @@ export default function Page() {
 
         {/* ── Featured Products ── */}
         <section id="products" className="pb-28 max-sm:pb-16">
-          <div className="animate-fade-up mb-14 flex items-end justify-between max-sm:mb-8">
+          <div className="portfolio-section-head animate-fade-up">
             <div>
-              <h2
-                className="text-sm font-bold tracking-[0.3em] text-foreground/80 uppercase"
-                style={{ fontFamily: "var(--font-mono, monospace)" }}
-              >
-                Featured Products
-              </h2>
-              <p className="mt-3 max-w-md text-base text-muted-foreground">
-                What I build — AI tools, infra, and products that ship.
+              <h2>Selected work</h2>
+              <p>
+                AI tools, infrastructure, and products designed to survive
+                contact with real users.
               </p>
             </div>
-            <span
-              className="font-mono text-[10px] text-muted-foreground/30"
-              style={{ fontFamily: "var(--font-mono, monospace)" }}
-            >
+            <span className="portfolio-section-head__meta">
               {FEATURED_PROJECTS.length} projects
             </span>
           </div>
@@ -367,22 +240,12 @@ export default function Page() {
 
           {/* Other builds */}
           <div className="mt-20 max-sm:mt-12">
-            <div className="animate-fade-up mb-8 flex items-end justify-between border-b border-border/25 pb-4">
+            <div className="portfolio-section-head animate-fade-up">
               <div>
-                <h3
-                  className="text-sm font-bold tracking-[0.25em] text-foreground/75 uppercase"
-                  style={{ fontFamily: "var(--font-mono, monospace)" }}
-                >
-                  Other Builds
-                </h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Experiments, side projects, and shipped apps.
-                </p>
+                <h3>Other builds</h3>
+                <p>Experiments, side projects, and shipped apps.</p>
               </div>
-              <span
-                className="font-mono text-[10px] text-muted-foreground/30"
-                style={{ fontFamily: "var(--font-mono, monospace)" }}
-              >
+              <span className="portfolio-section-head__meta">
                 {ARCHIVE_PROJECTS.length} more
               </span>
             </div>
@@ -401,29 +264,24 @@ export default function Page() {
               ))}
             </div>
 
-            <div className="mt-10 flex justify-center max-sm:mt-8">
+            <div className="mt-10 max-sm:mt-8">
               <Link
                 href="/gallery"
-                className="group animate-fade-up relative flex w-full max-w-md flex-col items-center justify-center gap-3 overflow-hidden rounded-xl border border-dashed border-border/45 bg-card/25 px-8 py-10 text-center shadow-[0_1px_0_0_oklch(1_0_0/0.03)_inset] transition-all duration-300 hover:border-[var(--spin-accent-warm)]/30 hover:bg-card/45 hover:shadow-[0_16px_48px_-24px_oklch(0_0_0/0.5)] focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none sm:max-w-lg sm:gap-4 sm:px-12 sm:py-12"
+                className="group animate-fade-up flex min-h-20 w-full items-center justify-between gap-4 border-y border-border py-5 text-left transition-colors duration-200 hover:border-[var(--color-accent)] focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                 style={{
                   animationDelay: `${ARCHIVE_PROJECTS.length * 20 + 320}ms`,
                 }}
                 aria-label="View all projects in the gallery"
               >
-                <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-[var(--spin-accent-warm)]/40 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                <span
-                  className="text-[10px] font-medium tracking-[0.28em] text-muted-foreground/55 uppercase"
-                  style={{ fontFamily: "var(--font-mono, monospace)" }}
-                >
-                  Explore
+                <span>
+                  <span className="block text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+                    View the full project archive
+                  </span>
+                  <span className="mt-1 block text-sm text-muted-foreground">
+                    Screenshots and links for every shipped build
+                  </span>
                 </span>
-                <span className="flex items-center justify-center gap-3 text-2xl font-semibold tracking-tight text-foreground sm:gap-4 sm:text-3xl">
-                  All Projects
-                  <ArrowRight className="arrow-nudge-on-hover size-6 shrink-0 text-muted-foreground/70 transition-colors duration-300 group-hover:text-[var(--spin-accent-warm)] sm:size-7" />
-                </span>
-                <span className="max-w-[22ch] text-sm leading-relaxed text-muted-foreground/85">
-                  Full visual archive in the gallery
-                </span>
+                <ArrowRight className="size-5 shrink-0 text-[var(--color-accent)] transition-transform duration-200 group-hover:translate-x-1" />
               </Link>
             </div>
           </div>
@@ -433,16 +291,17 @@ export default function Page() {
 
         {/* ── About ── */}
         <section id="about" className="pb-28 max-sm:pb-16">
-          <div className="grid gap-12 md:grid-cols-[200px_1fr] md:gap-20">
-            <div className="animate-fade-up">
-              <h2
-                className="text-sm font-bold tracking-[0.3em] text-foreground/80 uppercase"
-                style={{ fontFamily: "var(--font-mono, monospace)" }}
-              >
-                About
-              </h2>
+          <div className="portfolio-section-head animate-fade-up">
+            <div>
+              <h2>How I work</h2>
+              <p>
+                Product judgment, design craft, and engineering execution in one
+                loop.
+              </p>
             </div>
+          </div>
 
+          <div className="grid gap-10 border-t border-border pt-8 md:grid-cols-[minmax(0,1.2fr)_minmax(16rem,0.8fr)] md:gap-16">
             <div className="animate-fade-up space-y-6 delay-100">
               <p className="max-w-2xl text-lg leading-relaxed text-foreground/90 sm:text-xl sm:leading-relaxed">
                 I&apos;m an AI product engineer focused on turning rough ideas
@@ -454,34 +313,31 @@ export default function Page() {
                 infrastructure.
               </p>
               <p className="max-w-2xl text-base leading-relaxed text-muted-foreground">
-                My work sits between founder, engineer, and product designer —
-                I care about shipping real tools, not polished mockups.
+                My work sits between founder, engineer, and product designer — I
+                care about shipping real tools, not polished mockups.
               </p>
+            </div>
 
-              <div className="border-t border-border/50 pt-6">
-                <p
-                  className="mb-4 text-xs font-medium tracking-[0.25em] text-muted-foreground uppercase"
-                  style={{ fontFamily: "var(--font-mono, monospace)" }}
-                >
-                  Core Competencies
-                </p>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  {[
-                    "AI System Design",
-                    "Full-Stack Architecture",
-                    "Rapid Prototyping",
-                    "Performance Optimization",
-                    "API Development",
-                    "Database Design",
-                  ].map((skill) => (
-                    <div key={skill} className="flex items-center gap-2">
-                      <div className="h-1.5 w-1.5 rounded-full bg-foreground/60" />
-                      <span className="text-base text-muted-foreground">
-                        {skill}
-                      </span>
-                    </div>
-                  ))}
-                </div>
+            <div className="animate-fade-up delay-200">
+              <p className="mb-4 text-sm font-medium text-foreground">
+                Core competencies
+              </p>
+              <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-1">
+                {[
+                  "AI System Design",
+                  "Full-Stack Architecture",
+                  "Rapid Prototyping",
+                  "Performance Optimization",
+                  "API Development",
+                  "Database Design",
+                ].map((skill) => (
+                  <div key={skill} className="flex items-center gap-2">
+                    <div className="h-1.5 w-1.5 rounded-full bg-[var(--color-accent)]" />
+                    <span className="text-base text-muted-foreground">
+                      {skill}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -490,16 +346,14 @@ export default function Page() {
 
         {/* ── Experience ── */}
         <section id="experience" className="pb-28 max-sm:pb-16">
-          <div className="animate-fade-up mb-14 max-sm:mb-8">
-            <h2
-              className="text-sm font-bold tracking-[0.3em] text-foreground/80 uppercase"
-              style={{ fontFamily: "var(--font-mono, monospace)" }}
-            >
-              Experience
-            </h2>
-            <p className="mt-3 max-w-md text-base text-muted-foreground">
-              Where I&apos;ve built — agencies, consulting, and my own products.
-            </p>
+          <div className="portfolio-section-head animate-fade-up">
+            <div>
+              <h2>Experience</h2>
+              <p>
+                Agencies, consulting, and founder-led products—from brief to
+                production.
+              </p>
+            </div>
           </div>
 
           <div className="animate-fade-up delay-100">
@@ -530,137 +384,60 @@ export default function Page() {
         <BlogPostList posts={postsArray} />
 
         {/* ── CTA ── */}
-        <section id="contact" className="animate-fade-up pb-36">
-          <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-card/70 px-10 py-16 text-center">
-            {/* Gold accent bar */}
-            <div className="absolute top-0 right-8 left-8 h-px bg-gradient-to-r from-transparent via-[var(--spin-accent-warm)]/50 to-transparent" />
-
-            {/* Gold-toned corner marks */}
-            <span
-              className="absolute top-4 left-4 h-3 w-3 border-t border-l"
-              style={{ borderColor: "var(--spin-accent-warm)" }}
-            />
-            <span
-              className="absolute top-4 right-4 h-3 w-3 border-t border-r"
-              style={{ borderColor: "var(--spin-accent-warm)" }}
-            />
-            <span
-              className="absolute bottom-4 left-4 h-3 w-3 border-b border-l"
-              style={{ borderColor: "var(--spin-accent-warm)" }}
-            />
-            <span
-              className="absolute right-4 bottom-4 h-3 w-3 border-r border-b"
-              style={{ borderColor: "var(--spin-accent-warm)" }}
-            />
-
-            <p
-              className="mb-3 text-xs font-medium tracking-[0.3em] text-muted-foreground uppercase"
-              style={{ fontFamily: "var(--font-mono, monospace)" }}
+        <section id="contact" className="portfolio-contact animate-fade-up">
+          <div className="portfolio-contact__copy">
+            <h2>Send the messy brief. I&apos;ll help ship it.</h2>
+            <p>
+              For product work, consulting, or a role where broad execution
+              matters, email me directly. If you want to see the product
+              I&apos;m focused on now, open Squid Agent.
+            </p>
+          </div>
+          <div className="portfolio-contact__actions">
+            <a
+              href="mailto:drewsepeczi@gmail.com"
+              className="portfolio-hero__primary"
             >
-              Contact
-            </p>
-            <h2 className="text-3xl font-semibold text-foreground sm:text-4xl lg:text-5xl">
-              Need an AI product built fast?
-            </h2>
-            <p className="mx-auto mt-4 max-w-md text-base leading-relaxed text-muted-foreground">
-              I help founders turn messy ideas into shipped software — product
-              strategy, AI workflows, full-stack architecture, and
-              launch-ready execution.
-            </p>
-            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <a
-                href="mailto:drew@drewsepeczi.xyz"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-sm border border-amber-700/30 bg-background px-7 py-3 text-base font-medium text-foreground transition-all duration-300 hover:border-amber-500/60 hover:shadow-[0_0_24px_-6px_#d97706]"
-              >
-                Start a Project
-                <ArrowUpRight className="h-4 w-4" />
-              </a>
-              <a
-                href="#products"
-                className="inline-flex items-center gap-2 rounded-sm border border-border/60 px-7 py-3 text-base font-medium text-muted-foreground transition-colors hover:border-border hover:text-foreground"
-              >
-                View My Work
-              </a>
-            </div>
-            <div className="mt-6 flex items-center justify-center gap-4 text-sm text-muted-foreground">
-              <a
-                href="https://github.com/drewsephski"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="transition-colors hover:text-foreground"
-              >
-                GitHub
-              </a>
-              <span>•</span>
-              <a
-                href="https://linkedin.com/in/drewsepeczi"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="transition-colors hover:text-foreground"
-              >
-                LinkedIn
-              </a>
-              <span>•</span>
-              <a
-                href="https://instagram.com/drew.sepeczi"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="transition-colors hover:text-foreground"
-              >
-                Instagram
-              </a>
-            </div>
+              <Mail aria-hidden="true" />
+              Email Drew
+            </a>
+            <a
+              href="https://squidagent.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="portfolio-hero__secondary"
+            >
+              Open Squid Agent
+              <ArrowUpRight aria-hidden="true" />
+            </a>
           </div>
         </section>
       </div>
 
       {/* ── Footer ── */}
-      <footer className="border-t border-border/50">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-6">
-          <span
-            className="text-sm text-muted-foreground"
-            style={{ fontFamily: "var(--font-mono, monospace)" }}
-          >
-            © 2026 Drew Sepeczi
-          </span>
-          <div className="group relative flex items-center">
+      <footer className="portfolio-shell portfolio-footer">
+        <p className="portfolio-footer__statement">
+          Ideas are cheap. Shipped software is the proof.
+        </p>
+        <div className="portfolio-footer__meta">
+          <span>© 2026 Drew Sepeczi</span>
+          <div className="portfolio-footer__links">
             <a
               href="https://github.com/drewsephski"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground/60 transition-colors duration-200 hover:text-muted-foreground/80"
             >
-              <svg
-                stroke-linejoin="round"
-                stroke-linecap="round"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="h-4 w-4 transition-transform duration-200 group-hover:scale-110"
-              >
-                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-              </svg>
+              GitHub
             </a>
-            <span
-              className="pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 scale-0 rounded px-2 py-1 text-xs text-muted-foreground opacity-0 transition-all duration-200 group-hover:scale-100 group-hover:opacity-100"
-              style={{ fontFamily: "var(--font-mono, monospace)" }}
+            <a
+              href="https://linkedin.com/in/drewsepeczi"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              github
-            </span>
+              LinkedIn
+            </a>
+            <a href="mailto:drewsepeczi@gmail.com">Email</a>
           </div>
-          <a
-            href="https://portfolios.chat/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
-            style={{ fontFamily: "var(--font-mono, monospace)" }}
-          >
-            portfolio
-            <ExternalLink className="h-3 w-3" />
-          </a>
         </div>
       </footer>
 

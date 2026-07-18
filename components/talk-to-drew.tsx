@@ -137,7 +137,7 @@ export function TalkToDrew({
         }
       } catch (err) {
         if ((err as Error).name !== "AbortError") {
-          setError("Something went wrong. Try again in a moment.")
+          setError("The portfolio assistant did not respond. Try again.")
           setMessages((prev) => prev.filter((m) => m.id !== assistantId))
         }
       } finally {
@@ -185,7 +185,7 @@ export function TalkToDrew({
       <button
         onClick={() => setOpen(!open)}
         className={cn(
-          "fixed right-6 bottom-6 z-50 flex h-12 w-12 items-center justify-center rounded-full border shadow-lg transition-all duration-300 hover:scale-105",
+          "fixed right-6 bottom-6 z-50 flex h-12 w-12 items-center justify-center rounded-full border shadow-lg transition-[transform,background-color,border-color] duration-200 hover:-translate-y-px active:translate-y-px",
           open
             ? "border-border bg-muted text-foreground"
             : "border-foreground/20 bg-foreground text-background hover:bg-foreground/90"
@@ -206,7 +206,7 @@ export function TalkToDrew({
       {/* Chat panel */}
       <div
         className={cn(
-          "fixed right-6 bottom-20 z-50 flex w-[380px] max-w-[calc(100vw-3rem)] origin-bottom-right flex-col rounded-xl border border-border/60 bg-background shadow-2xl transition-all duration-300",
+          "fixed right-6 bottom-20 z-50 flex w-[380px] max-w-[calc(100vw-2rem)] origin-bottom-right flex-col rounded-xl border border-border bg-background shadow-2xl transition-[transform,opacity] duration-300",
           open
             ? "translate-y-0 scale-100 opacity-100"
             : "pointer-events-none translate-y-4 scale-95 opacity-0"
@@ -228,7 +228,7 @@ export function TalkToDrew({
               <p className="text-sm font-medium text-foreground">
                 Talk to Drew
               </p>
-              <p className="font-mono text-[10px] text-muted-foreground/60">
+              <p className="text-xs text-muted-foreground/70">
                 AI-powered assistant
               </p>
             </div>
@@ -236,7 +236,7 @@ export function TalkToDrew({
           {messages.length > 1 && (
             <button
               onClick={clearChat}
-              className="text-[10px] text-muted-foreground/50 transition-colors hover:text-muted-foreground"
+              className="min-h-11 px-2 text-xs text-muted-foreground transition-colors duration-200 hover:text-[var(--color-accent-hover)]"
             >
               Clear
             </button>
@@ -246,7 +246,7 @@ export function TalkToDrew({
         {/* Messages */}
         <div
           ref={scrollRef}
-          className="scrollbar-thin custom-scrollbar flex-1 space-y-4 overflow-y-auto px-4 py-4"
+          className="custom-scrollbar flex-1 scrollbar-thin space-y-4 overflow-y-auto px-4 py-4"
           style={{
             scrollbarWidth: "thin",
             scrollbarColor: "var(--border) transparent",
@@ -303,14 +303,17 @@ export function TalkToDrew({
               <div className="flex items-center gap-1.5 rounded-lg border border-border/30 px-3 py-2">
                 <Loader2 className="h-3.5 w-3.5 animate-spin text-muted-foreground" />
                 <span className="font-mono text-xs text-muted-foreground/60">
-                  Thinking...
+                  Thinking…
                 </span>
               </div>
             </div>
           )}
 
           {error && (
-            <div className="rounded-lg border border-destructive/20 bg-destructive/5 px-3 py-2 text-xs text-destructive">
+            <div
+              className="rounded-lg border border-destructive/30 bg-destructive/5 px-3 py-2 text-xs text-destructive"
+              role="alert"
+            >
               {error}
             </div>
           )}
@@ -318,7 +321,7 @@ export function TalkToDrew({
 
         {/* Prompt pills */}
         <div className="border-t border-border/40 px-2 pt-3 pb-1.5">
-          <div className="flex flex-wrap gap-2">
+          <div className="flex gap-2 overflow-x-auto pb-1">
             {CHAT_SUGGESTED_PROMPTS.map((pill) => (
               <button
                 key={pill}
@@ -326,7 +329,7 @@ export function TalkToDrew({
                   setInput(pill)
                 }}
                 disabled={isLoading}
-                className="rounded-full border border-border/40 bg-muted/30 px-3 py-1 text-xs text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground disabled:opacity-40"
+                className="min-h-11 shrink-0 rounded-md border border-border bg-muted/30 px-3 text-xs whitespace-nowrap text-muted-foreground transition-[border-color,background-color,color] duration-200 hover:border-[var(--color-accent)] hover:bg-muted/60 hover:text-[var(--color-accent-hover)] disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {pill}
               </button>
@@ -339,18 +342,23 @@ export function TalkToDrew({
           onSubmit={handleSubmit}
           className="border-t border-border/40 px-4 py-3"
         >
-          <div className="flex items-center gap-2 rounded-lg border border-border/40 bg-muted/30 px-3 py-2 transition-colors focus-within:border-border/80 focus-within:bg-muted/50">
+          <label htmlFor="floating-portfolio-question" className="sr-only">
+            Ask about Drew&apos;s work
+          </label>
+          <div className="flex min-h-12 items-center gap-2 rounded-lg border border-border bg-muted/30 pl-3 transition-colors duration-200 focus-within:border-[var(--color-accent)] focus-within:bg-muted/50">
             <input
+              id="floating-portfolio-question"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about Drew's projects..."
+              placeholder="Ask about a project…"
               className="flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground/40"
               disabled={isLoading}
             />
             <button
               type="submit"
               disabled={isLoading || !input.trim()}
-              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-foreground text-background transition-all hover:bg-foreground/90 disabled:opacity-30 disabled:hover:bg-foreground"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-[var(--color-accent)] text-[var(--color-accent-ink)] transition-[background-color,transform] duration-200 hover:bg-[var(--color-accent-hover)] active:translate-y-px disabled:cursor-not-allowed disabled:opacity-40"
+              aria-label="Send question"
             >
               <Send className="h-3.5 w-3.5" />
             </button>

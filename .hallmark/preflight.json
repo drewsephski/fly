@@ -1,0 +1,9 @@
+{
+  "date": "2026-07-18",
+  "framework": "Next.js 16 App Router",
+  "fonts": ["Playfair Display", "DM Sans"],
+  "palette": "OKLCH custom properties with class-based dark mode",
+  "motion": "motion 12 installed; CSS motion enabled",
+  "spacing": "Tailwind v4 with a Hallmark 4pt semantic scale",
+  "preserve": ["font pairing", "light and dark mode", "content", "routes"]
+}

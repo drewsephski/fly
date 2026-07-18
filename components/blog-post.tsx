@@ -22,16 +22,19 @@ export function BlogPost({
   slug,
 }: BlogPostProps) {
   return (
-    <Link href={`/blog/${slug}`} className="block">
-      <article className="group relative flex flex-col gap-3 rounded-sm border border-border/40 bg-card/55 p-5 transition-all hover:border-border/70 hover:bg-card/80 sm:p-6">
-        <div className="flex items-center gap-2 font-mono text-xs text-muted-foreground">
+    <Link
+      href={`/blog/${slug}`}
+      className="block rounded-lg focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+    >
+      <article className="group relative flex h-full flex-col gap-3 rounded-lg border border-border bg-card/55 p-5 transition-[border-color,background-color] duration-200 hover:border-[var(--color-accent)] hover:bg-card/80 sm:p-6">
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
           <span>{date}</span>
           <span className="h-3 w-px bg-border/50" />
           <span>{readTime}</span>
         </div>
-        <h4 className="text-base leading-snug font-semibold text-foreground sm:text-lg">
+        <h3 className="text-base leading-snug font-semibold text-foreground sm:text-lg">
           {title}
-        </h4>
+        </h3>
         <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
           {description}
         </p>
@@ -47,7 +50,7 @@ export function BlogPost({
               </Badge>
             ))}
           </div>
-          <ArrowUpRight className="h-4 w-4 text-muted-foreground opacity-0 transition-all group-hover:opacity-100" />
+          <ArrowUpRight className="h-4 w-4 text-[var(--color-accent)] opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
         </div>
       </article>
     </Link>
@@ -57,22 +60,17 @@ export function BlogPost({
 export function BlogPostList({ posts }: { posts: BlogPostProps[] }) {
   return (
     <section id="writing" className="pb-28">
-      <div className="animate-fade-up mb-8">
-        <h2
-          className="text-sm font-bold tracking-[0.3em] text-foreground/80 uppercase"
-          style={{ fontFamily: "var(--font-mono, monospace)" }}
-        >
-          Writing
-        </h2>
-        <p className="mt-3 max-w-md text-base text-muted-foreground">
-          Notes on AI, architecture, and what holds up in production.
-        </p>
+      <div className="portfolio-section-head animate-fade-up">
+        <div>
+          <h2>Writing</h2>
+          <p>Notes on AI, architecture, and what holds up in production.</p>
+        </div>
       </div>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2">
         {posts.map((post, i) => (
           <div
             key={i}
-            className="animate-fade-up"
+            className="animate-fade-up last:sm:col-span-2"
             style={{ animationDelay: `${i * 40 + 100}ms` }}
           >
             <BlogPost {...post} />

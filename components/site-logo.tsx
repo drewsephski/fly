@@ -21,30 +21,16 @@ export function SiteLogoMark({
       className={cn("shrink-0", className)}
     >
       <title>{title}</title>
-      <rect width="32" height="32" rx="7" fill="#1C1A18" />
-      <defs>
-        <linearGradient
-          id="site-logo-gold"
-          x1="4"
-          y1="26"
-          x2="28"
-          y2="6"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop stopColor="#A67C2E" />
-          <stop offset="0.45" stopColor="#D4AB4A" />
-          <stop offset="1" stopColor="#F0D890" />
-        </linearGradient>
-      </defs>
+      <rect width="32" height="32" rx="7" fill="var(--color-ink)" />
       <path
         d="M5 23.5C9.5 13.5 14.5 10 27 7"
-        stroke="url(#site-logo-gold)"
+        stroke="var(--color-accent)"
         strokeWidth="2.25"
         strokeLinecap="round"
       />
       <path
         d="M11 8V24M11 8H16.25C19.75 8 21.75 11.25 21.75 16C21.75 20.75 19.75 24 16.25 24H11"
-        stroke="#F2EDE4"
+        stroke="var(--color-paper)"
         strokeWidth="2.15"
         strokeLinecap="round"
         strokeLinejoin="round"

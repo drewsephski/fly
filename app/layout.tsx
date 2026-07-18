@@ -7,13 +7,13 @@ import { cn } from "@/lib/utils"
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
-  variable: "--font-display",
+  variable: "--font-playfair",
   weight: ["400", "500", "600", "700"],
 })
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-body",
+  variable: "--font-dm-sans",
   weight: ["300", "400", "500"],
 })
 
