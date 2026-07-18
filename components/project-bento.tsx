@@ -24,8 +24,7 @@ export function ProjectBento({ projects }: { projects: BentoEntry[] }) {
           rel="noopener noreferrer"
           className={cn(
             "atelier-bento__card",
-            index % 5 === 0 && "atelier-bento__card--wide",
-            index % 7 === 3 && "atelier-bento__card--tall"
+            (index % 6 === 0 || index % 6 === 5) && "atelier-bento__card--wide"
           )}
           style={{ "--i": index } as CSSProperties}
           aria-label={`Open ${project.title}`}
