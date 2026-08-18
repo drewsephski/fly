@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Impeccable skill scripts (installed via npx impeccable install)
+    ".cursor/**",
   ]),
 ]);
 
