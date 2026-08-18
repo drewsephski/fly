@@ -1028,13 +1028,20 @@
   min-width: 0;
   overflow: clip;
   grid-column: span 1;
+  isolation: isolate;
   border: var(--rule-hair) solid var(--color-rule);
   border-radius: var(--radius-card);
   background: var(--color-paper-3);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklch, var(--color-ink) 5%, transparent),
+    var(--bento-card-shadow);
   opacity: 0;
   transform: translateY(var(--space-xs));
   animation: atelier-reveal var(--dur-long) var(--ease-out) forwards;
   animation-delay: calc(var(--i, 0) * 60ms);
+  transition:
+    border-color var(--dur-micro) var(--ease-out),
+    box-shadow var(--dur-short) var(--ease-out);
 }
 
 .atelier-bento__card--wide {
@@ -1049,28 +1056,75 @@
 
 .atelier-bento__scrim {
   position: absolute;
+  z-index: var(--z-raised);
   inset: auto 0 0;
-  padding: 4rem var(--space-lg) var(--space-lg);
+  padding: 5rem var(--space-lg) var(--space-lg);
   background: linear-gradient(
     to top,
-    color-mix(in oklch, var(--color-ink) 92%, transparent) 0%,
-    color-mix(in oklch, var(--color-ink) 54%, transparent) 58%,
-    transparent
+    var(--bento-scrim-solid) 0%,
+    var(--bento-scrim-strong) 22%,
+    var(--bento-scrim-mid) 48%,
+    var(--bento-scrim-soft) 72%,
+    transparent 100%
   );
 }
 
+.atelier-bento__scrim::before {
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(0.625rem);
+  content: "";
+  mask-image: linear-gradient(
+    to top,
+    black 0%,
+    black 22%,
+    transparent 72%
+  );
+  pointer-events: none;
+}
+
 .atelier-bento__title {
+  position: relative;
+  z-index: 1;
   margin: 0;
-  color: var(--color-paper);
+  color: var(--bento-title);
   font-family: var(--font-display);
   font-size: var(--text-base);
   font-weight: 500;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+.atelier-bento__fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: var(--space-md);
+  background: color-mix(in oklch, var(--color-paper-3) 88%, var(--color-muted));
+  color: var(--color-muted);
+  font-family: var(--font-mono-ui);
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.atelier-bento-empty {
+  padding: var(--space-xl);
+  border: var(--rule-hair) dashed var(--color-rule);
+  border-radius: var(--radius-control);
+  color: var(--color-muted);
+  text-align: center;
 }
 
 .atelier-bento__meta {
+  position: relative;
+  z-index: 1;
   display: block;
   margin-block-start: var(--space-2xs);
-  color: color-mix(in oklch, var(--color-paper) 68%, transparent);
+  color: var(--bento-meta);
   font-family: var(--font-mono-ui);
   font-size: var(--text-xs);
   letter-spacing: 0.06em;
@@ -1079,18 +1133,25 @@
 
 .atelier-bento__arrow {
   position: absolute;
+  z-index: calc(var(--z-raised) + 1);
   inset: var(--space-sm) var(--space-sm) auto auto;
   display: grid;
   width: 2rem;
   height: 2rem;
   place-items: center;
+  border: var(--rule-hair) solid color-mix(in oklch, var(--color-ink) 10%, transparent);
   border-radius: var(--radius-round);
-  background: color-mix(in oklch, var(--color-paper) 90%, transparent);
+  background: color-mix(in oklch, var(--color-paper-2) 88%, transparent);
+  box-shadow: 0 0.35rem 1rem -0.35rem
+    color-mix(in oklch, var(--color-ink) 18%, transparent);
   color: var(--color-ink);
   opacity: 1;
+  backdrop-filter: blur(0.5rem) saturate(120%);
   transition:
     color var(--dur-micro) var(--ease-out),
     background-color var(--dur-micro) var(--ease-out),
+    border-color var(--dur-micro) var(--ease-out),
+    box-shadow var(--dur-micro) var(--ease-out),
     transform var(--dur-micro) var(--ease-out);
 }
 
@@ -1106,12 +1167,22 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
+  .atelier-bento__card:hover {
+    border-color: color-mix(in oklch, var(--color-accent) 35%, var(--color-rule));
+    box-shadow:
+      inset 0 1px 0 color-mix(in oklch, var(--color-ink) 6%, transparent),
+      var(--bento-card-shadow-hover);
+  }
+
   .atelier-bento__card:hover img {
     transform: scale(1.035);
   }
 
   .atelier-bento__card:hover .atelier-bento__arrow {
+    border-color: transparent;
     background: var(--color-accent);
+    box-shadow: 0 0.5rem 1.25rem -0.35rem
+      color-mix(in oklch, var(--color-accent) 45%, transparent);
     color: var(--color-accent-ink);
     transform: translate(0.1rem, -0.1rem);
   }
@@ -1694,12 +1765,14 @@
 
 .dossier-chat__bubble {
   max-width: min(88%, 34rem);
+  min-width: 0;
   padding: var(--space-sm) var(--space-md);
   border: var(--rule-hair) solid var(--color-rule);
   border-radius: var(--radius-control);
   color: var(--color-ink-2);
   font-size: var(--text-sm);
   line-height: 1.55;
+  overflow-wrap: anywhere;
 }
 
 .dossier-chat__message--user .dossier-chat__bubble {
@@ -1740,6 +1813,46 @@
   border-radius: var(--radius-control);
   color: var(--color-error);
   font-size: var(--text-sm);
+}
+
+.dossier-chat__error p {
+  margin: 0;
+}
+
+.dossier-chat__error button {
+  margin-block-start: var(--space-xs);
+  min-height: 2.75rem;
+  padding-inline: var(--space-md);
+  border: var(--rule-hair) solid color-mix(in oklch, var(--color-error) 40%, transparent);
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--color-error);
+  transition: background-color 0.2s ease;
+}
+
+.dossier-chat__user-text {
+  margin: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.dossier-chat__prompt-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dossier-chat__count {
+  margin: 0;
+  color: var(--color-muted);
+  font-family: var(--font-mono-ui);
+  font-size: var(--text-xs);
+  text-align: end;
+}
+
+.dossier-chat__count--over {
+  color: var(--color-error);
 }
 
 .dossier-chat__composer {
@@ -2331,6 +2444,10 @@
 @media (hover: hover) and (pointer: fine) {
   .atelier-nav__links a:hover,
   .atelier-footer nav a:hover,
+  .dossier-chat__error button:hover {
+    background: color-mix(in oklch, var(--color-error) 8%, transparent);
+  }
+
   .dossier-chat__conversation-head button:hover {
     color: var(--color-accent-hover);
   }

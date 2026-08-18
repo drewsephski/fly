@@ -6,19 +6,19 @@ import { DefaultChatTransport, type UIMessage } from "ai"
 import { ArrowUpRight, Loader2, Send } from "lucide-react"
 
 import { MessageResponse } from "@/components/ai-elements/message"
-import { cn } from "@/lib/utils"
+import { ChatErrorBanner } from "@/components/chat-error-banner"
+import {
+  CHAT_MAX_MESSAGE_LENGTH,
+  getMessageTextFromParts,
+} from "@/lib/chat-config"
 import { CHAT_SUGGESTED_PROMPTS } from "@/lib/projects"
+import { cn } from "@/lib/utils"
 
 const PREBUILT_PROMPTS = CHAT_SUGGESTED_PROMPTS.slice(0, 3)
 const CHAT_TRANSPORT = new DefaultChatTransport({ api: "/api/chat" })
-const CHAT_ERROR_MESSAGE =
-  "The portfolio assistant is temporarily unavailable. Try again shortly."
 
 function getMessageText(message: UIMessage) {
-  return message.parts
-    .filter((part) => part.type === "text")
-    .map((part) => part.text)
-    .join("")
+  return getMessageTextFromParts(message.parts)
 }
 
 export function HeroChat() {
@@ -32,9 +32,11 @@ export function HeroChat() {
     clearError,
     setMessages,
     stop,
+    regenerate,
   } = useChat({ transport: CHAT_TRANSPORT })
   const isLoading = status === "submitted" || status === "streaming"
   const hasStarted = messages.length > 0
+  const inputTooLong = input.length > CHAT_MAX_MESSAGE_LENGTH
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -44,7 +46,9 @@ export function HeroChat() {
 
   const submitMessage = (text: string) => {
     const question = text.trim()
-    if (!question || isLoading) return
+    if (!question || isLoading || question.length > CHAT_MAX_MESSAGE_LENGTH) {
+      return
+    }
 
     clearError()
     setInput("")
@@ -62,6 +66,19 @@ export function HeroChat() {
     clearError()
   }
 
+  const handleRetry = () => {
+    clearError()
+    if (messages.some((message) => message.role === "assistant")) {
+      void regenerate()
+      return
+    }
+
+    const lastUser = [...messages].reverse().find((message) => message.role === "user")
+    if (lastUser) {
+      void sendMessage({ text: getMessageText(lastUser) })
+    }
+  }
+
   return (
     <div className="dossier-chat" aria-busy={isLoading}>
       <div
@@ -70,6 +87,8 @@ export function HeroChat() {
           "dossier-chat__messages custom-scrollbar",
           hasStarted && "dossier-chat__messages--active"
         )}
+        aria-live="polite"
+        aria-relevant="additions"
       >
         {!hasStarted ? (
           <div className="dossier-chat__empty">
@@ -99,7 +118,7 @@ export function HeroChat() {
                 >
                   <div className="dossier-chat__bubble">
                     {isUser ? (
-                      <p>{text}</p>
+                      <p className="dossier-chat__user-text">{text}</p>
                     ) : (
                       <MessageResponse
                         className="dossier-chat__markdown"
@@ -117,16 +136,17 @@ export function HeroChat() {
             })}
 
             {status === "submitted" && (
-              <div className="dossier-chat__loading">
+              <div className="dossier-chat__loading" aria-live="polite">
                 <Loader2 aria-hidden="true" />
                 <span>Reading the project notes…</span>
               </div>
             )}
 
             {error && (
-              <div className="dossier-chat__error" role="alert">
-                {CHAT_ERROR_MESSAGE}
-              </div>
+              <ChatErrorBanner
+                className="dossier-chat__error"
+                onRetry={handleRetry}
+              />
             )}
           </>
         )}
@@ -141,7 +161,7 @@ export function HeroChat() {
               onClick={() => submitMessage(prompt)}
               disabled={isLoading}
             >
-              {prompt}
+              <span className="dossier-chat__prompt-label">{prompt}</span>
               <ArrowUpRight aria-hidden="true" />
             </button>
           ))}
@@ -163,16 +183,35 @@ export function HeroChat() {
             }}
             placeholder="Ask about a project…"
             rows={1}
+            maxLength={CHAT_MAX_MESSAGE_LENGTH}
             disabled={isLoading}
+            aria-invalid={inputTooLong}
+            aria-describedby={
+              input.length > CHAT_MAX_MESSAGE_LENGTH * 0.85
+                ? "portfolio-question-count"
+                : undefined
+            }
           />
           <button
             type="submit"
-            disabled={isLoading || !input.trim()}
+            disabled={isLoading || !input.trim() || inputTooLong}
             aria-label="Send question"
           >
             <Send aria-hidden="true" />
           </button>
         </form>
+        {input.length > CHAT_MAX_MESSAGE_LENGTH * 0.85 && (
+          <p
+            id="portfolio-question-count"
+            className={cn(
+              "dossier-chat__count",
+              inputTooLong && "dossier-chat__count--over"
+            )}
+          >
+            {input.length.toLocaleString()} /{" "}
+            {CHAT_MAX_MESSAGE_LENGTH.toLocaleString()}
+          </p>
+        )}
       </div>
     </div>
   )

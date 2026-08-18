@@ -1,9 +1,57 @@
 import { createOpenRouter } from "@openrouter/ai-sdk-provider"
 import { convertToModelMessages, safeValidateUIMessages, streamText } from "ai"
 import {
+  CHAT_MAX_MESSAGE_LENGTH,
+  CHAT_MAX_MESSAGES,
+  CHAT_RATE_LIMIT_MAX_REQUESTS,
+  CHAT_RATE_LIMIT_WINDOW_MS,
+  getMessageTextFromParts,
+} from "@/lib/chat-config"
+import {
   formatArchiveProjectsForPrompt,
   formatFeaturedProjectsForPrompt,
 } from "@/lib/projects"
+
+const rateLimitStore = new Map<string, { count: number; resetAt: number }>()
+
+function getClientKey(req: Request) {
+  const forwarded = req.headers.get("x-forwarded-for")
+  if (forwarded) {
+    return forwarded.split(",")[0]?.trim() ?? "anonymous"
+  }
+
+  return req.headers.get("x-real-ip") ?? "anonymous"
+}
+
+function isRateLimited(key: string) {
+  const now = Date.now()
+  const entry = rateLimitStore.get(key)
+
+  if (!entry || now >= entry.resetAt) {
+    rateLimitStore.set(key, {
+      count: 1,
+      resetAt: now + CHAT_RATE_LIMIT_WINDOW_MS,
+    })
+    return false
+  }
+
+  if (entry.count >= CHAT_RATE_LIMIT_MAX_REQUESTS) {
+    return true
+  }
+
+  entry.count += 1
+  rateLimitStore.set(key, entry)
+  return false
+}
+
+function getTotalMessageLength(
+  messages: Array<{ parts: Array<{ type: string; text?: string }> }>
+) {
+  return messages.reduce(
+    (total, message) => total + getMessageTextFromParts(message.parts).length,
+    0
+  )
+}
 
 const openrouter = createOpenRouter({
   apiKey: process.env.OPENROUTER_API_KEY,
@@ -417,11 +465,19 @@ const CHAT_MODEL = "google/gemini-3-flash-preview"
 
 export async function POST(req: Request) {
   if (!process.env.OPENROUTER_API_KEY) {
-    return new Response(
-      JSON.stringify({ error: "OPENROUTER_API_KEY is not set" }),
+    return Response.json(
+      { error: "Chat is unavailable right now. Try again later." },
+      { status: 503 }
+    )
+  }
+
+  const clientKey = getClientKey(req)
+  if (isRateLimited(clientKey)) {
+    return Response.json(
+      { error: "Too many requests. Wait a minute and try again." },
       {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
+        status: 429,
+        headers: { "Retry-After": "60" },
       }
     )
   }
@@ -445,6 +501,37 @@ export async function POST(req: Request) {
   if (!validation.success) {
     console.warn("[chat] Rejected invalid UI messages:", validation.error)
     return Response.json({ error: "Invalid messages" }, { status: 400 })
+  }
+
+  if (validation.data.length > CHAT_MAX_MESSAGES) {
+    return Response.json(
+      { error: `Conversation limit reached (${CHAT_MAX_MESSAGES} messages). Clear the chat and start again.` },
+      { status: 400 }
+    )
+  }
+
+  const latestUserMessage = [...validation.data]
+    .reverse()
+    .find((message) => message.role === "user")
+
+  if (latestUserMessage) {
+    const latestText = getMessageTextFromParts(latestUserMessage.parts)
+    if (latestText.length > CHAT_MAX_MESSAGE_LENGTH) {
+      return Response.json(
+        {
+          error: `Messages must be ${CHAT_MAX_MESSAGE_LENGTH.toLocaleString()} characters or fewer.`,
+        },
+        { status: 400 }
+      )
+    }
+  }
+
+  const totalLength = getTotalMessageLength(validation.data)
+  if (totalLength > CHAT_MAX_MESSAGE_LENGTH * CHAT_MAX_MESSAGES) {
+    return Response.json(
+      { error: "Conversation is too long. Clear the chat and start again." },
+      { status: 400 }
+    )
   }
 
   const modelMessages = await convertToModelMessages(validation.data)

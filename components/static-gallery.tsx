@@ -1,9 +1,11 @@
 "use client"
 
-import { useState, useCallback, useEffect } from "react"
+import { useState, useCallback, useEffect, useId } from "react"
 import { motion, AnimatePresence } from "motion/react"
 import { X, ArrowUpRight } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { GalleryThumbImage } from "@/components/gallery-thumb-image"
+import { useBodyScrollLock } from "@/hooks/use-body-scroll-lock"
 
 interface GalleryImage {
   src: string
@@ -27,6 +29,9 @@ export function StaticGallery({
   popupBackgroundColor,
 }: StaticGalleryProps) {
   const [selected, setSelected] = useState<GalleryImage | null>(null)
+  const lightboxTitleId = useId()
+
+  useBodyScrollLock(Boolean(selected))
 
   const openImage = useCallback((image: GalleryImage) => {
     setSelected(image)
@@ -68,12 +73,10 @@ export function StaticGallery({
               onClick={() => openImage(image)}
             >
               <div className="relative h-full w-full">
-                <img
+                <GalleryThumbImage
                   src={image.src}
                   alt={image.alt}
                   className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                  draggable={false}
-                  loading="lazy"
                 />
 
                 {/* Hover overlay with CSS group-hover */}
@@ -139,6 +142,7 @@ export function StaticGallery({
             transition={{ duration: 0.2 }}
             className="fixed inset-0 z-50 flex items-center justify-center"
             onClick={closeModal}
+            role="presentation"
           >
             {/* Backdrop */}
             <div
@@ -157,7 +161,9 @@ export function StaticGallery({
 
             {/* Close */}
             <button
+              type="button"
               onClick={closeModal}
+              aria-label="Close gallery preview"
               className="absolute top-6 right-6 z-50 flex h-9 w-9 items-center justify-center border border-border/40 bg-background/80 text-foreground/70 backdrop-blur-sm transition-colors hover:border-border hover:text-foreground"
               style={{ borderRadius: "2px" }}
             >
@@ -172,21 +178,26 @@ export function StaticGallery({
               transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
               className="relative z-10 flex flex-col items-center gap-4"
               onClick={(e) => e.stopPropagation()}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby={lightboxTitleId}
             >
               <div
                 className="overflow-hidden border border-border/30"
                 style={{ borderRadius: "3px" }}
               >
-                <img
+                <GalleryThumbImage
                   src={selected.src}
                   alt={selected.alt}
                   className="max-h-[72vh] max-w-[88vw] object-contain"
+                  loading="eager"
                 />
               </div>
               <div className="flex w-full max-w-[88vw] items-start justify-between gap-6 px-1">
                 <div className="min-w-0 flex-1">
                   <p
-                    className="mb-1 text-xs tracking-[0.2em] text-muted-foreground/60"
+                    id={lightboxTitleId}
+                    className="mb-1 truncate text-xs tracking-[0.2em] text-muted-foreground/60"
                     style={{
                       fontFamily: "var(--font-mono, monospace)",
                       textTransform: "uppercase",

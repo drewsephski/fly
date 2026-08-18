@@ -6,12 +6,16 @@ import { DefaultChatTransport, type UIMessage } from "ai"
 import { MessageCircle, X, Send, Loader2, Bot, User } from "lucide-react"
 
 import { MessageResponse } from "@/components/ai-elements/message"
-import { cn } from "@/lib/utils"
+import { ChatErrorBanner } from "@/components/chat-error-banner"
+import { useBodyScrollLock } from "@/hooks/use-body-scroll-lock"
+import {
+  CHAT_MAX_MESSAGE_LENGTH,
+  getMessageTextFromParts,
+} from "@/lib/chat-config"
 import { CHAT_SUGGESTED_PROMPTS } from "@/lib/projects"
+import { cn } from "@/lib/utils"
 
 const CHAT_TRANSPORT = new DefaultChatTransport({ api: "/api/chat" })
-const CHAT_ERROR_MESSAGE =
-  "The portfolio assistant is temporarily unavailable. Try again shortly."
 const INITIAL_MESSAGES: UIMessage[] = [
   {
     id: "welcome",
@@ -21,10 +25,7 @@ const INITIAL_MESSAGES: UIMessage[] = [
 ]
 
 function getMessageText(message: UIMessage) {
-  return message.parts
-    .filter((part) => part.type === "text")
-    .map((part) => part.text)
-    .join("")
+  return getMessageTextFromParts(message.parts)
 }
 
 interface TalkToDrewProps {
@@ -43,6 +44,7 @@ export function TalkToDrew({
   const setOpen = controlledSetOpen ?? setInternalOpen
   const [input, setInput] = useState("")
   const scrollRef = useRef<HTMLDivElement>(null)
+  const panelRef = useRef<HTMLDivElement>(null)
   const lastAutoSendRef = useRef<string | undefined>(undefined)
   const {
     messages,
@@ -52,22 +54,41 @@ export function TalkToDrew({
     clearError,
     setMessages,
     stop,
+    regenerate,
   } = useChat({
     transport: CHAT_TRANSPORT,
     messages: INITIAL_MESSAGES,
   })
   const isLoading = status === "submitted" || status === "streaming"
+  const inputTooLong = input.length > CHAT_MAX_MESSAGE_LENGTH
+
+  useBodyScrollLock(open)
 
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight
     }
-  }, [messages, status])
+  }, [messages, status, open])
+
+  useEffect(() => {
+    if (!open) return
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false)
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+    return () => window.removeEventListener("keydown", handleKeyDown)
+  }, [open, setOpen])
 
   const submitMessage = useCallback(
     async (text: string) => {
       const question = text.trim()
-      if (!question || isLoading) return
+      if (!question || isLoading || question.length > CHAT_MAX_MESSAGE_LENGTH) {
+        return
+      }
 
       clearError()
       setInput("")
@@ -100,9 +121,21 @@ export function TalkToDrew({
     clearError()
   }
 
+  const handleRetry = () => {
+    clearError()
+    if (messages.some((message) => message.role === "assistant" && message.id !== "welcome")) {
+      void regenerate()
+      return
+    }
+
+    const lastUser = [...messages].reverse().find((message) => message.role === "user")
+    if (lastUser) {
+      void sendMessage({ text: getMessageText(lastUser) })
+    }
+  }
+
   return (
     <>
-      {/* Floating toggle button */}
       <button
         onClick={() => setOpen(!open)}
         className={cn(
@@ -116,6 +149,8 @@ export function TalkToDrew({
           right: "calc(1.5rem + var(--safe-right, 0px))",
         }}
         aria-label={open ? "Close chat" : "Talk to Drew"}
+        aria-expanded={open}
+        aria-controls="talk-to-drew-panel"
       >
         {open ? (
           <X className="h-5 w-5" />
@@ -124,8 +159,14 @@ export function TalkToDrew({
         )}
       </button>
 
-      {/* Chat panel */}
       <div
+        id="talk-to-drew-panel"
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Talk to Drew"
+        aria-hidden={!open}
+        inert={!open ? true : undefined}
         className={cn(
           "fixed right-6 bottom-20 z-50 flex w-[380px] max-w-[calc(100vw-2rem)] origin-bottom-right flex-col rounded-xl border border-border bg-background shadow-2xl transition-[transform,opacity] duration-300",
           open
@@ -139,32 +180,32 @@ export function TalkToDrew({
           maxHeight: "calc(100vh - 7rem - var(--safe-bottom, 0px))",
         }}
       >
-        {/* Header */}
         <div className="flex items-center justify-between border-b border-border/40 px-4 py-3">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-7 w-7 items-center justify-center rounded-full border border-border/50 bg-muted">
+          <div className="flex min-w-0 items-center gap-2.5">
+            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-border/50 bg-muted">
               <Bot className="h-3.5 w-3.5 text-muted-foreground" />
             </div>
-            <div>
-              <p className="text-sm font-medium text-foreground">
+            <div className="min-w-0">
+              <p className="truncate text-sm font-medium text-foreground">
                 Talk to Drew
               </p>
-              <p className="text-xs text-muted-foreground/70">
+              <p className="truncate text-xs text-muted-foreground/70">
                 AI-powered assistant
               </p>
             </div>
           </div>
           {messages.length > 1 && (
             <button
+              type="button"
               onClick={clearChat}
-              className="min-h-11 px-2 text-xs text-muted-foreground transition-colors duration-200 hover:text-[var(--color-accent-hover)]"
+              disabled={isLoading}
+              className="min-h-11 shrink-0 px-2 text-xs text-muted-foreground transition-colors duration-200 hover:text-[var(--color-accent-hover)] disabled:opacity-50"
             >
               Clear
             </button>
           )}
         </div>
 
-        {/* Messages */}
         <div
           ref={scrollRef}
           className="custom-scrollbar flex-1 scrollbar-thin space-y-4 overflow-y-auto px-4 py-4"
@@ -172,6 +213,8 @@ export function TalkToDrew({
             scrollbarWidth: "thin",
             scrollbarColor: "var(--border) transparent",
           }}
+          aria-live="polite"
+          aria-relevant="additions"
         >
           {messages.map((message) => {
             const text = getMessageText(message)
@@ -201,17 +244,17 @@ export function TalkToDrew({
                 </div>
                 <div
                   className={cn(
-                    "max-w-[80%] rounded-lg border px-3 py-2 text-xs leading-relaxed",
+                    "min-w-0 max-w-[80%] rounded-lg border px-3 py-2 text-xs leading-relaxed",
                     isUser
                       ? "border-border/40 bg-muted/40 text-foreground"
                       : "border-border/30 bg-transparent text-muted-foreground"
                   )}
                 >
                   {isUser ? (
-                    <p>{text}</p>
+                    <p className="break-words">{text}</p>
                   ) : (
                     <MessageResponse
-                      className="prose prose-sm prose-neutral dark:prose-invert prose-p:my-1 prose-ul:my-1 prose-li:my-0.5 prose-headings:my-1.5 prose-headings:text-sm prose-headings:font-semibold prose-a:text-foreground prose-a:underline prose-a:underline-offset-2 max-w-none"
+                      className="prose prose-sm prose-neutral dark:prose-invert prose-p:my-1 prose-ul:my-1 prose-li:my-0.5 prose-headings:my-1.5 prose-headings:text-sm prose-headings:font-semibold prose-a:text-foreground prose-a:underline prose-a:underline-offset-2 max-w-none break-words"
                       isAnimating={
                         status === "streaming" &&
                         message.id === messages.at(-1)?.id
@@ -226,7 +269,7 @@ export function TalkToDrew({
           })}
 
           {status === "submitted" && (
-            <div className="flex gap-2.5">
+            <div className="flex gap-2.5" aria-live="polite">
               <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-foreground/10 bg-foreground/5">
                 <Bot className="h-3 w-3 text-muted-foreground" />
               </div>
@@ -240,26 +283,24 @@ export function TalkToDrew({
           )}
 
           {error && (
-            <div
-              className="rounded-lg border border-destructive/30 bg-destructive/5 px-3 py-2 text-xs text-destructive"
-              role="alert"
-            >
-              {CHAT_ERROR_MESSAGE}
-            </div>
+            <ChatErrorBanner
+              className="rounded-lg border border-destructive/30 bg-destructive/5 px-3 py-2 text-xs text-destructive [&_button]:mt-2 [&_button]:min-h-11 [&_button]:rounded-md [&_button]:border [&_button]:border-destructive/30 [&_button]:px-3 [&_button]:py-1.5 [&_button]:text-destructive [&_button]:transition-colors hover:[&_button]:bg-destructive/10"
+              onRetry={handleRetry}
+            />
           )}
         </div>
 
-        {/* Prompt pills */}
         <div className="border-t border-border/40 px-2 pt-3 pb-1.5">
           <div className="flex gap-2 overflow-x-auto pb-1">
             {CHAT_SUGGESTED_PROMPTS.map((pill) => (
               <button
+                type="button"
                 key={pill}
                 onClick={() => {
                   setInput(pill)
                 }}
                 disabled={isLoading}
-                className="min-h-11 shrink-0 rounded-md border border-border bg-muted/30 px-3 text-xs whitespace-nowrap text-muted-foreground transition-[border-color,background-color,color] duration-200 hover:border-[var(--color-accent)] hover:bg-muted/60 hover:text-[var(--color-accent-hover)] disabled:cursor-not-allowed disabled:opacity-50"
+                className="min-h-11 max-w-[16rem] shrink-0 truncate rounded-md border border-border bg-muted/30 px-3 text-xs text-muted-foreground transition-[border-color,background-color,color] duration-200 hover:border-[var(--color-accent)] hover:bg-muted/60 hover:text-[var(--color-accent-hover)] disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {pill}
               </button>
@@ -267,7 +308,6 @@ export function TalkToDrew({
           </div>
         </div>
 
-        {/* Input */}
         <form
           onSubmit={handleSubmit}
           className="border-t border-border/40 px-4 py-3"
@@ -281,12 +321,14 @@ export function TalkToDrew({
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask about a project…"
-              className="flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground/40"
+              maxLength={CHAT_MAX_MESSAGE_LENGTH}
+              className="min-w-0 flex-1 bg-transparent text-base text-foreground outline-none placeholder:text-muted-foreground/40 sm:text-sm"
               disabled={isLoading}
+              aria-invalid={inputTooLong}
             />
             <button
               type="submit"
-              disabled={isLoading || !input.trim()}
+              disabled={isLoading || !input.trim() || inputTooLong}
               className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-[var(--color-accent)] text-[var(--color-accent-ink)] transition-[background-color,transform] duration-200 hover:bg-[var(--color-accent-hover)] active:translate-y-px disabled:cursor-not-allowed disabled:opacity-40"
               aria-label="Send question"
             >
