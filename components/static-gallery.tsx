@@ -76,6 +76,7 @@ export function StaticGallery({
                 <GalleryThumbImage
                   src={image.src}
                   alt={image.alt}
+                  loading={idx === 0 ? "eager" : "lazy"}
                   className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                 />
 

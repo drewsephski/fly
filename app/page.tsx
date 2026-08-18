@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
 import Link from "next/link"
 import {
   ArrowDown,
@@ -12,13 +11,20 @@ import {
 } from "lucide-react"
 
 import { BackToTop } from "@/components/back-to-top"
+import { cn } from "@/lib/utils"
 import { HeroChat } from "@/components/hero-chat"
+import { PracticeAccordion } from "@/components/practice-accordion"
 import { ProjectBento } from "@/components/project-bento"
 import { QuickLook } from "@/components/quick-look"
 import { TalkToDrew } from "@/components/talk-to-drew"
 import { ARCHIVE_PROJECTS, FEATURED_PROJECTS } from "@/lib/projects"
 
-const FLAGSHIP_TITLES = ["Squid Agent", "Trace", "SquidCrawl"] as const
+const FLAGSHIP_TITLES = [
+  "Vault Zero",
+  "Squid Agent",
+  "Trace",
+  "SquidCrawl",
+] as const
 
 const FLAGSHIP_PROJECTS = FLAGSHIP_TITLES.map((title) =>
   FEATURED_PROJECTS.find((project) => project.title === title)
@@ -37,15 +43,36 @@ const PROJECT_INDEX = [
 ]
 
 const CAPABILITIES = [
-  "Product strategy and interaction design",
-  "AI systems, agents, and retrieval",
-  "Full-stack architecture and data",
-  "Auth, billing, deployment, and recovery",
-]
+  {
+    title: "Product strategy and interaction design",
+    detail:
+      "Problem framing, user flows, and interface craft that earns trust before launch.",
+  },
+  {
+    title: "AI systems, agents, and retrieval",
+    detail:
+      "Agents, RAG pipelines, and tooling wired for real production use.",
+  },
+  {
+    title: "Full-stack architecture and data",
+    detail:
+      "Next.js apps, APIs, and data models built to ship and iterate fast.",
+  },
+  {
+    title: "Auth, billing, deployment, and recovery",
+    detail:
+      "Stripe, auth, CI/CD, and the ops layer that keeps products live.",
+  },
+] as const
 
 const EXPERIENCE = [
   {
-    company: "Portfolios.chat",
+    company: "Vault Zero",
+    period: "2026 — present",
+    role: "Founder and product engineer",
+  },
+  {
+    company: "PortfolioOS",
     period: "2026 — present",
     role: "Founder and product engineer",
   },
@@ -168,7 +195,7 @@ export default function Page() {
       >
         <header className="atelier-section-head">
           <div>
-            <h2 id="work-title">Three products, given room to breathe.</h2>
+            <h2 id="work-title">Four products, given room to breathe.</h2>
           </div>
           <p>
             The strongest work is more than a thumbnail. Each project below
@@ -178,7 +205,13 @@ export default function Page() {
 
         <div className="atelier-case-studies">
           {FLAGSHIP_PROJECTS.map((project, index) => (
-            <article className="atelier-case" key={project.title}>
+            <article
+              className={cn(
+                "atelier-case",
+                index % 2 === 1 && "atelier-case--reverse"
+              )}
+              key={project.title}
+            >
               <div className="atelier-case__story">
                 <div className="atelier-case__meta">
                   <span>{String(index + 1).padStart(2, "0")}</span>
@@ -230,12 +263,12 @@ export default function Page() {
                   <ArrowUpRight aria-hidden="true" />
                 </span>
                 <span className="atelier-case__image-frame">
-                  <Image
+                  <img
                     src={project.image}
                     alt={`${project.title} product interface`}
-                    fill
-                    sizes="(max-width: 900px) 100vw, 58vw"
                     className="atelier-case__image"
+                    decoding="async"
+                    fetchPriority={index === 0 ? "high" : "auto"}
                   />
                 </span>
               </button>
@@ -274,11 +307,7 @@ export default function Page() {
             with real users.
           </p>
         </div>
-        <ul className="atelier-practice__list">
-          {CAPABILITIES.map((capability) => (
-            <li key={capability}>{capability}</li>
-          ))}
-        </ul>
+        <PracticeAccordion items={CAPABILITIES} />
       </section>
 
       <div className="atelier-columns atelier-shell">

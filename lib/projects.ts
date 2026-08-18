@@ -64,13 +64,33 @@ export interface GalleryImage {
 
 export const FEATURED_PROJECTS: FeaturedProject[] = [
   {
+    title: "Vault Zero",
+    url: "https://vaultzero.dev/",
+    description:
+      "AI receptionist for plumbing, HVAC, roofing, and electrical teams — missed, overflow, and after-hours calls captured with approved intake and a human handoff.",
+    tags: ["Voice AI", "Home Services", "SaaS"],
+    status: ["Live", "SaaS"],
+    index: "01",
+    featured: true,
+    image: "/projects/vault-zero-site.png",
+    depth: {
+      problem:
+        "Home-service jobs are lost when the crew is on a call, the office is overflowed, or the phone hits voicemail after hours",
+      solution:
+        "A voice receptionist with a custom call-flow, approved routing rules, call summaries in a client dashboard, and usage included — plus a complete front desk with website and web assistant",
+      tech: ["Next.js", "React", "TypeScript", "Voice AI", "Supabase", "Vercel"],
+      challenge:
+        "Capturing useful intake without diagnosing equipment, inventing pricing, promising dispatch, or skipping the human fallback on safety-sensitive calls",
+    },
+  },
+  {
     title: "Squid Agent",
     url: "https://squidagent.app/",
     description:
       "Verified prototype builder that turns prompts, screenshots, and live sites into working React interfaces with revision-specific evidence and portable source code.",
     tags: ["AI Prototyping", "React", "Verification"],
     status: ["Live", "SaaS"],
-    index: "01",
+    index: "02",
     featured: true,
     image: "/projects/squid-agent.png",
     depth: {
@@ -83,6 +103,7 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
         "Keeping generation, preview repair, verification, version history, deployment, and source ownership in one visible workflow",
     },
   },
+  
   {
     title: "Trace",
     url: "https://www.trace.builders/",
@@ -90,7 +111,7 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
       "Local-first desktop workspace for running AI agents, managing real project files, sharing skills and MCP tools, and reviewing every approval.",
     tags: ["Desktop App", "AI Agents", "MCP", "Electron"],
     status: ["Live", "Open Source", "Desktop App"],
-    index: "02",
+    index: "03",
     featured: true,
     image: "/projects/trace.png",
     github: {
@@ -331,8 +352,8 @@ export function getPriorityGalleryImages(): GalleryImage[] {
 
 export const CHAT_SUGGESTED_PROMPTS = [
   "what are you building now?",
+  "tell me about Vault Zero",
   "tell me about Squid Agent",
-  "tell me about Trace",
   "should founders learn to code?",
 ] as const
 
@@ -348,6 +369,17 @@ const FEATURED_PROJECT_CHAT_DETAILS: Record<
       "supports GitHub publishing, Vercel deployment, sharing, remixing, and portable source export",
     ],
     domain: "squidagent.app",
+  },
+  "Vault Zero": {
+    bullets: [
+      "AI receptionist studio for plumbing, HVAC, roofing, and electrical teams",
+      "covers missed calls, overflow while the office is busy, and after-hours intake with a human fallback",
+      "custom call-flow, approved routing rules, and call summaries in a client dashboard — usage included, no per-minute overages",
+      "voice receptionist from $99/month plus $250 setup; complete front desk from $139/month plus $600 setup with website and web assistant",
+      "live demo with Elliot at (847) 792-9623 — identifies as AI, does not book or dispatch real work",
+      "will not diagnose technical problems, invent pricing, promise unverified dispatch, or hide that it is virtual",
+    ],
+    domain: "vaultzero.dev",
   },
   Trace: {
     bullets: [

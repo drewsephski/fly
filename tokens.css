@@ -66,6 +66,16 @@
   --z-modal: 400;
   --z-toast: 500;
   --z-tooltip: 600;
+
+  /* Bento card scrim — light mode: dark fade, light type */
+  --bento-scrim-solid: oklch(0.17 0.006 80 / 0.94);
+  --bento-scrim-strong: oklch(0.17 0.006 80 / 0.72);
+  --bento-scrim-mid: oklch(0.17 0.006 80 / 0.42);
+  --bento-scrim-soft: oklch(0.17 0.006 80 / 0.16);
+  --bento-title: var(--color-paper);
+  --bento-meta: oklch(0.98 0.003 80 / 0.64);
+  --bento-card-shadow: 0 1.25rem 3rem -2rem oklch(0.17 0.006 80 / 0.1);
+  --bento-card-shadow-hover: 0 1.5rem 3.5rem -2rem oklch(0.17 0.006 80 / 0.16);
 }
 
 .dark {
@@ -86,4 +96,14 @@
   --color-accent-ink: oklch(0.14 0.02 258);
   --color-focus: oklch(0.78 0.14 252);
   --color-error: oklch(0.7 0.16 27);
+
+  /* Bento card scrim — dark mode: canvas fade, light type */
+  --bento-scrim-solid: var(--color-paper);
+  --bento-scrim-strong: color-mix(in oklch, var(--color-paper) 82%, transparent);
+  --bento-scrim-mid: color-mix(in oklch, var(--color-paper) 52%, transparent);
+  --bento-scrim-soft: color-mix(in oklch, var(--color-paper) 20%, transparent);
+  --bento-title: var(--color-ink);
+  --bento-meta: color-mix(in oklch, var(--color-ink) 58%, var(--color-muted));
+  --bento-card-shadow: 0 1.5rem 3.5rem -2rem oklch(0.05 0.02 258 / 0.5);
+  --bento-card-shadow-hover: 0 1.75rem 4rem -1.75rem oklch(0.05 0.02 258 / 0.62);
 }

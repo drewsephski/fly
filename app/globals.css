@@ -167,10 +167,36 @@
   html {
     @apply font-sans;
     scroll-behavior: smooth;
+    scrollbar-color: var(--color-rule-2) transparent;
+    scrollbar-width: thin;
   }
+
+  html::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  html::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  html::-webkit-scrollbar-thumb {
+    background-color: var(--color-rule-2);
+    border-radius: var(--radius-round);
+  }
+
+  html::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-muted);
+  }
+
   ::selection {
     background: color-mix(in oklch, var(--color-accent) 24%, transparent);
     color: var(--foreground);
+  }
+
+  textarea,
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]) {
+    caret-color: var(--color-accent);
   }
 }
 
@@ -194,6 +220,12 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 
@@ -973,6 +1005,16 @@
   background:
     radial-gradient(
       110% 90% at 50% 0%,
+      color-mix(in oklch, var(--color-accent) 18%, transparent),
+      transparent 65%
+    ),
+    var(--color-paper-3);
+}
+
+.atelier-case:nth-child(4) .atelier-case__visual {
+  background:
+    radial-gradient(
+      110% 90% at 50% 0%,
       color-mix(in oklch, var(--color-accent) 26%, transparent),
       transparent 65%
     ),
@@ -1429,6 +1471,13 @@
   font-family: var(--font-display);
   font-size: var(--text-lg);
   white-space: nowrap;
+}
+
+.atelier-mobile-nav nav a svg {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  color: var(--color-accent);
 }
 
 .atelier-mobile-nav__cta {
@@ -2018,6 +2067,14 @@
   gap: clamp(var(--space-xl), 6vw, var(--space-3xl));
 }
 
+.atelier-case--reverse {
+  grid-template-columns: minmax(0, 1.25fr) minmax(17rem, 0.75fr);
+}
+
+.atelier-case--reverse .atelier-case__visual {
+  order: -1;
+}
+
 .atelier-case__story {
   display: grid;
   min-width: 0;
@@ -2145,6 +2202,10 @@
 }
 
 .atelier-case:nth-child(3) .atelier-case__visual {
+  background: color-mix(in oklch, var(--color-accent) 10%, var(--color-paper-3));
+}
+
+.atelier-case:nth-child(4) .atelier-case__visual {
   background: color-mix(
     in oklch,
     var(--color-accent) 10%,
@@ -2177,6 +2238,10 @@
 }
 
 .atelier-case__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   object-position: top;
   transition: transform var(--dur-long) var(--ease-out);
@@ -2259,6 +2324,113 @@
   border-block-end: var(--rule-hair) solid var(--color-rule);
   color: var(--color-ink-2);
   font-size: var(--text-base);
+}
+
+.atelier-practice__accordion {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.atelier-practice__accordion-triggers {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  gap: var(--space-2xs);
+}
+
+.atelier-practice__accordion-trigger {
+  display: flex;
+  width: 100%;
+  min-height: 2.5rem;
+  padding: var(--space-xs) 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  border: 0;
+  background: transparent;
+  color: var(--color-muted);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  line-height: 1.35;
+  text-align: start;
+  cursor: pointer;
+  transition: color var(--dur-short) var(--ease-out);
+}
+
+.atelier-practice__accordion-trigger.is-active {
+  color: var(--color-ink);
+}
+
+.atelier-practice__accordion-icon {
+  width: 0.85rem;
+  height: 0.85rem;
+  flex-shrink: 0;
+  color: var(--color-rule-2);
+  transition:
+    transform var(--dur-short) var(--ease-out),
+    color var(--dur-short) var(--ease-out);
+}
+
+.atelier-practice__accordion-icon.is-active {
+  transform: rotate(180deg);
+  color: var(--color-accent-hover);
+}
+
+.atelier-practice__accordion-detail {
+  display: grid;
+  min-height: 4.75rem;
+  padding: var(--space-md);
+  align-content: center;
+  border-radius: var(--radius-control);
+  background: color-mix(in oklch, var(--color-paper-3) 82%, transparent);
+}
+
+.atelier-practice__accordion-copy {
+  max-width: 28rem;
+  margin: 0;
+  color: var(--color-ink-2);
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  animation: atelier-practice-detail-in var(--dur-short) var(--ease-out) both;
+}
+
+.atelier-practice__accordion-copy--idle {
+  color: var(--color-muted);
+  animation: none;
+}
+
+@keyframes atelier-practice-detail-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.2rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .atelier-practice__accordion-trigger:hover {
+    color: var(--color-accent-hover);
+  }
+
+  .atelier-practice__accordion-trigger:hover .atelier-practice__accordion-icon {
+    color: var(--color-accent-hover);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .atelier-practice__accordion-copy {
+    animation-duration: 0.01ms;
+  }
+
+  .atelier-practice__accordion-icon {
+    transition-duration: 0.01ms;
+  }
 }
 
 .atelier-columns {
@@ -2443,7 +2615,10 @@
 
 @media (hover: hover) and (pointer: fine) {
   .atelier-nav__links a:hover,
-  .atelier-footer nav a:hover,
+  .atelier-footer nav a:hover {
+    color: var(--color-accent-hover);
+  }
+
   .dossier-chat__error button:hover {
     background: color-mix(in oklch, var(--color-error) 8%, transparent);
   }
@@ -2565,6 +2740,10 @@
   .atelier-case {
     grid-template-columns: minmax(15rem, 0.8fr) minmax(0, 1.2fr);
     gap: var(--space-xl);
+  }
+
+  .atelier-case--reverse {
+    grid-template-columns: minmax(0, 1.2fr) minmax(15rem, 0.8fr);
   }
 }
 
