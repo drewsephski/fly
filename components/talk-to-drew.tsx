@@ -106,7 +106,7 @@ export function TalkToDrew({
       <button
         onClick={() => setOpen(!open)}
         className={cn(
-          "fixed right-6 bottom-6 z-50 flex h-12 w-12 items-center justify-center rounded-full border shadow-lg transition-[transform,background-color,border-color] duration-200 hover:-translate-y-px active:translate-y-px",
+          "fixed right-6 bottom-6 z-50 flex h-14 w-14 items-center justify-center rounded-full border shadow-lg transition-[transform,background-color,border-color] duration-200 hover:-translate-y-px active:translate-y-px",
           open
             ? "border-border bg-muted text-foreground"
             : "border-foreground/20 bg-foreground text-background hover:bg-foreground/90"
@@ -259,7 +259,7 @@ export function TalkToDrew({
                   setInput(pill)
                 }}
                 disabled={isLoading}
-                className="min-h-11 shrink-0 rounded-md border border-border bg-muted/30 px-3 text-xs whitespace-nowrap text-muted-foreground transition-[border-color,background-color,color] duration-200 hover:border-[var(--color-accent)] hover:bg-muted/60 hover:text-[var(--color-accent-hover)] disabled:cursor-not-allowed disabled:opacity-50"
+                className="min-h-11 shrink-0 rounded-md border border-border bg-muted/30 px-3 text-xs whitespace-nowrap text-muted-foreground transition-[border-color,background-color,color] duration-200 hover:border-[var(--color-accent)] hover:bg-muted/60 hover:text-[var(--color-accent-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ring)] disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {pill}
               </button>

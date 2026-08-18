@@ -142,6 +142,7 @@
   *:focus-visible {
     outline: 2px solid var(--ring);
     outline-offset: 2px;
+    border-radius: var(--radius-control);
   }
 
   h1,
@@ -1020,7 +1021,7 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
   grid-auto-flow: dense;
   grid-auto-rows: 14rem;
-  gap: var(--space-md);
+  gap: var(--space-lg);
 }
 
 .atelier-bento__card {
@@ -1105,6 +1106,17 @@
   letter-spacing: 0.04em;
 }
 
+.atelier-bento__card:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-control);
+}
+
+.atelier-bento__card:focus-visible .atelier-bento__arrow {
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+}
+
 @media (hover: hover) and (pointer: fine) {
   .atelier-bento__card:hover img {
     transform: scale(1.035);
@@ -1114,6 +1126,11 @@
     background: var(--color-accent);
     color: var(--color-accent-ink);
     transform: translate(0.1rem, -0.1rem);
+  }
+
+  .atelier-bento__card:hover {
+    border-color: color-mix(in oklch, var(--color-accent) 24%, var(--color-rule));
+    box-shadow: 0 0.5rem 1.5rem -0.5rem color-mix(in oklch, var(--color-accent) 20%, transparent);
   }
 }
 

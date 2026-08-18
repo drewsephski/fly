@@ -10,7 +10,7 @@
   --color-muted: oklch(0.62 0.007 80);
   --color-rule: oklch(0.89 0.006 80);
   --color-rule-2: oklch(0.82 0.008 80);
-  --color-accent: oklch(0.61 0.2 257);
+  --color-accent: oklch(0.55 0.2 257);
   --color-accent-hover: oklch(0.54 0.22 257);
   --color-accent-soft: oklch(0.93 0.04 257);
   --color-accent-ink: oklch(0.99 0.002 80);
@@ -80,7 +80,7 @@
   --color-muted: oklch(0.72 0.022 255);
   --color-rule: oklch(0.31 0.026 258);
   --color-rule-2: oklch(0.4 0.032 258);
-  --color-accent: oklch(0.7 0.16 252);
+  --color-accent: oklch(0.75 0.16 252);
   --color-accent-hover: oklch(0.76 0.14 252);
   --color-accent-soft: oklch(0.27 0.075 257);
   --color-accent-ink: oklch(0.14 0.02 258);
