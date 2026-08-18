@@ -2069,15 +2069,6 @@
   transition: transform var(--dur-long) var(--ease-out);
 }
 
-.atelier-case__visual--light-shot {
-  background: color-mix(in oklch, var(--color-paper-2) 92%, white);
-}
-
-.atelier-case__visual--light-shot .atelier-case__image {
-  object-fit: contain;
-  object-position: center;
-}
-
 .atelier-index__list {
   border-block-start: var(--rule-hair) solid var(--color-rule);
 }
