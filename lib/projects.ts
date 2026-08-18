@@ -67,20 +67,20 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
     title: "Squid Agent",
     url: "https://squidagent.app/",
     description:
-      "AI app builder that turns prompts, screenshots, and website references into researched, planned, verified React apps with portable source code.",
-    tags: ["AI App Builder", "React", "Research"],
+      "Verified prototype builder that turns prompts, screenshots, and live sites into working React interfaces with revision-specific evidence and portable source code.",
+    tags: ["AI Prototyping", "React", "Verification"],
     status: ["Live", "SaaS"],
     index: "01",
     featured: true,
     image: "/projects/squid-agent.png",
     depth: {
       problem:
-        "Ideas and visual references rarely become production-ready React apps in one trustworthy workflow",
+        "Prototypes are easy to demo but hard to defend without revision-specific evidence and portable code",
       solution:
-        "Researches the web, gets plan approval, builds and verifies the app, then exports portable source",
+        "Turn prompts, screenshots, or URLs into working React prototypes, verify each revision, then export or share the result",
       tech: ["Next.js", "React", "TypeScript", "AI SDK", "Sandpack", "Vercel"],
       challenge:
-        "Keeping research, generation, preview repair, version history, deployment, and source ownership in one visible workflow",
+        "Keeping generation, preview repair, verification, version history, deployment, and source ownership in one visible workflow",
     },
   },
   {
@@ -342,9 +342,9 @@ const FEATURED_PROJECT_CHAT_DETAILS: Record<
 > = {
   "Squid Agent": {
     bullets: [
-      "AI app builder that takes prompts, screenshots, and website references from research to shipped React code",
-      "researches current information and asks for plan approval before building",
-      "verifies generated apps, repairs previews, and preserves version history",
+      "verified prototype builder that turns prompts, screenshots, and live sites into working React interfaces",
+      "optional plan mode for ambiguous ideas before generation starts",
+      "verifies each revision with separate source, runtime, and export evidence",
       "supports GitHub publishing, Vercel deployment, sharing, remixing, and portable source export",
     ],
     domain: "squidagent.app",
