@@ -118,6 +118,26 @@ export default function RootLayout({
         plexMono.variable
       )}
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Drew Sepeczi",
+              url: "https://drewsepeczi.xyz",
+              jobTitle: "AI Product Engineer",
+              description:
+                "AI products, interfaces, and infrastructure designed and shipped by Drew Sepeczi.",
+              sameAs: [
+                "https://github.com/drewsephski",
+                "https://linkedin.com/in/drewsepeczi",
+              ],
+            }),
+          }}
+        />
+      </head>
       <body>
         <a id="skip-to-content" href="#main-content">
           Skip to content

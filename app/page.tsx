@@ -16,6 +16,7 @@ import { HeroChat } from "@/components/hero-chat"
 import { PracticeAccordion } from "@/components/practice-accordion"
 import { ProjectBento } from "@/components/project-bento"
 import { QuickLook } from "@/components/quick-look"
+import { ScrollReveal } from "@/components/scroll-reveal"
 import { TalkToDrew } from "@/components/talk-to-drew"
 import { ARCHIVE_PROJECTS, FEATURED_PROJECTS } from "@/lib/projects"
 
@@ -183,177 +184,193 @@ export default function Page() {
         </div>
       </section>
 
-      <section
-        id="products"
-        className="atelier-work atelier-shell"
-        aria-labelledby="work-title"
-      >
-        <header className="atelier-section-head">
-          <div>
-            <h2 id="work-title">Four products in production.</h2>
-          </div>
-          <p>Each one names the job, the system, and the hard part.</p>
-        </header>
-
-        <div className="atelier-case-studies">
-          {FLAGSHIP_PROJECTS.map((project, index) => (
-            <article
-              className={cn(
-                "atelier-case",
-                index % 2 === 1 && "atelier-case--reverse"
-              )}
-              key={project.title}
-            >
-              <div className="atelier-case__story">
-                <div className="atelier-case__meta">
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  <span>{project.status.join(" · ")}</span>
-                </div>
-                <div>
-                  <h3>{project.title}</h3>
-                  <p className="atelier-case__lede">{project.description}</p>
-                </div>
-                <dl className="atelier-case__details">
-                  <div>
-                    <dt>What changed</dt>
-                    <dd>{project.depth.solution}</dd>
-                  </div>
-                  <div>
-                    <dt>Hard part</dt>
-                    <dd>{project.depth.challenge}</dd>
-                  </div>
-                </dl>
-                <div className="atelier-case__actions">
-                  <a
-                    href={project.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Open {project.title}
-                    <ArrowUpRight aria-hidden="true" />
-                  </a>
-                  <button type="button" onClick={() => askAbout(project.title)}>
-                    <MessageCircle aria-hidden="true" />
-                    Ask about this build
-                  </button>
-                </div>
-              </div>
-
-              <button
-                type="button"
-                className="atelier-case__visual"
-                onClick={() =>
-                  setQuickLook({
-                    src: project.image,
-                    alt: `${project.title} product interface`,
-                  })
-                }
-                aria-label={`Open a larger preview of ${project.title}`}
-              >
-                <span className="atelier-case__visual-label" aria-hidden="true">
-                  Open preview
-                  <ArrowUpRight aria-hidden="true" />
-                </span>
-                <span className="atelier-case__image-frame">
-                  <img
-                    src={project.image}
-                    alt=""
-                    className="atelier-case__image"
-                    decoding="async"
-                    fetchPriority={index === 0 ? "high" : "auto"}
-                  />
-                </span>
-              </button>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section
-        className="atelier-index atelier-shell"
-        aria-labelledby="index-title"
-      >
-        <header className="atelier-section-head atelier-section-head--compact">
-          <div>
-            <h2 id="index-title">The rest of the work.</h2>
-          </div>
-          <Link href="/gallery">
-            View the full archive
-            <ArrowRight aria-hidden="true" />
-          </Link>
-        </header>
-
-        <ProjectBento projects={PROJECT_INDEX} />
-      </section>
-
-      <section
-        id="about"
-        className="atelier-practice atelier-shell"
-        aria-labelledby="practice-title"
-      >
-        <div className="atelier-practice__statement">
-          <h2 id="practice-title">One person across the whole product.</h2>
-          <p>
-            I work as founder, engineer, and product designer. The goal is
-            useful software that survives contact with real users.
-          </p>
-        </div>
-        <PracticeAccordion items={CAPABILITIES} />
-      </section>
-
-      <div className="atelier-columns atelier-shell">
-        <section id="experience" aria-labelledby="experience-title">
-          <h2 id="experience-title">Where I’ve worked.</h2>
-          <div className="atelier-simple-list">
-            {EXPERIENCE.map((item) => (
-              <div key={item.company} className="atelier-simple-list__row">
-                <div>
-                  <h3>{item.company}</h3>
-                  <p>{item.role}</p>
-                </div>
-                <span>{item.period}</span>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section id="writing" aria-labelledby="writing-title">
-          <h2 id="writing-title">Notes from the work.</h2>
-          <div className="atelier-simple-list">
-            {WRITING.map((post) => (
-              <Link
-                key={post.slug}
-                href={`/blog/${post.slug}`}
-                className="atelier-simple-list__row atelier-simple-list__row--link"
-              >
-                <div>
-                  <h3>{post.title}</h3>
-                  <p>{post.meta}</p>
-                </div>
-                <ArrowUpRight aria-hidden="true" />
-              </Link>
-            ))}
-          </div>
-        </section>
-      </div>
-
-      <section
-        id="contact"
-        className="atelier-contact atelier-shell"
-        aria-labelledby="contact-title"
-      >
-        <div>
-          <h2 id="contact-title">Send the brief.</h2>
-          <p>I’ll help turn it into a product people can use.</p>
-        </div>
-        <a
-          href="mailto:drewsepeczi@gmail.com"
-          className="atelier-contact__button"
+      <ScrollReveal>
+        <section
+          id="products"
+          className="atelier-work atelier-shell"
+          aria-labelledby="work-title"
         >
-          <Mail aria-hidden="true" />
-          Email Drew
-        </a>
-      </section>
+          <header className="atelier-section-head">
+            <div>
+              <h2 id="work-title">Four products in production.</h2>
+            </div>
+            <p>Each one names the job, the system, and the hard part.</p>
+          </header>
+
+          <div className="atelier-case-studies">
+            {FLAGSHIP_PROJECTS.map((project, index) => (
+              <article
+                className={cn(
+                  "atelier-case",
+                  index % 2 === 1 && "atelier-case--reverse"
+                )}
+                key={project.title}
+              >
+                <div className="atelier-case__story">
+                  <div className="atelier-case__meta">
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                    <span>{project.status.join(" · ")}</span>
+                  </div>
+                  <div>
+                    <h3>{project.title}</h3>
+                    <p className="atelier-case__lede">{project.description}</p>
+                  </div>
+                  <dl className="atelier-case__details">
+                    <div>
+                      <dt>What changed</dt>
+                      <dd>{project.depth.solution}</dd>
+                    </div>
+                    <div>
+                      <dt>Hard part</dt>
+                      <dd>{project.depth.challenge}</dd>
+                    </div>
+                  </dl>
+                  <div className="atelier-case__actions">
+                    <a
+                      href={project.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Open {project.title}
+                      <ArrowUpRight aria-hidden="true" />
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => askAbout(project.title)}
+                    >
+                      <MessageCircle aria-hidden="true" />
+                      Ask about this build
+                    </button>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  className="atelier-case__visual"
+                  onClick={() =>
+                    setQuickLook({
+                      src: project.image,
+                      alt: `${project.title} product interface`,
+                    })
+                  }
+                  aria-label={`Open a larger preview of ${project.title}`}
+                >
+                  <span
+                    className="atelier-case__visual-label"
+                    aria-hidden="true"
+                  >
+                    Open preview
+                    <ArrowUpRight aria-hidden="true" />
+                  </span>
+                  <span className="atelier-case__image-frame">
+                    <img
+                      src={project.image}
+                      alt={`${project.title} interface screenshot`}
+                      className="atelier-case__image"
+                      decoding="async"
+                      fetchPriority={index === 0 ? "high" : "auto"}
+                    />
+                  </span>
+                </button>
+              </article>
+            ))}
+          </div>
+        </section>
+      </ScrollReveal>
+
+      <ScrollReveal>
+        <section
+          className="atelier-index atelier-shell"
+          aria-labelledby="index-title"
+        >
+          <header className="atelier-section-head atelier-section-head--compact">
+            <div>
+              <h2 id="index-title">The rest of the work.</h2>
+            </div>
+            <Link href="/gallery">
+              View the full archive
+              <ArrowRight aria-hidden="true" />
+            </Link>
+          </header>
+
+          <ProjectBento projects={PROJECT_INDEX} />
+        </section>
+      </ScrollReveal>
+
+      <ScrollReveal>
+        <section
+          id="about"
+          className="atelier-practice atelier-shell"
+          aria-labelledby="practice-title"
+        >
+          <div className="atelier-practice__statement">
+            <h2 id="practice-title">One person across the whole product.</h2>
+            <p>
+              I work as founder, engineer, and product designer. The goal is
+              useful software that survives contact with real users.
+            </p>
+          </div>
+          <PracticeAccordion items={CAPABILITIES} />
+        </section>
+      </ScrollReveal>
+
+      <ScrollReveal>
+        <div className="atelier-columns atelier-shell">
+          <section id="experience" aria-labelledby="experience-title">
+            <h2 id="experience-title">Where I’ve worked.</h2>
+            <div className="atelier-simple-list">
+              {EXPERIENCE.map((item) => (
+                <div key={item.company} className="atelier-simple-list__row">
+                  <div>
+                    <h3>{item.company}</h3>
+                    <p>{item.role}</p>
+                  </div>
+                  <span>{item.period}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section id="writing" aria-labelledby="writing-title">
+            <h2 id="writing-title">Notes from the work.</h2>
+            <div className="atelier-simple-list">
+              {WRITING.map((post) => (
+                <Link
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  className="atelier-simple-list__row atelier-simple-list__row--link"
+                >
+                  <div>
+                    <h3>{post.title}</h3>
+                    <p>{post.meta}</p>
+                  </div>
+                  <ArrowUpRight aria-hidden="true" />
+                </Link>
+              ))}
+            </div>
+          </section>
+        </div>
+      </ScrollReveal>
+
+      <ScrollReveal>
+        <section
+          id="contact"
+          className="atelier-contact atelier-shell"
+          aria-labelledby="contact-title"
+        >
+          <div>
+            <h2 id="contact-title">Send the brief.</h2>
+            <p>I’ll help turn it into a product people can use.</p>
+          </div>
+          <a
+            href="mailto:drewsepeczi@gmail.com"
+            className="atelier-contact__button"
+          >
+            <Mail aria-hidden="true" />
+            Email Drew
+          </a>
+        </section>
+      </ScrollReveal>
 
       <footer className="atelier-footer atelier-shell">
         <p>Shipped software is the proof.</p>
