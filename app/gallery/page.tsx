@@ -202,18 +202,12 @@ const GalleryPage = () => {
     <main id="main-content" className="relative z-10 min-h-screen">
       {/* ── Gallery Header ── */}
       <div className="mx-auto max-w-5xl px-6 pt-32 pb-6">
-        <div className="flex items-end justify-between">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p
-              className="mb-3 text-[10px] font-medium tracking-[0.3em] text-muted-foreground/70 uppercase"
-              style={{ fontFamily: "var(--font-mono, monospace)" }}
-            >
+            <p className="mb-3 font-mono text-[10px] font-medium tracking-[0.3em] text-muted-foreground/70 uppercase">
               Visual archive
             </p>
-            <h1
-              className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl"
-              style={{ fontFamily: "var(--font-body)" }}
-            >
+            <h1 className="font-heading text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
               Gallery
             </h1>
             <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">
@@ -222,31 +216,37 @@ const GalleryPage = () => {
           </div>
 
           {/* ── View Toggle ── */}
-          <div className="flex items-center gap-1 rounded-md border border-border/50 bg-muted/30 p-1">
+          <div
+            className="flex w-fit items-center gap-1 rounded-md border border-border/50 bg-muted/30 p-1"
+            role="group"
+            aria-label="Gallery view"
+          >
             <button
+              type="button"
               onClick={() => setViewMode("scroll")}
+              aria-pressed={viewMode === "scroll"}
               className={cn(
-                "inline-flex items-center gap-1.5 rounded-sm px-3 py-1.5 text-xs transition-all",
+                "inline-flex min-h-11 items-center gap-1.5 rounded-sm px-3 font-mono text-xs transition-all",
                 viewMode === "scroll"
                   ? "border border-border/40 bg-background text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground"
               )}
-              style={{ fontFamily: "var(--font-mono, monospace)" }}
             >
-              <Columns3 className="h-3.5 w-3.5" />
+              <Columns3 className="h-3.5 w-3.5" aria-hidden="true" />
               Scroll
             </button>
             <button
+              type="button"
               onClick={() => setViewMode("grid")}
+              aria-pressed={viewMode === "grid"}
               className={cn(
-                "inline-flex items-center gap-1.5 rounded-sm px-3 py-1.5 text-xs transition-all",
+                "inline-flex min-h-11 items-center gap-1.5 rounded-sm px-3 font-mono text-xs transition-all",
                 viewMode === "grid"
                   ? "border border-border/40 bg-background text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground"
               )}
-              style={{ fontFamily: "var(--font-mono, monospace)" }}
             >
-              <LayoutGrid className="h-3.5 w-3.5" />
+              <LayoutGrid className="h-3.5 w-3.5" aria-hidden="true" />
               Grid
             </button>
           </div>

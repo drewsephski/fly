@@ -292,7 +292,7 @@ PROJECTS
 
 ${formatFeaturedProjectsForPrompt()}
 
-Other shipped products include NodeBase, PortfolioOS, RagBase, SquidCrawl, NovaHub, Fight Intel, and ReelDiff.
+Other shipped products include NodeBase, PortfolioOS, RagBase, NovaHub, Fight Intel, and ReelDiff.
 
 Additional projects include:
 - AI tooling

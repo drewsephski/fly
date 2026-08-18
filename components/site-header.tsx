@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
-import { Mail, Menu, Moon, Sun, X } from "lucide-react"
+import { ArrowUpRight, Mail, Menu, Moon, Sun, X } from "lucide-react"
 import { useTheme } from "next-themes"
 
 import { SiteLogo } from "@/components/site-logo"
@@ -113,12 +113,12 @@ export function SiteHeader() {
                 onClick={closeMenu}
               >
                 <span>{link.label}</span>
-                <span aria-hidden="true">↗</span>
+                <ArrowUpRight aria-hidden="true" />
               </Link>
             ))}
             <Link href="/gallery" onClick={closeMenu}>
               <span>Gallery</span>
-              <span aria-hidden="true">↗</span>
+              <ArrowUpRight aria-hidden="true" />
             </Link>
           </nav>
           <a
