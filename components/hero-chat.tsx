@@ -73,7 +73,9 @@ export function HeroChat() {
       return
     }
 
-    const lastUser = [...messages].reverse().find((message) => message.role === "user")
+    const lastUser = [...messages]
+      .reverse()
+      .find((message) => message.role === "user")
     if (lastUser) {
       void sendMessage({ text: getMessageText(lastUser) })
     }

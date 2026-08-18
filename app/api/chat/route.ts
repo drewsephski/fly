@@ -505,7 +505,9 @@ export async function POST(req: Request) {
 
   if (validation.data.length > CHAT_MAX_MESSAGES) {
     return Response.json(
-      { error: `Conversation limit reached (${CHAT_MAX_MESSAGES} messages). Clear the chat and start again.` },
+      {
+        error: `Conversation limit reached (${CHAT_MAX_MESSAGES} messages). Clear the chat and start again.`,
+      },
       { status: 400 }
     )
   }
