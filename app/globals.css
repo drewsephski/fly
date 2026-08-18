@@ -1,5 +1,5 @@
 /* Hallmark · macrostructure: Marquee Hero · theme: studied-DNA (source: image) · tone: premium technical editorial · anchor hue: cobalt · nav: N5 · footer: Ft5 · studied: yes · DNA-source: image (user reference) */
-/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 · contrast: pass (40–41) · nav: N5 · footer: Ft5 · slop: pass (42–45) */
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -949,11 +949,6 @@
     "WONK" 0;
 }
 
-.atelier-hero__title span:last-child {
-  font-style: italic;
-  font-weight: 400;
-}
-
 .atelier-page {
   position: relative;
   isolation: isolate;
@@ -968,92 +963,6 @@
   mix-blend-mode: multiply;
   opacity: 0.035;
   pointer-events: none;
-}
-
-.atelier-case__visual {
-  padding-block-start: 2.75rem;
-  background:
-    radial-gradient(
-      120% 90% at 15% 10%,
-      color-mix(in oklch, var(--color-accent) 22%, transparent),
-      transparent 60%
-    ),
-    radial-gradient(
-      100% 80% at 90% 100%,
-      color-mix(in oklch, var(--color-accent) 12%, transparent),
-      transparent 55%
-    ),
-    var(--color-paper-3);
-}
-
-.atelier-case:nth-child(2) .atelier-case__visual {
-  background:
-    radial-gradient(
-      120% 90% at 85% 0%,
-      color-mix(in oklch, var(--color-ink) 16%, transparent),
-      transparent 60%
-    ),
-    radial-gradient(
-      100% 80% at 10% 100%,
-      color-mix(in oklch, var(--color-accent) 14%, transparent),
-      transparent 55%
-    ),
-    var(--color-paper-3);
-}
-
-.atelier-case:nth-child(3) .atelier-case__visual {
-  background:
-    radial-gradient(
-      110% 90% at 50% 0%,
-      color-mix(in oklch, var(--color-accent) 18%, transparent),
-      transparent 65%
-    ),
-    var(--color-paper-3);
-}
-
-.atelier-case:nth-child(4) .atelier-case__visual {
-  background:
-    radial-gradient(
-      110% 90% at 50% 0%,
-      color-mix(in oklch, var(--color-accent) 26%, transparent),
-      transparent 65%
-    ),
-    var(--color-paper-3);
-}
-
-.atelier-case__visual::before {
-  position: absolute;
-  z-index: var(--z-raised);
-  inset: 0 0 auto;
-  height: 2.75rem;
-  border-block-end: var(--rule-hair) solid var(--color-rule);
-  background: color-mix(in oklch, var(--color-paper-2) 88%, transparent);
-  content: "";
-  backdrop-filter: blur(0.375rem);
-}
-
-.atelier-case__visual::after {
-  position: absolute;
-  z-index: var(--z-raised);
-  inset: 0 auto auto var(--space-md);
-  display: flex;
-  height: 2.75rem;
-  align-items: center;
-  color: var(--color-rule-2);
-  content: "● ● ●";
-  font-family: var(--font-mono-ui);
-  font-size: var(--space-xs);
-  letter-spacing: 0.3em;
-}
-
-.atelier-case__visual-label {
-  inset-block-start: calc(2.75rem + var(--space-md));
-}
-
-.atelier-case__image-frame {
-  position: absolute;
-  inset: 2.75rem 0 0;
-  overflow: clip;
 }
 
 .atelier-bento {
@@ -1209,18 +1118,16 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .atelier-bento__card:hover {
+  .atelier-bento__card:hover,
+  .atelier-bento__card:focus-visible {
     border-color: color-mix(in oklch, var(--color-accent) 35%, var(--color-rule));
     box-shadow:
       inset 0 1px 0 color-mix(in oklch, var(--color-ink) 6%, transparent),
       var(--bento-card-shadow-hover);
   }
 
-  .atelier-bento__card:hover img {
-    transform: scale(1.035);
-  }
-
-  .atelier-bento__card:hover .atelier-bento__arrow {
+  .atelier-bento__card:hover .atelier-bento__arrow,
+  .atelier-bento__card:focus-visible .atelier-bento__arrow {
     border-color: transparent;
     background: var(--color-accent);
     box-shadow: 0 0.5rem 1.25rem -0.35rem
@@ -2126,8 +2033,7 @@
 
 .atelier-case__details div {
   display: grid;
-  grid-template-columns: 6rem minmax(0, 1fr);
-  gap: var(--space-lg);
+  gap: var(--space-2xs);
 }
 
 .atelier-case__details dt {
@@ -2235,6 +2141,12 @@
 .atelier-case__visual-label svg {
   width: 0.8rem;
   height: 0.8rem;
+}
+
+.atelier-case__image-frame {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
 }
 
 .atelier-case__image {
@@ -2658,7 +2570,8 @@
     border-color: var(--color-accent);
   }
 
-  .atelier-case__visual:hover .atelier-case__image {
+  .atelier-case__visual:hover .atelier-case__image,
+  .atelier-case__visual:focus-visible .atelier-case__image {
     transform: translateY(-0.5rem);
   }
 
@@ -2730,6 +2643,23 @@
 .atelier-case__actions button:active,
 .atelier-index__row:active {
   transform: translateY(1px);
+}
+
+.atelier-hero__foot a:focus-visible,
+.atelier-section-head--compact > a:focus-visible,
+.atelier-nav__links a:focus-visible,
+.atelier-nav__cta:focus-visible,
+.atelier-nav__theme:focus-visible,
+.atelier-nav__toggle:focus-visible,
+.atelier-contact__button:focus-visible,
+.atelier-footer nav a:focus-visible,
+.atelier-case__visual:focus-visible,
+.atelier-case__actions a:focus-visible,
+.atelier-case__actions button:focus-visible,
+.atelier-bento__card:focus-visible,
+.atelier-practice__accordion-trigger:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
 }
 
 @media (max-width: 64rem) {
@@ -2907,11 +2837,6 @@
 
   .dossier-chat__empty p {
     font-size: var(--text-md);
-  }
-
-  .atelier-case__details div {
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-xs);
   }
 
   .atelier-case__actions {

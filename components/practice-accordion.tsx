@@ -60,12 +60,15 @@ export function PracticeAccordion({
         aria-atomic="true"
       >
         {activeItem ? (
-          <p key={activeItem.title} className="atelier-practice__accordion-copy">
+          <p
+            key={activeItem.title}
+            className="atelier-practice__accordion-copy"
+          >
             {activeItem.detail}
           </p>
         ) : (
           <p className="atelier-practice__accordion-copy atelier-practice__accordion-copy--idle">
-            Pick a lane to see how it shows up in the work.
+            Choose a capability.
           </p>
         )}
       </div>

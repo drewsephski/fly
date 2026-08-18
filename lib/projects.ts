@@ -67,7 +67,7 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
     title: "Vault Zero",
     url: "https://vaultzero.dev/",
     description:
-      "AI receptionist for plumbing, HVAC, roofing, and electrical teams — missed, overflow, and after-hours calls captured with approved intake and a human handoff.",
+      "Voice receptionist for plumbing, HVAC, roofing, and electrical. Missed and after-hours calls get a handoff.",
     tags: ["Voice AI", "Home Services", "SaaS"],
     status: ["Live", "SaaS"],
     index: "01",
@@ -77,17 +77,24 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
       problem:
         "Home-service jobs are lost when the crew is on a call, the office is overflowed, or the phone hits voicemail after hours",
       solution:
-        "A voice receptionist with a custom call-flow, approved routing rules, call summaries in a client dashboard, and usage included — plus a complete front desk with website and web assistant",
-      tech: ["Next.js", "React", "TypeScript", "Voice AI", "Supabase", "Vercel"],
+        "Custom call-flow, approved routing, call summaries, and a human fallback on the desk.",
+      tech: [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "Voice AI",
+        "Supabase",
+        "Vercel",
+      ],
       challenge:
-        "Capturing useful intake without diagnosing equipment, inventing pricing, promising dispatch, or skipping the human fallback on safety-sensitive calls",
+        "Useful intake without diagnosing gear, inventing prices, or skipping the human fallback.",
     },
   },
   {
     title: "Squid Agent",
     url: "https://squidagent.app/",
     description:
-      "Verified prototype builder that turns prompts, screenshots, and live sites into working React interfaces with revision-specific evidence and portable source code.",
+      "Turns prompts, screenshots, or live sites into working React prototypes, with evidence on every revision.",
     tags: ["AI Prototyping", "React", "Verification"],
     status: ["Live", "SaaS"],
     index: "02",
@@ -97,18 +104,17 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
       problem:
         "Prototypes are easy to demo but hard to defend without revision-specific evidence and portable code",
       solution:
-        "Turn prompts, screenshots, or URLs into working React prototypes, verify each revision, then export or share the result",
+        "Generate from a prompt, screenshot, or URL. Verify each revision. Export the source.",
       tech: ["Next.js", "React", "TypeScript", "AI SDK", "Sandpack", "Vercel"],
       challenge:
-        "Keeping generation, preview repair, verification, version history, deployment, and source ownership in one visible workflow",
+        "Generation, repair, verification, history, and source ownership in one visible flow.",
     },
   },
-  
   {
     title: "Trace",
     url: "https://www.trace.builders/",
     description:
-      "Local-first desktop workspace for running AI agents, managing real project files, sharing skills and MCP tools, and reviewing every approval.",
+      "Local desktop workspace for AI agents, real project files, skills, MCP tools, and review of every approval.",
     tags: ["Desktop App", "AI Agents", "MCP", "Electron"],
     status: ["Live", "Open Source", "Desktop App"],
     index: "03",
@@ -122,10 +128,10 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
       problem:
         "Agent sessions, workspace context, tools, and approvals are scattered across terminals and vendor-specific apps",
       solution:
-        "One local-first desktop workspace for agent runtimes, files, skills, MCP tools, automations, and review",
+        "One local workspace for agent runtimes, files, skills, MCP tools, and human review.",
       tech: ["Electron", "React", "Bun", "MCP", "ACP", "Vitest"],
       challenge:
-        "Keeping powerful multi-agent workflows portable and reviewable across macOS, Windows, and Linux",
+        "Multi-agent work that stays portable and reviewable on macOS, Windows, and Linux.",
     },
   },
   {
@@ -177,7 +183,7 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
     title: "SquidCrawl",
     url: "https://squidcrawl.dev/",
     description:
-      "Edge-native scraper API for AI agents — deploy in one command, 5–10× faster than Firecrawl with LLM-optimized output.",
+      "Edge-native scraper API for AI agents. One-command deploy, cleaned HTML, and page output tuned for LLMs.",
     tags: ["Infrastructure", "AI", "Open Source"],
     status: ["Live", "Open Source"],
     index: "06",
@@ -186,10 +192,10 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
     depth: {
       problem: "Web scraping for AI agents is slow, expensive, and token-heavy",
       solution:
-        "Edge-native scraper with tuned HTML cleaners and LLM-optimized output",
+        "An edge-native scraper with HTML cleaners and page output shaped for LLM intake.",
       tech: ["Cloudflare Workers", "Hono", "oRPC", "Better Auth", "Next.js"],
       challenge:
-        "Millisecond parses on V8 without headless browsers for most HTML pages",
+        "Millisecond V8 parses for most HTML pages, without spinning up a headless browser.",
     },
   },
   {
@@ -374,9 +380,9 @@ const FEATURED_PROJECT_CHAT_DETAILS: Record<
     bullets: [
       "AI receptionist studio for plumbing, HVAC, roofing, and electrical teams",
       "covers missed calls, overflow while the office is busy, and after-hours intake with a human fallback",
-      "custom call-flow, approved routing rules, and call summaries in a client dashboard — usage included, no per-minute overages",
+      "custom call-flow, approved routing rules, and call summaries in a client dashboard. Usage included, no per-minute overages",
       "voice receptionist from $99/month plus $250 setup; complete front desk from $139/month plus $600 setup with website and web assistant",
-      "live demo with Elliot at (847) 792-9623 — identifies as AI, does not book or dispatch real work",
+      "live demo with Elliot at (847) 792-9623. Identifies as AI, does not book or dispatch real work",
       "will not diagnose technical problems, invent pricing, promise unverified dispatch, or hide that it is virtual",
     ],
     domain: "vaultzero.dev",

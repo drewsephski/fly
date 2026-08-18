@@ -45,45 +45,41 @@ const PROJECT_INDEX = [
 const CAPABILITIES = [
   {
     title: "Product strategy and interaction design",
-    detail:
-      "Problem framing, user flows, and interface craft that earns trust before launch.",
+    detail: "Problem framing, user flows, and interface craft before launch.",
   },
   {
     title: "AI systems, agents, and retrieval",
-    detail:
-      "Agents, RAG pipelines, and tooling wired for real production use.",
+    detail: "Agents, RAG pipelines, and tooling that run in production.",
   },
   {
     title: "Full-stack architecture and data",
-    detail:
-      "Next.js apps, APIs, and data models built to ship and iterate fast.",
+    detail: "Next.js apps, APIs, and data models built to ship.",
   },
   {
     title: "Auth, billing, deployment, and recovery",
-    detail:
-      "Stripe, auth, CI/CD, and the ops layer that keeps products live.",
+    detail: "Stripe, auth, CI/CD, and the ops layer that keeps products live.",
   },
 ] as const
 
 const EXPERIENCE = [
   {
     company: "Vault Zero",
-    period: "2026 — present",
+    period: "2026 to present",
     role: "Founder and product engineer",
   },
   {
     company: "PortfolioOS",
-    period: "2026 — present",
+    period: "2025 to 2026",
     role: "Founder and product engineer",
   },
   {
     company: "Independent",
-    period: "2024 — 2026",
+    period: "2024 to 2026",
     role: "AI product consultant",
   },
   {
     company: "Phoenix Agency",
-    period: "2023 — 2024",
+    period: "2023 to 2024",
     role: "Full-stack product engineer",
   },
 ] as const
@@ -147,7 +143,7 @@ export default function Page() {
             execution in one loop.
           </p>
           <a href="#assistant">
-            Meet the portfolio
+            Ask about the work
             <ArrowDown aria-hidden="true" />
           </a>
         </div>
@@ -160,12 +156,11 @@ export default function Page() {
       >
         <div className="atelier-assistant__intro">
           <div>
-            <p className="atelier-kicker">A portfolio you can question</p>
-            <h2 id="assistant-title">Skip the scavenger hunt.</h2>
+            <h2 id="assistant-title">Ask a product question.</h2>
           </div>
           <p>
-            Ask about a product, a technical decision, or how I work. The
-            assistant answers from the projects on this site.
+            The assistant answers from the products, decisions, and process on
+            this site.
           </p>
           <div className="atelier-proof" aria-label="Credibility highlights">
             <span>
@@ -181,8 +176,8 @@ export default function Page() {
         </div>
         <div className="atelier-assistant__surface">
           <div className="atelier-assistant__topline">
-            <span className="atelier-live-dot">Live project dossier</span>
-            <span>Ask anything about the work</span>
+            <span className="atelier-live-dot">Live</span>
+            <span>Answers from the work on this site</span>
           </div>
           <HeroChat />
         </div>
@@ -195,12 +190,9 @@ export default function Page() {
       >
         <header className="atelier-section-head">
           <div>
-            <h2 id="work-title">Four products, given room to breathe.</h2>
+            <h2 id="work-title">Four products in production.</h2>
           </div>
-          <p>
-            The strongest work is more than a thumbnail. Each project below
-            shows the problem, the system, and the hard part.
-          </p>
+          <p>Each one names the job, the system, and the hard part.</p>
         </header>
 
         <div className="atelier-case-studies">
@@ -258,14 +250,14 @@ export default function Page() {
                 }
                 aria-label={`Open a larger preview of ${project.title}`}
               >
-                <span className="atelier-case__visual-label">
-                  Product view
+                <span className="atelier-case__visual-label" aria-hidden="true">
+                  Open preview
                   <ArrowUpRight aria-hidden="true" />
                 </span>
                 <span className="atelier-case__image-frame">
                   <img
                     src={project.image}
-                    alt={`${project.title} product interface`}
+                    alt=""
                     className="atelier-case__image"
                     decoding="async"
                     fetchPriority={index === 0 ? "high" : "auto"}
@@ -283,7 +275,7 @@ export default function Page() {
       >
         <header className="atelier-section-head atelier-section-head--compact">
           <div>
-            <h2 id="index-title">The full bench.</h2>
+            <h2 id="index-title">The rest of the work.</h2>
           </div>
           <Link href="/gallery">
             View the full archive
@@ -302,9 +294,8 @@ export default function Page() {
         <div className="atelier-practice__statement">
           <h2 id="practice-title">One person across the whole product.</h2>
           <p>
-            I work between founder, engineer, and product designer. The goal is
-            not a polished mockup—it is useful software that survives contact
-            with real users.
+            I work as founder, engineer, and product designer. The goal is
+            useful software that survives contact with real users.
           </p>
         </div>
         <PracticeAccordion items={CAPABILITIES} />
@@ -352,9 +343,8 @@ export default function Page() {
         aria-labelledby="contact-title"
       >
         <div>
-          <p className="atelier-kicker">Start a conversation</p>
-          <h2 id="contact-title">Send the messy brief.</h2>
-          <p>I’ll help turn it into a product people can actually use.</p>
+          <h2 id="contact-title">Send the brief.</h2>
+          <p>I’ll help turn it into a product people can use.</p>
         </div>
         <a
           href="mailto:drewsepeczi@gmail.com"
@@ -366,7 +356,7 @@ export default function Page() {
       </section>
 
       <footer className="atelier-footer atelier-shell">
-        <p>Ideas are cheap. Shipped software is the proof.</p>
+        <p>Shipped software is the proof.</p>
         <div>
           <span>© 2026 Drew Sepeczi</span>
           <nav aria-label="Social links">
