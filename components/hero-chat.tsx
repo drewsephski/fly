@@ -171,6 +171,10 @@ export function HeroChat() {
           <label htmlFor="portfolio-question" className="sr-only">
             Ask about Drew&apos;s work
           </label>
+          <p id="portfolio-question-hint" className="sr-only">
+            Ask about projects, stack, tradeoffs, or outcomes. Maximum{" "}
+            {CHAT_MAX_MESSAGE_LENGTH.toLocaleString()} characters.
+          </p>
           <textarea
             id="portfolio-question"
             value={input}
@@ -186,11 +190,7 @@ export function HeroChat() {
             maxLength={CHAT_MAX_MESSAGE_LENGTH}
             disabled={isLoading}
             aria-invalid={inputTooLong}
-            aria-describedby={
-              input.length > CHAT_MAX_MESSAGE_LENGTH * 0.85
-                ? "portfolio-question-count"
-                : undefined
-            }
+            aria-describedby="portfolio-question-hint"
           />
           <button
             type="submit"

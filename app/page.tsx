@@ -232,7 +232,11 @@ export default function Page() {
                     Open {project.title}
                     <ArrowUpRight aria-hidden="true" />
                   </a>
-                  <button type="button" onClick={() => askAbout(project.title)}>
+                  <button
+                    type="button"
+                    onClick={() => askAbout(project.title)}
+                    aria-label={`Ask about ${project.title}`}
+                  >
                     <MessageCircle aria-hidden="true" />
                     Ask about this build
                   </button>
@@ -257,7 +261,7 @@ export default function Page() {
                 <span className="atelier-case__image-frame">
                   <img
                     src={project.image}
-                    alt=""
+                    alt={`${project.title} product interface`}
                     className="atelier-case__image"
                     decoding="async"
                     fetchPriority={index === 0 ? "high" : "auto"}
