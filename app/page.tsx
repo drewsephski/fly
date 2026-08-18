@@ -17,6 +17,7 @@ import { ProjectBento } from "@/components/project-bento"
 import { QuickLook } from "@/components/quick-look"
 import { TalkToDrew } from "@/components/talk-to-drew"
 import { ARCHIVE_PROJECTS, FEATURED_PROJECTS } from "@/lib/projects"
+import { cn } from "@/lib/utils"
 
 const FLAGSHIP_TITLES = ["Squid Agent", "Trace", "SquidCrawl"] as const
 
@@ -216,7 +217,11 @@ export default function Page() {
 
               <button
                 type="button"
-                className="atelier-case__visual"
+                className={cn(
+                  "atelier-case__visual",
+                  project.title === "Squid Agent" &&
+                    "atelier-case__visual--light-shot"
+                )}
                 onClick={() =>
                   setQuickLook({
                     src: project.image,
