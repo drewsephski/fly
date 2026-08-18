@@ -123,12 +123,18 @@ export function TalkToDrew({
 
   const handleRetry = () => {
     clearError()
-    if (messages.some((message) => message.role === "assistant" && message.id !== "welcome")) {
+    if (
+      messages.some(
+        (message) => message.role === "assistant" && message.id !== "welcome"
+      )
+    ) {
       void regenerate()
       return
     }
 
-    const lastUser = [...messages].reverse().find((message) => message.role === "user")
+    const lastUser = [...messages]
+      .reverse()
+      .find((message) => message.role === "user")
     if (lastUser) {
       void sendMessage({ text: getMessageText(lastUser) })
     }
@@ -244,7 +250,7 @@ export function TalkToDrew({
                 </div>
                 <div
                   className={cn(
-                    "min-w-0 max-w-[80%] rounded-lg border px-3 py-2 text-xs leading-relaxed",
+                    "max-w-[80%] min-w-0 rounded-lg border px-3 py-2 text-xs leading-relaxed",
                     isUser
                       ? "border-border/40 bg-muted/40 text-foreground"
                       : "border-border/30 bg-transparent text-muted-foreground"

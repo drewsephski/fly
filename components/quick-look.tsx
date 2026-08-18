@@ -70,7 +70,10 @@ export function QuickLook({ src, alt, onClose }: QuickLookProps) {
               </button>
             </div>
             <div className="border-t border-border/30 px-4 py-3">
-              <p id={titleId} className="truncate text-xs font-medium text-foreground">
+              <p
+                id={titleId}
+                className="truncate text-xs font-medium text-foreground"
+              >
                 {alt}
               </p>
             </div>

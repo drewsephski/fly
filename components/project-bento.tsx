@@ -14,13 +14,7 @@ interface BentoEntry {
   tags: string[]
 }
 
-function BentoCard({
-  project,
-  index,
-}: {
-  project: BentoEntry
-  index: number
-}) {
+function BentoCard({ project, index }: { project: BentoEntry; index: number }) {
   const [imageFailed, setImageFailed] = useState(false)
 
   return (
@@ -36,7 +30,11 @@ function BentoCard({
       aria-label={`Open ${project.title}`}
     >
       {imageFailed ? (
-        <div className="atelier-bento__fallback" role="img" aria-label={`${project.title} preview unavailable`}>
+        <div
+          className="atelier-bento__fallback"
+          role="img"
+          aria-label={`${project.title} preview unavailable`}
+        >
           <span>{project.title}</span>
         </div>
       ) : (
