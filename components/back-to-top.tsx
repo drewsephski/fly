@@ -30,6 +30,8 @@ export function BackToTop() {
         left: "calc(1.5rem + var(--safe-left, 0px))",
       }}
       aria-label="Back to top"
+      aria-hidden={!visible}
+      tabIndex={visible ? 0 : -1}
     >
       <ArrowUp className="h-5 w-5" />
     </button>
