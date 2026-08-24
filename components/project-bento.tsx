@@ -1,28 +1,20 @@
 "use client"
 
 import type { CSSProperties } from "react"
-import { useState } from "react"
-import Image from "next/image"
 import { ArrowUpRight } from "lucide-react"
 
+import { ProjectPreviewMedia } from "@/components/project-preview-media"
+import type { ProjectPreviewMedia as ProjectPreviewMediaSource } from "@/lib/projects"
 import { cn } from "@/lib/utils"
 
 interface BentoEntry {
   title: string
   url: string
-  image: string
+  preview: ProjectPreviewMediaSource
   tags: string[]
 }
 
-function BentoCard({
-  project,
-  index,
-}: {
-  project: BentoEntry
-  index: number
-}) {
-  const [imageFailed, setImageFailed] = useState(false)
-
+function BentoCard({ project, index }: { project: BentoEntry; index: number }) {
   return (
     <a
       href={project.url}
@@ -35,19 +27,15 @@ function BentoCard({
       style={{ "--i": index } as CSSProperties}
       aria-label={`Open ${project.title}`}
     >
-      {imageFailed ? (
-        <div className="atelier-bento__fallback" role="img" aria-label={`${project.title} preview unavailable`}>
-          <span>{project.title}</span>
-        </div>
-      ) : (
-        <Image
-          src={project.image}
-          alt={`${project.title} interface`}
-          fill
-          sizes="(max-width: 700px) 50vw, 33vw"
-          onError={() => setImageFailed(true)}
-        />
-      )}
+      <ProjectPreviewMedia
+        media={project.preview}
+        title={project.title}
+        sizes="(max-width: 700px) 100vw, 33vw"
+      />
+      <span className="atelier-bento__preview-status" aria-hidden="true">
+        <span />
+        Live tour
+      </span>
       <div className="atelier-bento__scrim">
         <p className="atelier-bento__title">{project.title}</p>
         <span className="atelier-bento__meta">

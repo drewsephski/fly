@@ -965,6 +965,23 @@
   pointer-events: none;
 }
 
+.project-preview-media {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: clip;
+  background: var(--color-paper-3);
+}
+
+.project-preview-media__asset {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
 .atelier-bento {
   display: grid;
   min-width: 0;
@@ -999,10 +1016,48 @@
   grid-column: span 2;
 }
 
-.atelier-bento__card img {
-  object-fit: cover;
-  object-position: top;
+.atelier-bento__card .project-preview-media__asset {
   transition: transform var(--dur-long) var(--ease-out);
+}
+
+.atelier-bento__preview-status {
+  position: absolute;
+  z-index: calc(var(--z-raised) + 1);
+  inset: var(--space-sm) auto auto var(--space-sm);
+  display: inline-flex;
+  min-height: 2rem;
+  padding-inline: var(--space-sm);
+  align-items: center;
+  gap: var(--space-xs);
+  border: var(--rule-hair) solid
+    color-mix(in oklch, var(--color-ink) 10%, transparent);
+  border-radius: var(--radius-round);
+  background: color-mix(in oklch, var(--color-paper-2) 88%, transparent);
+  box-shadow: 0 0.35rem 1rem -0.35rem
+    color-mix(in oklch, var(--color-ink) 18%, transparent);
+  color: var(--color-ink-2);
+  font-family: var(--font-mono-ui);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  backdrop-filter: blur(0.5rem) saturate(120%);
+}
+
+.atelier-bento__preview-status > span {
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: var(--radius-round);
+  background: var(--color-accent);
+  box-shadow: 0 0 0 0 color-mix(in oklch, var(--color-accent) 42%, transparent);
+  animation: preview-status-pulse 2.4s var(--ease-out) infinite;
+}
+
+@keyframes preview-status-pulse {
+  55%,
+  100% {
+    box-shadow: 0 0 0 0.45rem transparent;
+  }
 }
 
 .atelier-bento__scrim {
@@ -1135,6 +1190,11 @@
     color: var(--color-accent-ink);
     transform: translate(0.1rem, -0.1rem);
   }
+
+  .atelier-bento__card:hover .project-preview-media__asset,
+  .atelier-bento__card:focus-visible .project-preview-media__asset {
+    transform: scale(1.015);
+  }
 }
 
 @media (max-width: 52rem) {
@@ -1170,10 +1230,14 @@
     animation-delay: 0ms;
   }
 
-  .atelier-bento__card img,
+  .atelier-bento__card .project-preview-media__asset,
   .atelier-bento__scrim,
   .atelier-bento__arrow {
     transition-duration: 150ms;
+  }
+
+  .atelier-bento__preview-status > span {
+    animation: none;
   }
 }
 
@@ -2152,10 +2216,9 @@
 .atelier-case__image {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top;
+}
+
+.atelier-case__image .project-preview-media__asset {
   transition: transform var(--dur-long) var(--ease-out);
 }
 
@@ -2570,9 +2633,9 @@
     border-color: var(--color-accent);
   }
 
-  .atelier-case__visual:hover .atelier-case__image,
-  .atelier-case__visual:focus-visible .atelier-case__image {
-    transform: translateY(-0.5rem);
+  .atelier-case__visual:hover .project-preview-media__asset,
+  .atelier-case__visual:focus-visible .project-preview-media__asset {
+    transform: scale(1.012);
   }
 
   .atelier-index__row:hover {
@@ -2881,7 +2944,7 @@
     animation-delay: 0ms;
   }
 
-  .atelier-case__image {
+  .atelier-case__image .project-preview-media__asset {
     transition-duration: 150ms;
   }
 

@@ -5,6 +5,12 @@ export interface ProjectDepth {
   challenge: string
 }
 
+export interface ProjectPreviewMedia {
+  mp4: string
+  webm: string
+  poster: string
+}
+
 export type ProjectStatus =
   | "Live"
   | "Open Source"
@@ -25,6 +31,7 @@ export interface FeaturedProject {
   index: string
   featured: boolean
   image: string
+  preview: ProjectPreviewMedia
   depth: ProjectDepth
   github?: {
     username: string
@@ -42,6 +49,19 @@ export interface ArchiveProject {
   index: string
   featured: boolean
   image: string
+  preview: ProjectPreviewMedia
+}
+
+const PROJECT_PREVIEW_VERSION = "20260824"
+
+function projectPreview(slug: string): ProjectPreviewMedia {
+  const base = `/projects/previews/${slug}-${PROJECT_PREVIEW_VERSION}`
+
+  return {
+    mp4: `${base}.mp4`,
+    webm: `${base}.webm`,
+    poster: `${base}-poster.jpg`,
+  }
 }
 
 export const PROOF_METRICS = [
@@ -73,6 +93,7 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
     index: "01",
     featured: true,
     image: "/projects/vault-zero-site.png",
+    preview: projectPreview("vault-zero"),
     depth: {
       problem:
         "Home-service jobs are lost when the crew is on a call, the office is overflowed, or the phone hits voicemail after hours",
@@ -100,6 +121,7 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
     index: "02",
     featured: true,
     image: "/projects/squid-agent.png",
+    preview: projectPreview("squid-agent"),
     depth: {
       problem:
         "Prototypes are easy to demo but hard to defend without revision-specific evidence and portable code",
@@ -120,6 +142,7 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
     index: "03",
     featured: true,
     image: "/projects/trace.png",
+    preview: projectPreview("trace"),
     github: {
       username: "drewsephski",
       repo: "trace-ai",
@@ -144,6 +167,7 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
     index: "04",
     featured: true,
     image: "/projects/nodebase.png",
+    preview: projectPreview("nodebase"),
     github: {
       username: "drewsephski",
       repo: "nodebase",
@@ -169,6 +193,7 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
     index: "05",
     featured: true,
     image: "/projects/ragbase.png",
+    preview: projectPreview("ragbase"),
     depth: {
       problem: "Reading contracts and reports for one answer wastes hours",
       solution:
@@ -189,6 +214,7 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
     index: "06",
     featured: true,
     image: "/projects/squidcrawl.png",
+    preview: projectPreview("squidcrawl"),
     depth: {
       problem: "Web scraping for AI agents is slow, expensive, and token-heavy",
       solution:
@@ -208,6 +234,7 @@ export const FEATURED_PROJECTS: FeaturedProject[] = [
     index: "03",
     featured: true,
     image: "/projects/portfoliosos.png",
+    preview: projectPreview("portfolio-os"),
     depth: {
       problem:
         "Static portfolios can't respond when recruiters have follow-up questions",
@@ -231,6 +258,7 @@ export const ARCHIVE_PROJECTS: ArchiveProject[] = [
     index: "07",
     featured: false,
     image: "/projects/ufc.png",
+    preview: projectPreview("fight-intel"),
   },
   {
     title: "NovaHub",
@@ -242,6 +270,7 @@ export const ARCHIVE_PROJECTS: ArchiveProject[] = [
     index: "08",
     featured: false,
     image: "/projects/novahub.png",
+    preview: projectPreview("novahub"),
   },
   {
     title: "ReelDiff",
@@ -253,6 +282,7 @@ export const ARCHIVE_PROJECTS: ArchiveProject[] = [
     index: "09",
     featured: false,
     image: "/projects/reeldiff.png",
+    preview: projectPreview("reeldiff"),
   },
   {
     title: "PromptMarket",
@@ -264,6 +294,7 @@ export const ARCHIVE_PROJECTS: ArchiveProject[] = [
     index: "10",
     featured: false,
     image: "/projects/promptsh.png",
+    preview: projectPreview("promptmarket"),
   },
   {
     title: "Roast My UI",
@@ -275,6 +306,7 @@ export const ARCHIVE_PROJECTS: ArchiveProject[] = [
     index: "12",
     featured: false,
     image: "/projects/roastmyui.png",
+    preview: projectPreview("roast-my-ui"),
   },
   {
     title: "Phoenix Notebook",
@@ -286,6 +318,7 @@ export const ARCHIVE_PROJECTS: ArchiveProject[] = [
     index: "13",
     featured: false,
     image: "/projects/phoenixnotebook.png",
+    preview: projectPreview("phoenix-notebook"),
   },
   {
     title: "Drew's AI Twin",
@@ -297,6 +330,7 @@ export const ARCHIVE_PROJECTS: ArchiveProject[] = [
     index: "14",
     featured: false,
     image: "/projects/drewchats.png",
+    preview: projectPreview("drews-ai-twin"),
   },
   {
     title: "Get Cracked",
@@ -308,6 +342,7 @@ export const ARCHIVE_PROJECTS: ArchiveProject[] = [
     index: "15",
     featured: false,
     image: "/projects/getcracked.png",
+    preview: projectPreview("get-cracked"),
   },
   {
     title: "Shoo",
@@ -319,6 +354,7 @@ export const ARCHIVE_PROJECTS: ArchiveProject[] = [
     index: "16",
     featured: false,
     image: "/projects/shoo.png",
+    preview: projectPreview("shoo"),
   },
 ]
 

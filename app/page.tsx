@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils"
 import { HeroChat } from "@/components/hero-chat"
 import { PracticeAccordion } from "@/components/practice-accordion"
 import { ProjectBento } from "@/components/project-bento"
+import { ProjectPreviewMedia } from "@/components/project-preview-media"
 import { QuickLook } from "@/components/quick-look"
 import { TalkToDrew } from "@/components/talk-to-drew"
 import { ARCHIVE_PROJECTS, FEATURED_PROJECTS } from "@/lib/projects"
@@ -244,23 +245,23 @@ export default function Page() {
                 className="atelier-case__visual"
                 onClick={() =>
                   setQuickLook({
-                    src: project.image,
-                    alt: `${project.title} product interface`,
+                    src: project.preview.poster,
+                    alt: `${project.title} live-site preview`,
                   })
                 }
                 aria-label={`Open a larger preview of ${project.title}`}
               >
                 <span className="atelier-case__visual-label" aria-hidden="true">
-                  Open preview
+                  Live site tour
                   <ArrowUpRight aria-hidden="true" />
                 </span>
                 <span className="atelier-case__image-frame">
-                  <img
-                    src={project.image}
-                    alt=""
+                  <ProjectPreviewMedia
+                    media={project.preview}
+                    title={project.title}
+                    sizes="(max-width: 832px) 100vw, 62vw"
+                    priority={index === 0}
                     className="atelier-case__image"
-                    decoding="async"
-                    fetchPriority={index === 0 ? "high" : "auto"}
                   />
                 </span>
               </button>
