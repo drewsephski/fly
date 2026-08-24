@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useCallback, useId } from "react"
+import { useEffect, useCallback, useRef, useId } from "react"
 import { motion, AnimatePresence } from "motion/react"
 import { X } from "lucide-react"
 
@@ -14,6 +14,9 @@ interface QuickLookProps {
 
 export function QuickLook({ src, alt, onClose }: QuickLookProps) {
   const titleId = useId()
+  const dialogRef = useRef<HTMLDivElement>(null)
+  const closeRef = useRef<HTMLButtonElement>(null)
+  const restoreFocusRef = useRef<HTMLElement | null>(null)
   const close = useCallback(() => onClose(), [onClose])
   const isOpen = Boolean(src)
 
@@ -21,11 +24,37 @@ export function QuickLook({ src, alt, onClose }: QuickLookProps) {
 
   useEffect(() => {
     if (!src) return
+
+    restoreFocusRef.current = document.activeElement as HTMLElement | null
+    window.requestAnimationFrame(() => closeRef.current?.focus())
+
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") close()
+      if (event.key === "Escape") {
+        event.preventDefault()
+        close()
+        return
+      }
+      if (event.key !== "Tab" || !dialogRef.current) return
+      const focusable = dialogRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+      if (focusable.length === 0) return
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      const active = document.activeElement
+      if (event.shiftKey && active === first) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault()
+        first.focus()
+      }
     }
     window.addEventListener("keydown", onKey)
-    return () => window.removeEventListener("keydown", onKey)
+    return () => {
+      window.removeEventListener("keydown", onKey)
+      restoreFocusRef.current?.focus?.()
+    }
   }, [src, close])
 
   return (
@@ -43,6 +72,7 @@ export function QuickLook({ src, alt, onClose }: QuickLookProps) {
           <div className="absolute inset-0 bg-background/80 backdrop-blur-md" />
 
           <motion.div
+            ref={dialogRef}
             initial={{ opacity: 0, scale: 0.96, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 10 }}
@@ -62,15 +92,19 @@ export function QuickLook({ src, alt, onClose }: QuickLookProps) {
               />
               <button
                 type="button"
+                ref={closeRef}
                 onClick={close}
                 aria-label="Close preview"
-                className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full border border-border/50 bg-background/90 text-foreground/70 backdrop-blur-sm transition-colors hover:border-border hover:text-foreground"
+                className="absolute top-3 right-3 flex h-11 w-11 items-center justify-center rounded-full border border-border/50 bg-background/90 text-foreground/70 backdrop-blur-sm transition-colors hover:border-border hover:text-foreground"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
             <div className="border-t border-border/30 px-4 py-3">
-              <p id={titleId} className="truncate text-xs font-medium text-foreground">
+              <p
+                id={titleId}
+                className="truncate text-xs font-medium text-foreground"
+              >
                 {alt}
               </p>
             </div>

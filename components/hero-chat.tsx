@@ -73,7 +73,9 @@ export function HeroChat() {
       return
     }
 
-    const lastUser = [...messages].reverse().find((message) => message.role === "user")
+    const lastUser = [...messages]
+      .reverse()
+      .find((message) => message.role === "user")
     if (lastUser) {
       void sendMessage({ text: getMessageText(lastUser) })
     }
@@ -184,7 +186,6 @@ export function HeroChat() {
             placeholder="Ask about a project…"
             rows={1}
             maxLength={CHAT_MAX_MESSAGE_LENGTH}
-            disabled={isLoading}
             aria-invalid={inputTooLong}
             aria-describedby={
               input.length > CHAT_MAX_MESSAGE_LENGTH * 0.85
