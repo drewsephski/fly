@@ -36,11 +36,7 @@ export function SiteHeader() {
   return (
     <header className="atelier-nav">
       <div className="atelier-nav__pill">
-        <SiteLogo
-          className="atelier-nav__brand"
-          markClassName="size-7"
-          label="Drew"
-        />
+        <SiteLogo className="atelier-nav__brand" />
 
         <nav className="atelier-nav__links" aria-label="Primary navigation">
           {links.map((link) => (
@@ -56,27 +52,31 @@ export function SiteHeader() {
           Let’s talk
         </a>
 
-        <button
-          type="button"
-          className="atelier-nav__toggle"
-          aria-expanded={menuOpen}
-          aria-controls="atelier-mobile-navigation"
-          aria-label={menuOpen ? "Close navigation" : "Open navigation"}
-          onClick={() => setMenuOpen((open) => !open)}
-        >
-          {menuOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
-        </button>
+        <div className="atelier-nav__controls">
+          <button
+            type="button"
+            className="atelier-nav__theme"
+            aria-label="Toggle color theme"
+            title="Toggle theme (D)"
+            onClick={() =>
+              setTheme(resolvedTheme === "dark" ? "light" : "dark")
+            }
+          >
+            <Moon className="dark:hidden" aria-hidden="true" />
+            <Sun className="hidden dark:block" aria-hidden="true" />
+          </button>
 
-        <button
-          type="button"
-          className="atelier-nav__theme"
-          aria-label="Toggle color theme"
-          title="Toggle theme (D)"
-          onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-        >
-          <Moon className="dark:hidden" aria-hidden="true" />
-          <Sun className="hidden dark:block" aria-hidden="true" />
-        </button>
+          <button
+            type="button"
+            className="atelier-nav__toggle"
+            aria-expanded={menuOpen}
+            aria-controls="atelier-mobile-navigation"
+            aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            {menuOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
+          </button>
+        </div>
       </div>
 
       <dialog

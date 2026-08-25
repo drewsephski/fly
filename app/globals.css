@@ -1295,12 +1295,18 @@
 
 .atelier-nav__brand {
   min-height: 2.75rem;
-  gap: var(--space-xs);
   color: var(--color-ink);
   font-family: var(--font-display);
-  font-size: var(--text-base);
-  font-weight: 500;
+  font-size: 1.375rem;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-variation-settings:
+    "SOFT" 28,
+    "WONK" 0;
+  letter-spacing: -0.055em;
+  line-height: 1;
   white-space: nowrap;
+  transition: color var(--dur-micro) var(--ease-out);
 }
 
 .atelier-nav__links {
@@ -1334,6 +1340,13 @@
 .atelier-nav__cta svg {
   width: 0.9rem;
   height: 0.9rem;
+}
+
+.atelier-nav__controls {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: var(--space-xs);
 }
 
 .atelier-nav__theme {

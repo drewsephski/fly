@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2000" height="1125" viewBox="0 0 2000 1125">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="12" stdDeviation="18" flood-opacity=".3"/></filter>
+    <style>
+      .ui { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill:#e6e5ec; }
+      .muted { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill:#9997a2; }
+      .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; fill:#9896a0; }
+      .note { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill:#141218; font-weight:700; }
+      .detail { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; fill:#504c59; }
+      .line { stroke:#f26748; stroke-width:2.5; fill:none; }
+      .badge { fill:#f26748; }
+    </style>
+  </defs>
+  <rect width="2000" height="1125" fill="#0a0a0c"/>
+  <text x="74" y="70" class="ui" font-size="30" font-weight="700">Bullet UI audit</text>
+  <text x="74" y="104" class="muted" font-size="18">Annotated from the supplied desktop screenshot · observed affordance and hierarchy issues</text>
+
+  <!-- window -->
+  <g filter="url(#shadow)">
+    <rect x="64" y="142" width="1872" height="892" rx="18" fill="#111116" stroke="#5c5866"/>
+    <rect x="64" y="142" width="196" height="892" rx="18" fill="#15141b"/>
+    <path d="M260 142V1034 M1205 142V1034" stroke="#4d4956" stroke-width="2"/>
+    <circle cx="84" cy="163" r="7" fill="#ff5f57"/><circle cx="106" cy="163" r="7" fill="#febc2e"/><circle cx="128" cy="163" r="7" fill="#28c840"/>
+    <text x="80" y="202" class="ui" font-size="20" font-weight="700">Bullet▰</text>
+    <rect x="80" y="238" width="162" height="35" rx="8" fill="none" stroke="#dad7e2"/>
+    <text x="96" y="261" class="ui" font-size="14">▱  fly</text><text x="224" y="261" class="muted" font-size="16">×</text>
+    <!-- worktree -->
+    <rect x="80" y="292" width="12" height="12" fill="#fafafd" stroke="#d9d7df"/>
+    <text x="101" y="303" class="muted" font-size="13">Worktree</text>
+    <text x="149" y="304" class="muted" font-size="19">☼</text>
+    <rect x="72" y="327" width="170" height="34" rx="8" fill="none" stroke="#3d3947"/>
+    <text x="86" y="349" class="ui" font-size="13">＋  New chat</text><path d="M214 327V361" stroke="#3d3947"/><text x="224" y="349" class="muted" font-size="17">›</text>
+    <rect x="72" y="372" width="170" height="34" rx="8" fill="#111116" stroke="#34313d"/>
+    <text x="86" y="394" class="muted" font-size="12">⌕  Search conversations...</text>
+    <text x="74" y="433" class="muted" font-size="11">Archive</text>
+    <text x="80" y="469" class="muted" font-size="11">⌄  ▱  FLY</text><text x="219" y="469" class="muted" font-size="10">3</text>
+    <rect x="73" y="480" width="160" height="33" rx="6" fill="#24232d"/>
+    <circle cx="88" cy="496" r="4" fill="#42db87"/><text x="100" y="501" class="ui" font-size="12">Bullet UI UX...</text>
+    <circle cx="88" cy="531" r="4" fill="#42db87"/><text x="100" y="536" class="muted" font-size="12">Hero Section...</text>
+    <text x="74" y="936" class="ui" font-size="13">●  drew</text><text x="74" y="973" class="ui" font-size="13">▣  Feedback</text>
+    <text x="74" y="1011" class="ui" font-size="13">☼  Settings</text>
+    <!-- app header/content -->
+    <rect x="260" y="142" width="945" height="48" fill="#15141b"/>
+    <rect x="278" y="152" width="312" height="29" rx="15" fill="#22212a"/>
+    <circle cx="293" cy="166" r="5" fill="#42db87"/><text x="305" y="170" class="muted" font-size="12">gpt-5.6-terra · think low · 9.7s · 1% context</text>
+    <text x="1084" y="170" class="ui" font-size="12">▦  Browser⌄</text>
+    <rect x="260" y="190" width="945" height="844" fill="#0d0d10"/>
+    <text x="380" y="264" fill="#9997ef" font-family="-apple-system, sans-serif" font-size="12">YOU</text>
+    <rect x="380" y="282" width="690" height="92" rx="9" fill="#1d1d29" stroke="#8584d4" stroke-width="2"/>
+    <text x="398" y="309" class="ui" font-size="14">lets make a personalized outreach email to bullet. i want to suggest some UI/UX fixes</text>
+    <text x="380" y="421" class="muted" font-size="12">BULLET</text>
+    <text x="380" y="454" class="ui" font-size="15" font-weight="700">Subject: A few UI/UX improvements for Bullet</text>
+    <text x="380" y="490" class="ui" font-size="14">Hi Bullet team,</text>
+    <text x="380" y="526" class="ui" font-size="14">I’ve been using Bullet and really like the speed and direction of the product.</text>
+    <text x="380" y="561" class="ui" font-size="14">• Make the vertical divider draggable farther left.</text>
+    <text x="380" y="591" class="ui" font-size="14">• Clarify the Worktree row’s iconography.</text>
+    <rect x="348" y="957" width="755" height="55" rx="18" fill="#19181f" stroke="#373440"/>
+    <text x="371" y="990" class="muted" font-size="14">⌕  not what i meant with the checkbox...</text>
+    <text x="956" y="990" class="muted" font-size="14">♩</text><text x="1002" y="990" class="muted" font-size="14">↳ Steer</text>
+    <!-- browser -->
+    <rect x="1205" y="142" width="731" height="892" rx="0" fill="#f7f6f3"/>
+    <rect x="1205" y="142" width="731" height="78" fill="#16151c"/>
+    <text x="1226" y="180" class="muted" font-size="14">←  →  ⟳</text>
+    <rect x="1290" y="157" width="548" height="28" rx="7" fill="#0e0e12" stroke="#363441"/>
+    <text x="1303" y="176" class="mono" font-size="12">http://localhost:3000/</text>
+    <text x="1236" y="260" fill="#827f79" font-family="ui-monospace, monospace" font-size="11">02</text>
+    <text x="1236" y="360" fill="#17151a" font-family="Georgia, serif" font-size="39">Squid Agent</text>
+    <text x="1236" y="405" fill="#45413e" font-family="-apple-system, sans-serif" font-size="18">Turns prompts, screenshots, or live sites into working React prototypes,</text>
+    <text x="1236" y="435" fill="#45413e" font-family="-apple-system, sans-serif" font-size="18">with evidence on every revision.</text>
+    <text x="1236" y="505" fill="#827f79" font-family="-apple-system, sans-serif" font-size="12">What changed</text>
+    <text x="1236" y="530" fill="#38342f" font-family="-apple-system, sans-serif" font-size="13">Generate from a prompt, screenshot, or URL. Verify each revision.</text>
+  </g>
+
+  <!-- callouts -->
+  <g>
+    <path class="line" d="M92 292 L38 271 L38 230"/><circle class="badge" cx="38" cy="218" r="15"/><text x="33" y="224" fill="white" font-family="-apple-system, sans-serif" font-size="15" font-weight="700">1</text>
+    <rect x="64" y="112" width="360" height="84" rx="10" fill="#fffaf7"/><text x="80" y="141" class="note" font-size="15">Checkbox-shaped “Worktree” icon</text><text x="80" y="165" class="detail" font-size="13">Reads as a selection state, not navigation.</text>
+
+    <path class="line" d="M158 293 L180 260 L300 260"/><circle class="badge" cx="315" cy="260" r="15"/><text x="310" y="266" fill="white" font-family="-apple-system, sans-serif" font-size="15" font-weight="700">2</text>
+    <rect x="328" y="206" width="330" height="84" rx="10" fill="#fffaf7"/><text x="344" y="235" class="note" font-size="15">Theme-like glyph beside Worktree</text><text x="344" y="259" class="detail" font-size="13">A sun/spark implies appearance controls,</text><text x="344" y="278" class="detail" font-size="13">not a workspace action or status.</text>
+
+    <path class="line" d="M84 1010 L42 1038 L42 1075"/><circle class="badge" cx="42" cy="1088" r="15"/><text x="37" y="1094" fill="white" font-family="-apple-system, sans-serif" font-size="15" font-weight="700">3</text>
+    <rect x="64" y="1040" width="356" height="72" rx="10" fill="#fffaf7"/><text x="80" y="1068" class="note" font-size="15">Settings uses the same theme language</text><text x="80" y="1091" class="detail" font-size="13">Its icon looks like a theme provider, not settings.</text>
+
+    <path class="line" d="M1205 610 L1130 610 L1130 700"/><circle class="badge" cx="1130" cy="715" r="15"/><text x="1125" y="721" fill="white" font-family="-apple-system, sans-serif" font-size="15" font-weight="700">4</text>
+    <rect x="888" y="745" width="390" height="85" rx="10" fill="#fffaf7"/><text x="904" y="773" class="note" font-size="15">Split pane is chat-heavy by default</text><text x="904" y="797" class="detail" font-size="13">The divider needs to travel further left so</text><text x="904" y="816" class="detail" font-size="13">the browser/worktree can become primary.</text>
+
+    <path class="line" d="M228 344 L310 344 L310 372"/><circle class="badge" cx="310" cy="387" r="15"/><text x="305" y="393" fill="white" font-family="-apple-system, sans-serif" font-size="15" font-weight="700">5</text>
+    <rect x="80" y="552" width="350" height="83" rx="10" fill="#fffaf7"/><text x="96" y="580" class="note" font-size="15">Unexplained split button</text><text x="96" y="604" class="detail" font-size="13">The chevron beside “New chat” has no label</text><text x="96" y="623" class="detail" font-size="13">or obvious relationship to its action.</text>
+
+    <path class="line" d="M1023 984 L1145 984 L1145 925"/><circle class="badge" cx="1145" cy="910" r="15"/><text x="1140" y="916" fill="white" font-family="-apple-system, sans-serif" font-size="15" font-weight="700">6</text>
+    <rect x="1268" y="854" width="424" height="85" rx="10" fill="#fffaf7"/><text x="1284" y="882" class="note" font-size="15">Composer actions are hard to parse</text><text x="1284" y="906" class="detail" font-size="13">Mic, “Steer,” attachment, and send need</text><text x="1284" y="925" class="detail" font-size="13">tooltips or clearer labels / grouping.</text>
+
+    <path class="line" d="M165 500 L222 520 L222 570"/><circle class="badge" cx="222" cy="585" r="15"/><text x="217" y="591" fill="white" font-family="-apple-system, sans-serif" font-size="15" font-weight="700">7</text>
+    <rect x="470" y="642" width="390" height="85" rx="10" fill="#fffaf7"/><text x="486" y="670" class="note" font-size="15">Conversation labels lose meaning</text><text x="486" y="694" class="detail" font-size="13">Early truncation makes similar threads hard</text><text x="486" y="713" class="detail" font-size="13">to distinguish in the archive.</text>
+  </g>
+</svg>
