@@ -13,8 +13,8 @@ const CareerPresentContent = () => {
         </p>
       </div>
       <p className="text-base leading-relaxed text-muted-foreground">
-        Founded phoenixdev.agency. Shipped NodeBase, Astra (Top 15 Product Hunt),
-        and client MVPs with 60% faster delivery.
+        Founded phoenixdev.agency. Shipped NodeBase, Astra (Top 15 Product
+        Hunt), and client MVPs with 60% faster delivery.
       </p>
       <div className="flex flex-wrap items-center gap-3">
         <Link
