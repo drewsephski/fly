@@ -73,7 +73,9 @@ export function HeroChat() {
       return
     }
 
-    const lastUser = [...messages].reverse().find((message) => message.role === "user")
+    const lastUser = [...messages]
+      .reverse()
+      .find((message) => message.role === "user")
     if (lastUser) {
       void sendMessage({ text: getMessageText(lastUser) })
     }
@@ -169,7 +171,7 @@ export function HeroChat() {
 
         <form onSubmit={handleSubmit} className="dossier-chat__form">
           <label htmlFor="portfolio-question" className="sr-only">
-            Ask about Drew&apos;s work
+            Ask about Drew&apos;s projects, stack, or process
           </label>
           <textarea
             id="portfolio-question"
@@ -189,17 +191,24 @@ export function HeroChat() {
             aria-describedby={
               input.length > CHAT_MAX_MESSAGE_LENGTH * 0.85
                 ? "portfolio-question-count"
-                : undefined
+                : "portfolio-question-hint"
             }
           />
           <button
             type="submit"
             disabled={isLoading || !input.trim() || inputTooLong}
-            aria-label="Send question"
+            aria-label={
+              input.trim() ? "Send question" : "Type a question to enable send"
+            }
           >
             <Send aria-hidden="true" />
           </button>
         </form>
+        {!input.trim() && (
+          <p id="portfolio-question-hint" className="dossier-chat__hint">
+            Press Enter or click a suggestion above to start a conversation.
+          </p>
+        )}
         {input.length > CHAT_MAX_MESSAGE_LENGTH * 0.85 && (
           <p
             id="portfolio-question-count"

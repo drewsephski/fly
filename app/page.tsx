@@ -204,6 +204,7 @@ export default function Page() {
                 index % 2 === 1 && "atelier-case--reverse"
               )}
               key={project.title}
+              aria-labelledby={`case-title-${index}`}
             >
               <div className="atelier-case__story">
                 <div className="atelier-case__meta">
@@ -211,7 +212,7 @@ export default function Page() {
                   <span>{project.status.join(" · ")}</span>
                 </div>
                 <div>
-                  <h3>{project.title}</h3>
+                  <h3 id={`case-title-${index}`}>{project.title}</h3>
                   <p className="atelier-case__lede">{project.description}</p>
                 </div>
                 <dl className="atelier-case__details">
@@ -233,7 +234,11 @@ export default function Page() {
                     Open {project.title}
                     <ArrowUpRight aria-hidden="true" />
                   </a>
-                  <button type="button" onClick={() => askAbout(project.title)}>
+                  <button
+                    type="button"
+                    onClick={() => askAbout(project.title)}
+                    aria-label={`Ask about the ${project.title} build`}
+                  >
                     <MessageCircle aria-hidden="true" />
                     Ask about this build
                   </button>
@@ -276,7 +281,7 @@ export default function Page() {
       >
         <header className="atelier-section-head atelier-section-head--compact">
           <div>
-            <h2 id="index-title">The rest of the work.</h2>
+            <h2 id="index-title">More projects.</h2>
           </div>
           <Link href="/gallery">
             View the full archive
@@ -319,7 +324,7 @@ export default function Page() {
         </section>
 
         <section id="writing" aria-labelledby="writing-title">
-          <h2 id="writing-title">Notes from the work.</h2>
+          <h2 id="writing-title">Writing and insights.</h2>
           <div className="atelier-simple-list">
             {WRITING.map((post) => (
               <Link
@@ -358,6 +363,10 @@ export default function Page() {
 
       <footer className="atelier-footer atelier-shell">
         <p>Shipped software is the proof.</p>
+        <p className="atelier-footer__tagline">
+          Currently building with AI agents, Next.js, and production-grade
+          infrastructure.
+        </p>
         <div>
           <span>© 2026 Drew Sepeczi</span>
           <nav aria-label="Social links">
