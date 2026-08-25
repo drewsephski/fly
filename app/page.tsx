@@ -107,7 +107,7 @@ export default function Page() {
   const [chatOpen, setChatOpen] = useState(false)
   const [chatPrompt, setChatPrompt] = useState<string | undefined>()
   const [quickLook, setQuickLook] = useState<{
-    src: string
+    media: (typeof FEATURED_PROJECTS)[number]["preview"]
     alt: string
   } | null>(null)
 
@@ -132,8 +132,8 @@ export default function Page() {
           className="atelier-hero__title reveal"
           style={{ "--i": 1 } as React.CSSProperties}
         >
-          <span>Drew builds AI products.</span>
-          <span>All the way through.</span>
+          <span>Useful software,</span>
+          <span>under real pressure.</span>
         </h1>
         <div
           className="atelier-hero__foot reveal"
@@ -245,7 +245,7 @@ export default function Page() {
                 className="atelier-case__visual"
                 onClick={() =>
                   setQuickLook({
-                    src: project.preview.poster,
+                    media: project.preview,
                     alt: `${project.title} live-site preview`,
                   })
                 }
@@ -383,7 +383,7 @@ export default function Page() {
       <TalkToDrew open={chatOpen} setOpen={setChatOpen} autoSend={chatPrompt} />
       <BackToTop />
       <QuickLook
-        src={quickLook?.src ?? null}
+        media={quickLook?.media ?? null}
         alt={quickLook?.alt ?? ""}
         onClose={() => setQuickLook(null)}
       />

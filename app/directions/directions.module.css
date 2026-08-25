@@ -1,0 +1,681 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap");
+
+.page {
+  min-height: 100vh;
+  padding: 24px clamp(20px, 5vw, 72px) 72px;
+  background: #f5f2ec;
+  color: #1e2427;
+  font-family: "DM Sans", sans-serif;
+}
+.header,
+.intro,
+.detail {
+  max-width: 1280px;
+  margin-inline: auto;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: 12px 56px;
+  color: #5c615d;
+  font:
+    12px/1.2 "DM Mono",
+    monospace;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.wordmark {
+  color: #1e2427;
+  font:
+    600 17px/1 "DM Sans",
+    sans-serif;
+  letter-spacing: -0.06em;
+  text-transform: none;
+}
+.wordmark span {
+  color: #df5932;
+}
+.intro {
+  display: grid;
+  grid-template-columns: 1.35fr 0.65fr;
+  align-items: end;
+  gap: 48px;
+  padding-bottom: 54px;
+}
+.intro h1 {
+  max-width: 10ch;
+  margin: 10px 0 0;
+  font:
+    500 clamp(45px, 7vw, 92px)/0.94 "Playfair Display",
+    serif;
+  letter-spacing: -0.055em;
+}
+.intro > p,
+.detail p {
+  max-width: 38ch;
+  margin: 0;
+  color: #555c58;
+  font-size: 16px;
+  line-height: 1.55;
+}
+.eyebrow {
+  color: #df5932 !important;
+  font:
+    500 11px/1.2 "DM Mono",
+    monospace !important;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.chooser {
+  display: grid;
+  max-width: 1280px;
+  margin: 0 auto;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid #c7c4bc;
+  border-bottom: 1px solid #c7c4bc;
+}
+.choice {
+  display: grid;
+  min-height: 100px;
+  padding: 20px;
+  grid-template-columns: 28px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  border: 0;
+  border-left: 1px solid #c7c4bc;
+  background: transparent;
+  color: #1e2427;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+.choice:first-child {
+  border-left: 0;
+}
+.choice span {
+  color: #777d76;
+  font:
+    11px "DM Mono",
+    monospace;
+}
+.choice strong {
+  font-size: 18px;
+  letter-spacing: -0.03em;
+}
+.choice svg {
+  width: 16px;
+}
+.choiceActive {
+  background: #1e2427;
+  color: #f5f2ec;
+}
+.choiceActive span {
+  color: #ffb29d;
+}
+.detail {
+  display: grid;
+  grid-template-columns: 1.35fr 0.65fr;
+  gap: 48px;
+  padding: 28px 0 40px;
+}
+.detail h2 {
+  margin: 8px 0 8px;
+  font:
+    500 28px/1 "Playfair Display",
+    serif;
+  letter-spacing: -0.04em;
+}
+.detail > div:last-child {
+  padding-top: 20px;
+}
+.stage {
+  max-width: 1280px;
+  margin: auto;
+}
+.preview {
+  overflow: hidden;
+  min-height: 660px;
+  box-shadow: 0 24px 60px #1e242724;
+}
+.preview nav {
+  display: flex;
+  min-height: 62px;
+  align-items: center;
+  gap: 24px;
+  padding-inline: 28px;
+  font:
+    500 11px/1 "DM Mono",
+    monospace;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.preview nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  text-decoration: none;
+}
+.preview svg {
+  width: 15px;
+  height: 15px;
+}
+/* Direction 01: editorial case files */
+.fieldNotes {
+  background: #f2ede3;
+  color: #202725;
+}
+.fieldNotes nav {
+  border-bottom: 1px solid #b5b0a5;
+}
+.fieldNotes nav b {
+  font-size: 13px;
+}
+.fieldNotes nav a {
+  color: #202725;
+}
+.fieldHero {
+  display: grid;
+  min-height: 380px;
+  padding: 48px 5.5% 42px;
+  grid-template-columns: 0.65fr 1.7fr 0.7fr;
+  gap: 32px;
+  border-bottom: 1px solid #b5b0a5;
+}
+.fieldHero > p,
+.fieldHero > div p,
+.fieldCase > p,
+.fieldCase span {
+  margin: 0;
+  color: #616660;
+  font:
+    11px/1.5 "DM Mono",
+    monospace;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.fieldHero h2 {
+  margin: 0;
+  font:
+    500 clamp(44px, 5vw, 73px)/0.92 "Playfair Display",
+    serif;
+  letter-spacing: -0.06em;
+}
+.fieldHero h2 em {
+  color: #d5522d;
+}
+.fieldHero > div {
+  align-self: end;
+}
+.fieldHero > div > p {
+  margin-bottom: 22px;
+  color: #414742;
+  font:
+    15px/1.45 "DM Sans",
+    sans-serif;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.fieldHero a,
+.fieldCase a {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  color: #d5522d;
+  font-size: 13px;
+  font-weight: 600;
+}
+.fieldCase {
+  display: grid;
+  min-height: 220px;
+  grid-template-columns: 0.7fr 1.15fr 1fr 1.55fr;
+  gap: 22px;
+  padding: 24px 5.5%;
+}
+.fieldCase h3 {
+  margin: 0 0 6px;
+  font:
+    500 36px/1 "Playfair Display",
+    serif;
+  letter-spacing: -0.05em;
+}
+.fieldCase > div > p {
+  margin: 0;
+  max-width: 23ch;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.fieldCase strong {
+  display: block;
+  margin-top: 9px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.fieldImage {
+  position: relative;
+  overflow: hidden;
+  min-height: 170px;
+  border: 1px solid #b5b0a5;
+}
+.fieldImage img,
+.deckImage img,
+.benchImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+/* Direction 02: systems console */
+.flightDeck {
+  background: #111719;
+  color: #d9e5df;
+}
+.flightDeck nav {
+  border-bottom: 1px solid #31403c;
+  color: #8fa29a;
+}
+.flightDeck nav b,
+.flightDeck nav a {
+  color: #dcff72;
+}
+.deckGrid {
+  display: grid;
+  min-height: 380px;
+  grid-template-columns: 1.65fr 0.65fr;
+}
+.deckIntro {
+  padding: 48px 9%;
+  border-right: 1px solid #31403c;
+}
+.deckIntro > p:first-child {
+  margin: 0;
+  color: #aebeb7;
+  font:
+    11px "DM Mono",
+    monospace;
+  text-transform: uppercase;
+}
+.deckIntro i {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: #dcff72;
+  box-shadow: 0 0 14px #dcff72;
+}
+.deckIntro h2 {
+  margin: 42px 0 24px;
+  font:
+    600 clamp(45px, 5.8vw, 80px)/0.88 "DM Sans",
+    sans-serif;
+  letter-spacing: -0.075em;
+}
+.deckIntro mark {
+  background: none;
+  color: #dcff72;
+}
+.deckCopy {
+  max-width: 48ch;
+  margin: 0;
+  color: #9cb0a8;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.deckIntro a,
+.deckProject a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 26px;
+  color: #dcff72;
+  font-size: 13px;
+  font-weight: 600;
+}
+.deckStatus {
+  display: flex;
+  padding: 32px;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #17201f;
+}
+.deckStatus > p,
+.deckProject > p {
+  margin: 0;
+  color: #8fa29a;
+  font:
+    10px "DM Mono",
+    monospace;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+.deckStatus strong {
+  font:
+    500 31px/0.98 "DM Sans",
+    sans-serif;
+  letter-spacing: -0.06em;
+}
+.deckStatus dl {
+  display: grid;
+  margin: 0;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.deckStatus dt {
+  color: #8fa29a;
+  font:
+    9px/1.3 "DM Mono",
+    monospace;
+  text-transform: uppercase;
+}
+.deckStatus dd {
+  margin: 6px 0 0;
+  color: #dcff72;
+  font:
+    500 20px "DM Sans",
+    sans-serif;
+}
+.deckProject {
+  display: grid;
+  min-height: 218px;
+  grid-template-columns: 0.65fr 1.2fr 1.15fr;
+  gap: 24px;
+  padding: 25px 5.5%;
+  border-top: 1px solid #31403c;
+}
+.deckProject h3 {
+  margin: 0 0 8px;
+  font:
+    500 36px/1 "DM Sans",
+    sans-serif;
+  letter-spacing: -0.06em;
+}
+.deckProject div > p {
+  margin: 0;
+  color: #9cb0a8;
+  font-size: 14px;
+}
+.deckProject a {
+  margin-top: 20px;
+}
+.deckImage {
+  overflow: hidden;
+  border: 1px solid #31403c;
+}
+/* Direction 03: studio workbench */
+.workbench {
+  background: #f9a643;
+  color: #172e42;
+}
+.workbench nav {
+  border-bottom: 2px solid #172e42;
+}
+.workbench nav b {
+  font-size: 17px;
+  letter-spacing: -0.04em;
+  text-transform: none;
+}
+.workbench nav b span {
+  color: #e94b2f;
+}
+.workbench nav div {
+  display: flex;
+  gap: 22px;
+  margin-left: auto;
+}
+.workbench nav a {
+  margin-left: 0;
+  color: inherit;
+}
+.workbench nav > a {
+  padding: 10px 14px;
+  background: #172e42;
+  color: #f9a643;
+}
+.benchHero {
+  display: grid;
+  min-height: 380px;
+  grid-template-columns: 1.2fr 0.8fr;
+}
+.benchHero > div:first-child {
+  padding: 42px 10%;
+}
+.benchHero p {
+  max-width: 35ch;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.45;
+}
+.benchHero > div:first-child > p:first-child {
+  font:
+    11px "DM Mono",
+    monospace;
+  text-transform: uppercase;
+}
+.benchHero h2 {
+  margin: 38px 0 22px;
+  font:
+    600 clamp(55px, 6.4vw, 86px)/0.82 "DM Sans",
+    sans-serif;
+  letter-spacing: -0.09em;
+}
+.benchHero a,
+.benchWork a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 24px;
+  color: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.benchStamp {
+  display: grid;
+  padding: 34px;
+  grid-template-columns: 1fr 1fr;
+  align-content: center;
+  gap: 12px;
+  background: #e94b2f;
+  color: #f8e9cf;
+  font:
+    500 clamp(40px, 5vw, 68px)/0.8 "DM Sans",
+    sans-serif;
+  letter-spacing: -0.08em;
+}
+.benchStamp span:nth-child(even) {
+  color: #172e42;
+  text-align: right;
+}
+.benchWork {
+  display: grid;
+  min-height: 218px;
+  grid-template-columns: 1.1fr 1.3fr;
+  position: relative;
+}
+.benchWork > div:first-child {
+  padding: 25px 10%;
+  border-top: 2px solid #172e42;
+}
+.benchWork p {
+  margin: 0;
+  font-size: 14px;
+}
+.benchWork > div > p:first-child {
+  font:
+    10px "DM Mono",
+    monospace;
+  text-transform: uppercase;
+}
+.benchWork h3 {
+  margin: 22px 0 5px;
+  font:
+    600 38px/1 "DM Sans",
+    sans-serif;
+  letter-spacing: -0.07em;
+}
+.benchWork a {
+  margin-top: 17px;
+}
+.benchImage {
+  overflow: hidden;
+  border-top: 2px solid #172e42;
+  border-left: 2px solid #172e42;
+}
+.benchFoot {
+  position: absolute;
+  bottom: 14px;
+  left: 10%;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font:
+    10px "DM Mono",
+    monospace !important;
+  text-transform: uppercase;
+}
+.benchFoot svg {
+  width: 13px;
+  color: #e94b2f;
+}
+@media (max-width: 720px) {
+  .page {
+    padding-inline: 16px;
+  }
+  .header {
+    padding-bottom: 36px;
+  }
+  .header p {
+    display: none;
+  }
+  .intro,
+  .detail {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  .intro {
+    padding-bottom: 32px;
+  }
+  .detail {
+    padding-block: 20px 28px;
+  }
+  .detail > div:last-child {
+    padding-top: 0;
+  }
+  .chooser {
+    grid-template-columns: 1fr;
+  }
+  .choice {
+    min-height: 62px;
+    border-left: 0;
+    border-top: 1px solid #c7c4bc;
+  }
+  .choice:first-child {
+    border-top: 0;
+  }
+  .preview {
+    min-height: 620px;
+  }
+  .preview nav {
+    min-height: 54px;
+    padding-inline: 16px;
+    gap: 12px;
+  }
+  .preview nav > span,
+  .preview nav > div,
+  .preview nav > a {
+    display: none;
+  }
+  .preview nav b {
+    display: block;
+  }
+  .fieldHero {
+    min-height: 340px;
+    padding: 28px 24px;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .fieldHero h2 {
+    font-size: 46px;
+  }
+  .fieldHero > div {
+    align-self: start;
+  }
+  .fieldCase {
+    grid-template-columns: 1fr 1fr;
+    padding: 20px 24px;
+  }
+  .fieldCase > p,
+  .fieldCase > div:nth-of-type(2) {
+    display: none;
+  }
+  .fieldImage {
+    min-height: 134px;
+  }
+  .deckGrid {
+    min-height: 360px;
+    grid-template-columns: 1fr;
+  }
+  .deckIntro {
+    padding: 30px 24px;
+    border-right: 0;
+  }
+  .deckIntro h2 {
+    margin: 31px 0 20px;
+    font-size: 49px;
+  }
+  .deckStatus {
+    display: none;
+  }
+  .deckProject {
+    min-height: 205px;
+    grid-template-columns: 1fr 1fr;
+    padding: 20px 24px;
+  }
+  .deckProject > p {
+    display: none;
+  }
+  .deckProject h3 {
+    font-size: 27px;
+  }
+  .benchHero {
+    min-height: 366px;
+    grid-template-columns: 1fr;
+  }
+  .benchHero > div:first-child {
+    padding: 30px 24px;
+  }
+  .benchHero h2 {
+    margin: 32px 0 16px;
+    font-size: 60px;
+  }
+  .benchStamp {
+    display: none;
+  }
+  .benchWork {
+    min-height: 205px;
+    grid-template-columns: 1fr 1fr;
+  }
+  .benchWork > div:first-child {
+    padding: 21px 24px;
+  }
+  .benchWork h3 {
+    margin-top: 18px;
+    font-size: 31px;
+  }
+  .benchImage {
+    border-left: 2px solid #172e42;
+  }
+  .benchFoot {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .choice {
+    transition: none;
+  }
+}

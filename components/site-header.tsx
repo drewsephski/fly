@@ -51,17 +51,6 @@ export function SiteHeader() {
           <Link href="/gallery">Gallery</Link>
         </nav>
 
-        <button
-          type="button"
-          className="atelier-nav__theme"
-          aria-label="Toggle color theme"
-          title="Toggle theme (D)"
-          onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-        >
-          <Moon className="dark:hidden" aria-hidden="true" />
-          <Sun className="hidden dark:block" aria-hidden="true" />
-        </button>
-
         <a href="mailto:drewsepeczi@gmail.com" className="atelier-nav__cta">
           <Mail aria-hidden="true" />
           Let’s talk
@@ -76,6 +65,17 @@ export function SiteHeader() {
           onClick={() => setMenuOpen((open) => !open)}
         >
           {menuOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
+        </button>
+
+        <button
+          type="button"
+          className="atelier-nav__theme"
+          aria-label="Toggle color theme"
+          title="Toggle theme (D)"
+          onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+        >
+          <Moon className="dark:hidden" aria-hidden="true" />
+          <Sun className="hidden dark:block" aria-hidden="true" />
         </button>
       </div>
 

@@ -5,32 +5,33 @@ import { motion, AnimatePresence } from "motion/react"
 import { X } from "lucide-react"
 
 import { useBodyScrollLock } from "@/hooks/use-body-scroll-lock"
+import type { ProjectPreviewMedia } from "@/lib/projects"
 
 interface QuickLookProps {
-  src: string | null
+  media: ProjectPreviewMedia | null
   alt: string
   onClose: () => void
 }
 
-export function QuickLook({ src, alt, onClose }: QuickLookProps) {
+export function QuickLook({ media, alt, onClose }: QuickLookProps) {
   const titleId = useId()
   const close = useCallback(() => onClose(), [onClose])
-  const isOpen = Boolean(src)
+  const isOpen = Boolean(media)
 
   useBodyScrollLock(isOpen)
 
   useEffect(() => {
-    if (!src) return
+    if (!media) return
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") close()
     }
     window.addEventListener("keydown", onKey)
     return () => window.removeEventListener("keydown", onKey)
-  }, [src, close])
+  }, [media, close])
 
   return (
     <AnimatePresence>
-      {src && (
+      {media && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -54,12 +55,18 @@ export function QuickLook({ src, alt, onClose }: QuickLookProps) {
             aria-labelledby={titleId}
           >
             <div className="relative">
-              <img
-                src={src}
-                alt={alt}
-                className="max-h-[78vh] max-w-[88vw] object-contain"
-                draggable={false}
-              />
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                poster={media.poster}
+                className="block max-h-[78vh] max-w-[88vw] object-contain"
+              >
+                <source src={media.webm} type="video/webm" />
+                <source src={media.mp4} type="video/mp4" />
+                <img src={media.poster} alt={alt} />
+              </video>
               <button
                 type="button"
                 onClick={close}
@@ -70,7 +77,10 @@ export function QuickLook({ src, alt, onClose }: QuickLookProps) {
               </button>
             </div>
             <div className="border-t border-border/30 px-4 py-3">
-              <p id={titleId} className="truncate text-xs font-medium text-foreground">
+              <p
+                id={titleId}
+                className="truncate text-xs font-medium text-foreground"
+              >
                 {alt}
               </p>
             </div>
