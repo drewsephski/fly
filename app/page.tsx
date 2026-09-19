@@ -360,7 +360,7 @@ export default function Page() {
         <p>Shipped software is the proof.</p>
         <div>
           <span>© 2026 Drew Sepeczi</span>
-          <nav aria-label="Social links">
+          <nav aria-label="Social and legal links">
             <a
               href="https://github.com/drewsephski"
               target="_blank"
@@ -376,6 +376,9 @@ export default function Page() {
               LinkedIn
             </a>
             <a href="mailto:drewsepeczi@gmail.com">Email</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+            <a href="/sms-opt-in">SMS Opt-In</a>
           </nav>
         </div>
       </footer>
