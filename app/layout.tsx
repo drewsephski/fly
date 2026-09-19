@@ -51,19 +51,19 @@ export const metadata: Metadata = {
     "UI/UX",
     "full stack",
   ],
-  authors: [{ name: "Drew Sepeczi", url: "https://drewsepeczi.xyz" }],
+  authors: [{ name: "Drew Sepeczi", url: "https://portfolio.drewsepeczi.xyz" }],
   creator: "Drew Sepeczi",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://drewsepeczi.xyz",
+    url: "https://portfolio.drewsepeczi.xyz",
     title: "Drew Sepeczi — AI Product Engineer",
     description:
       "AI products, interfaces, and infrastructure designed and shipped by Drew Sepeczi.",
     siteName: "Drew Sepeczi",
     images: [
       {
-        url: "https://drewsepeczi.xyz/me-coffee.jpg",
+        url: "https://portfolio.drewsepeczi.xyz/me-coffee.jpg",
         width: 585,
         height: 571,
         alt: "Drew Sepeczi - Web Development Portfolio",
@@ -75,7 +75,7 @@ export const metadata: Metadata = {
     title: "Drew Sepeczi — AI Product Engineer",
     description:
       "AI products, interfaces, and infrastructure designed and shipped by Drew Sepeczi.",
-    images: ["https://drewsepeczi.xyz/me-coffee.jpg"],
+    images: ["https://portfolio.drewsepeczi.xyz/me-coffee.jpg"],
     creator: "@drewsepeczi",
   },
   robots: {

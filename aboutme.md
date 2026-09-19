@@ -6,7 +6,7 @@ Chicago, IL (Remote)
 
 - **LinkedIn:** [linkedin.com/in/drewsepeczi](https://www.linkedin.com/in/drewsepeczi)
 - **Github:** [github.com/drewsephski](https://github.com/drewsephski)
-- **Portfolio:** [drewsepeczi.xyz](https://drewsepeczi.xyz)
+- **Portfolio:** [portfolio.drewsepeczi.xyz](https://portfolio.drewsepeczi.xyz)
 
 ---
 

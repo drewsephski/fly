@@ -18,7 +18,7 @@ Visitors arrive with a specific job: quickly understand whether Drew can ship cr
 
 ## Product Purpose
 
-Drew Sepeczi's personal portfolio at [drewsepeczi.xyz](https://drewsepeczi.xyz). The site makes his AI product engineering practice legible: what he builds, how he thinks, and proof that he ships full-stack products—not mockups.
+Drew Sepeczi's personal portfolio at [portfolio.drewsepeczi.xyz](https://portfolio.drewsepeczi.xyz). The site makes his AI product engineering practice legible: what he builds, how he thinks, and proof that he ships full-stack products—not mockups.
 
 Success means a visitor can (1) grasp positioning within seconds, (2) explore flagship and archive work with enough depth to judge craft, (3) ask the embedded assistant about projects and working style, and (4) reach out when ready.
 
@@ -79,7 +79,7 @@ Drew is positioned as an **AI product engineer** who works across product strate
 | Resume / bio source | `aboutme.md` |
 | Project catalog | `lib/projects.ts` (featured + archive), images in `public/projects/` |
 | Blog posts | `app/blog/[slug]/page.tsx` (hardcoded) |
-| OG / social image | `https://drewsepeczi.xyz/me-coffee.jpg` |
+| OG / social image | `https://portfolio.drewsepeczi.xyz/me-coffee.jpg` |
 | Author photo | `public/` assets referenced in layout metadata |
 | External proof links | Live product URLs, GitHub repos per project entries |
 

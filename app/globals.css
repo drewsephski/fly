@@ -1553,6 +1553,7 @@
 
 .atelier-hero__foot a {
   display: inline-flex;
+  width: fit-content;
   min-height: 2.75rem;
   align-items: center;
   gap: var(--space-xs);

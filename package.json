@@ -4,11 +4,11 @@
   "description": "A minimal AI powered web development portfolio showcasing modern frontend projects and skills",
   "type": "module",
   "private": true,
-  "homepage": "https://drewsepeczi.xyz",
+  "homepage": "https://portfolio.drewsepeczi.xyz",
   "author": {
     "name": "Drew Sepeczi",
     "email": "drew@drewsepeczi.xyz",
-    "url": "https://drewsepeczi.xyz"
+    "url": "https://portfolio.drewsepeczi.xyz"
   },
   "keywords": [
     "portfolio",

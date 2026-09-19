@@ -239,7 +239,7 @@ Email: drewsepeczi@gmail.com
 Phone: 224-343-1711
 LinkedIn: linkedin.com/in/drewsepeczi
 GitHub: github.com/drewsephski
-Portfolio: drewsepeczi.xyz
+Portfolio: portfolio.drewsepeczi.xyz
 PortfolioOS: portfolios.chat
 
 Role:
