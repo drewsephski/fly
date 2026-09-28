@@ -59,3 +59,10 @@ Run `lint -> typecheck -> format` before committing. No test script exists.
 
 - Featured projects and blog posts are hardcoded (inline) in `app/page.tsx` and `app/blog/[slug]/page.tsx`
 - `projects.json` and `projects.csv` exist at root but are **not consumed** by the app — they appear to be data exports
+
+## Cursor Cloud specific instructions
+
+- **Package manager:** the repo only ships a `bun.lock`, but `bun` is not installed in this environment. Use `npm` (matches the documented scripts above); `npm install` regenerates a `package-lock.json` locally — leave it untracked, do not commit it.
+- **Dev server:** `npm run dev` serves on port 3000. It's the only service; the app is a single Next.js portfolio with no database/backend dependencies.
+- **Chat feature is optional:** `/api/chat` needs `OPENROUTER_API_KEY`. Without it the endpoint returns `{"error":"OPENROUTER_API_KEY is not set"}` (HTTP 500) but the rest of the site works fully. Set the secret only when testing the AI chat.
+- **Verification:** `npm run lint` (warnings only, 0 errors), `npm run typecheck`, and `npm run build` all pass clean.
